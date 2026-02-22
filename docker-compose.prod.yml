@@ -1,0 +1,9 @@
+services:
+  application:
+    ports:
+      - "3000:3000"
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      - NODE_ENV=production

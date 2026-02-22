@@ -1,0 +1,14 @@
+# ATTENTION: Решить проблему с pooling на windows
+# services:
+#   application:
+#     ports:
+#       - "3000:3000"
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.dev
+#     volumes:
+#       - .:/app
+#       - /app/node_modules
+#       - /app/.next
+#     environment:
+#       - NODE_ENV=development

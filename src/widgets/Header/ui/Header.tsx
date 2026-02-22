@@ -1,7 +1,9 @@
 "use client";
 
+import { Handshake, MessageCircle, UserPen, Users } from "lucide-react";
 import Link from "next/link";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,30 +12,35 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/shared/ui/navigation-menu";
-import { ThemeSwitcher } from "@/widgets/ThemeSwitcher";
+import { LanguageSwitcher, ThemeSwitcher } from "@/widgets";
 export const Header: FC = () => {
+  const { t: tCommon } = useTranslation("common");
   const profileNavItems = {
-    title: "Profile",
+    title: tCommon("header.profileNavigation.title"),
     items: [
       {
-        title: "My profile",
+        title: tCommon("header.profileNavigation.myProfile.title"),
         href: "/profile",
-        description: "Visit your profile",
+        icon: UserPen,
+        description: tCommon("header.profileNavigation.myProfile.description"),
       },
       {
-        title: "My friends",
+        title: tCommon("header.profileNavigation.myFriends.title"),
         href: "/friends",
-        description: "Visit your friends",
+        icon: Handshake,
+        description: tCommon("header.profileNavigation.myFriends.description"),
       },
       {
-        title: "My groups",
+        title: tCommon("header.profileNavigation.myGroups.title"),
         href: "/groups",
-        description: "Visit your groups",
+        icon: Users,
+        description: tCommon("header.profileNavigation.myGroups.description"),
       },
       {
-        title: "My chats",
+        title: tCommon("header.profileNavigation.myChats.title"),
         href: "/chats",
-        description: "Visit your chats",
+        icon: MessageCircle,
+        description: tCommon("header.profileNavigation.myChats.description"),
       },
     ],
   };
@@ -42,25 +49,37 @@ export const Header: FC = () => {
       <div
         className={`mx-auto max-w-screen-2xl w-full h-full flex items-center justify-end px-2`}
       >
-        <NavigationMenu viewport={false}>
+        <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <ThemeSwitcher />
             </NavigationMenuItem>
             <NavigationMenuItem>
+              <LanguageSwitcher />
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuTrigger className="text-xl">
                 {profileNavItems.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent align="right" className="w-[400px]">
                 {profileNavItems.items.map((profileItem) => (
-                  <NavigationMenuLink key={profileItem.href} asChild>
+                  <NavigationMenuLink
+                    key={profileItem.href}
+                    asChild
+                    className="w-full"
+                  >
                     <Link href={profileItem.href}>
-                      <p className="text-sm font-medium whitespace-nowrap">
-                        {profileItem.title}
-                      </p>
-                      <p className="text-sm text-muted-foreground whitespace-nowrap">
-                        {profileItem.description}
-                      </p>
+                      <div className="flex">
+                        <profileItem.icon className="mr-2 mt-1" />
+                        <div>
+                          <p className="text-sm font-medium whitespace-nowrap">
+                            {profileItem.title}
+                          </p>
+                          <p className="text-sm text-muted-foreground whitespace-nowrap">
+                            {profileItem.description}
+                          </p>
+                        </div>
+                      </div>
                     </Link>
                   </NavigationMenuLink>
                 ))}

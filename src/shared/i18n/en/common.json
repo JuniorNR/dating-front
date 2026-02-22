@@ -1,0 +1,37 @@
+{
+  "languageSwitcher": {
+    "title": "Switch language",
+    "russian": "Russian",
+    "english": "English"
+  },
+  "themeSwitcher": {
+    "title": "Switch theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "header": {
+    "profileNavigation": {
+      "title": "Profile",
+      "myProfile": {
+        "title": "My profile",
+        "description": "Visit your profile"
+      },
+      "myFriends": {
+        "title": "My friends",
+        "description": "Visit your friends"
+      },
+      "myGroups": {
+        "title": "My groups",
+        "description": "Visit your groups"
+      },
+      "myChats": {
+        "title": "My chats",
+        "description": "Visit your chats"
+      }
+    }
+  },
+  "footer": {
+    "rights": "Ecosystem. All rights reserved."
+  }
+}

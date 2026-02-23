@@ -25,7 +25,7 @@ i18n
     resources,
     detection: {
       order: ["cookie", "localStorage", "navigator"],
-      caches: ["localStorage"],
+      caches: ["cookie", "localStorage"],
       lookupLocalStorage: "language",
     },
     fallbackLng: "en",

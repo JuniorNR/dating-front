@@ -2,6 +2,7 @@
 import { Languages } from "lucide-react";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { setCookie } from "@/shared/lib/cookies";
 import { Button } from "@/shared/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +16,7 @@ export const LanguageSwitcher: FC = () => {
 
   const changeLanguage = async (lang: "en" | "ru") => {
     await i18n.changeLanguage(lang);
+    setCookie("lang", lang);
   };
 
   return (

@@ -4,6 +4,7 @@ import { Handshake, MessageCircle, UserPen, Users } from "lucide-react";
 import Link from "next/link";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useUserControllerFindAll } from "@/shared/api/generated";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +15,7 @@ import {
 } from "@/shared/ui/navigation-menu";
 import { LanguageSwitcher, ThemeSwitcher } from "@/widgets";
 export const Header: FC = () => {
+  const { data, isLoading, error } = useUserControllerFindAll();
   const { t: tCommon } = useTranslation("common");
   const profileNavItems = {
     title: tCommon("header.profileNavigation.title"),
@@ -44,6 +46,14 @@ export const Header: FC = () => {
       },
     ],
   };
+
+  // if (isLoading) return <div>Загрузка...</div>;
+  // if (error) return <div>Ошибка</div>;
+
+  if (data) {
+    console.debug(data);
+  }
+
   return (
     <header className="h-[50px] bg-accent">
       <div

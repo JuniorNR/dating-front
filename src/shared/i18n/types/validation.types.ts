@@ -1,3 +1,3 @@
 export interface ValidationTranslationTypes {
-  test: string;
+	test: string;
 }

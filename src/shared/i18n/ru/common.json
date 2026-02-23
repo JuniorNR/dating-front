@@ -1,37 +1,37 @@
 {
-  "languageSwitcher": {
-    "title": "Сменить язык",
-    "russian": "Русский",
-    "english": "Английский"
-  },
-  "themeSwitcher": {
-    "title": "Сменить тему",
-    "light": "Светлая",
-    "dark": "Темная",
-    "system": "Системная"
-  },
-  "header": {
-    "profileNavigation": {
-      "title": "Профиль",
-      "myProfile": {
-        "title": "Мой профиль",
-        "description": "Посетить свой профиль"
-      },
-      "myFriends": {
-        "title": "Друзья",
-        "description": "Посетить друзей"
-      },
-      "myGroups": {
-        "title": "Группы",
-        "description": "Посетить группы"
-      },
-      "myChats": {
-        "title": "Чаты",
-        "description": "Посетить чаты"
-      }
-    }
-  },
-  "footer": {
-    "rights": "Экосистема. Все права зарезервированы."
-  }
+	"languageSwitcher": {
+		"title": "Сменить язык",
+		"russian": "Русский",
+		"english": "Английский"
+	},
+	"themeSwitcher": {
+		"title": "Сменить тему",
+		"light": "Светлая",
+		"dark": "Темная",
+		"system": "Системная"
+	},
+	"header": {
+		"profileNavigation": {
+			"title": "Профиль",
+			"myProfile": {
+				"title": "Мой профиль",
+				"description": "Посетить свой профиль"
+			},
+			"myFriends": {
+				"title": "Друзья",
+				"description": "Посетить друзей"
+			},
+			"myGroups": {
+				"title": "Группы",
+				"description": "Посетить группы"
+			},
+			"myChats": {
+				"title": "Чаты",
+				"description": "Посетить чаты"
+			}
+		}
+	},
+	"footer": {
+		"rights": "Экосистема. Все права зарезервированы."
+	}
 }

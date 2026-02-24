@@ -1,8 +1,11 @@
 'use client';
 
+import { LogIn } from 'lucide-react';
 import Link from 'next/link';
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LoginForm } from '@/features';
+import { Button } from '@/shared/ui/button';
 import {
 	NavigationMenu,
 	NavigationMenuContent,
@@ -11,12 +14,14 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from '@/shared/ui/navigation-menu';
-import { LanguageSwitcher, ThemeSwitcher } from '@/widgets';
+import { LanguageSwitcher, Modal, ThemeSwitcher } from '@/widgets';
 import { getProfileNavItems } from '../model/header.utils';
 
 export const Header: FC = () => {
 	const { t: tCommon } = useTranslation('common');
 	const profileNavItems = getProfileNavItems(tCommon);
+	const [isOpenModalLogin, setIsOpenModalLogin] = useState<boolean>(false);
+	const [isLoadingModalLogin, setIsLoadingModalLogin] = useState<boolean>(false);
 
 	return (
 		<header className="h-[50px] bg-accent">
@@ -53,6 +58,37 @@ export const Header: FC = () => {
 									</NavigationMenuLink>
 								))}
 							</NavigationMenuContent>
+						</NavigationMenuItem>
+						<NavigationMenuItem>
+							<Modal
+								formId="loginForm"
+								openText={tCommon('header.loginModal.login')}
+								title={tCommon('header.loginModal.title')}
+								description={tCommon('header.loginModal.description')}
+								confirmText={tCommon('modal.confirm')}
+								closeText={tCommon('modal.close')}
+								isLoading={isLoadingModalLogin}
+								isOpen={isOpenModalLogin}
+								setIsOpen={setIsOpenModalLogin}
+								renderTrigger={
+									<Button
+										variant="outline"
+										size="icon"
+									>
+										<LogIn />
+									</Button>
+								}
+							>
+								<LoginForm
+									formId="loginForm"
+									onSuccess={() => {
+										setIsOpenModalLogin(false);
+									}}
+									onLoading={(isLoading) => {
+										setIsLoadingModalLogin(isLoading);
+									}}
+								/>
+							</Modal>
 						</NavigationMenuItem>
 					</NavigationMenuList>
 				</NavigationMenu>

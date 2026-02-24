@@ -1,5 +1,9 @@
 {
-	"cSpell.words": ["languagedetector", "shadcn"],
+	"cSpell.words": [
+		"Diddy",
+		"languagedetector",
+		"shadcn"
+	],
 	"editor.defaultFormatter": "biomejs.biome",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {

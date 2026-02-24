@@ -5,1678 +5,2018 @@
  * The Dating API description
  * OpenAPI spec version: 0.1
  */
-
-import type {
-	DataTag,
-	DefinedInitialDataOptions,
-	DefinedUseQueryResult,
-	MutationFunction,
-	QueryClient,
-	QueryFunction,
-	QueryKey,
-	UndefinedInitialDataOptions,
-	UseMutationOptions,
-	UseMutationResult,
-	UseQueryOptions,
-	UseQueryResult,
+import {
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import { customApiFetch } from './apiFetch';
 export interface LoginUserDto {
-	username: string;
-	password: string;
+  username: string;
+  password: string;
 }
 
 export interface CreateUserDto {
-	username: string;
-	email: string;
-	password: string;
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface AnnouncementEntity {
-	id: number;
-	title: string;
-	content: string;
-	author: UserEntity;
-	authorId: number;
-	createdAt: string;
-	updatedAt: string;
+  id: number;
+  title: string;
+  content: string;
+  author: UserEntity;
+  authorId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserEntity {
-	/** Unique id */
-	id: number;
-	/** Username (Not BIO) */
-	username: string;
-	/** Email of user */
-	email: string;
-	/** User is banned or not */
-	banned: boolean;
-	/** Reason for ban */
-	banReason?: string;
-	/** Announcements list of user */
-	announcements: AnnouncementEntity[];
-	/** Announcements list of user */
-	roles: RoleEntity[];
-	createdAt: string;
-	updatedAt: string;
+  /** Unique id */
+  id: number;
+  /** Username (Not BIO) */
+  username: string;
+  /** Email of user */
+  email: string;
+  /** User is banned or not */
+  banned: boolean;
+  /** Reason for ban */
+  banReason?: string;
+  /** Announcements list of user */
+  announcements: AnnouncementEntity[];
+  /** Announcements list of user */
+  roles: RoleEntity[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface RoleEntity {
-	/** Unique id */
-	id: number;
-	/** Unique name of role */
-	name: string;
-	/** Unique type of role like a name */
-	type: string;
-	/** Description about role */
-	description: string;
-	/** All users, who have this role */
-	users: UserEntity[];
-	createdAt: string;
-	updatedAt: string;
+  /** Unique id */
+  id: number;
+  /** Unique name of role */
+  name: string;
+  /** Unique type of role like a name */
+  type: string;
+  /** Description about role */
+  description: string;
+  /** All users, who have this role */
+  users: UserEntity[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UpdateUserDto {
-	username?: string;
-	email?: string;
-	password?: string;
+  username?: string;
+  email?: string;
+  password?: string;
 }
 
 export interface AddUserRoleDto {
-	/** User id */
-	userId: number;
-	/** Role id */
-	roleId: number;
+  /** User id */
+  userId: number;
+  /** Role id */
+  roleId: number;
 }
 
 export interface RemoveUserRoleDto {
-	/** User id */
-	userId: number;
-	/** Role id */
-	roleId: number;
+  /** User id */
+  userId: number;
+  /** Role id */
+  roleId: number;
 }
 
 export interface AddUserBanDto {
-	/** User id */
-	userId: number;
-	/** Ban or unban user on this project */
-	reason: string;
+  /** User id */
+  userId: number;
+  /** Ban or unban user on this project */
+  reason: string;
 }
 
 export interface RemoveUserBanDto {
-	/** User id */
-	userId: number;
+  /** User id */
+  userId: number;
 }
 
 export interface CreateRoleDto {
-	name: string;
-	type: string;
-	description: string;
+  name: string;
+  type: string;
+  description: string;
 }
 
 export interface UpdateRoleDto {
-	name?: string;
-	type?: string;
-	description?: string;
+  name?: string;
+  type?: string;
+  description?: string;
 }
 
 export interface CreateAnnouncementDto {
-	title: string;
-	content: string;
-	authorId: number;
+  title: string;
+  content: string;
+  authorId: number;
 }
 
 export type RoleControllerFindOneByTypeParams = {
-	type: string;
+type: string;
 };
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
 
 /**
  * Get access to your profile
  * @summary Login your profile
  */
 export type authControllerLoginResponseDefault = {
-	data: unknown;
-	status: number;
-};
-export type authControllerLoginResponseError = authControllerLoginResponseDefault & {
-	headers: Headers;
+  data: unknown
+  status: number
+}
+
+;
+export type authControllerLoginResponseError = (authControllerLoginResponseDefault) & {
+  headers: Headers;
 };
 
-export type authControllerLoginResponse = authControllerLoginResponseError;
+export type authControllerLoginResponse = (authControllerLoginResponseError)
 
 export const getAuthControllerLoginUrl = () => {
-	return `/api/auth/login`;
-};
+
+
+  
+
+  return `/api/auth/login`
+}
 
 export const authControllerLogin = async (loginUserDto: LoginUserDto, options?: RequestInit): Promise<authControllerLoginResponse> => {
-	return customApiFetch<authControllerLoginResponse>(getAuthControllerLoginUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(loginUserDto),
-	});
-};
+  
+  return customApiFetch<authControllerLoginResponse>(getAuthControllerLoginUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      loginUserDto,)
+  }
+);}
+  
 
-export const getAuthControllerLoginMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError, { data: LoginUserDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError, { data: LoginUserDto }, TContext> => {
-	const mutationKey = ['authControllerLogin'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogin>>, { data: LoginUserDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return authControllerLogin(data, requestOptions);
-	};
+export const getAuthControllerLoginMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: LoginUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: LoginUserDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['authControllerLogin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type AuthControllerLoginMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogin>>>;
-export type AuthControllerLoginMutationBody = LoginUserDto;
-export type AuthControllerLoginMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogin>>, {data: LoginUserDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authControllerLogin(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerLoginMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogin>>>
+    export type AuthControllerLoginMutationBody = LoginUserDto
+    export type AuthControllerLoginMutationError = unknown
+
+    /**
  * @summary Login your profile
  */
-export const useAuthControllerLogin = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError, { data: LoginUserDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof authControllerLogin>>, TError, { data: LoginUserDto }, TContext> => {
-	return useMutation(getAuthControllerLoginMutationOptions(options), queryClient);
-};
-
+export const useAuthControllerLogin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: LoginUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerLogin>>,
+        TError,
+        {data: LoginUserDto},
+        TContext
+      > => {
+      return useMutation(getAuthControllerLoginMutationOptions(options), queryClient);
+    }
+    
 /**
  * Get access to your profile
  * @summary Registration your profile
  */
 export type authControllerRegistrationResponseDefault = {
-	data: unknown;
-	status: number;
-};
-export type authControllerRegistrationResponseError = authControllerRegistrationResponseDefault & {
-	headers: Headers;
+  data: unknown
+  status: number
+}
+
+;
+export type authControllerRegistrationResponseError = (authControllerRegistrationResponseDefault) & {
+  headers: Headers;
 };
 
-export type authControllerRegistrationResponse = authControllerRegistrationResponseError;
+export type authControllerRegistrationResponse = (authControllerRegistrationResponseError)
 
 export const getAuthControllerRegistrationUrl = () => {
-	return `/api/auth/registration`;
-};
+
+
+  
+
+  return `/api/auth/registration`
+}
 
 export const authControllerRegistration = async (createUserDto: CreateUserDto, options?: RequestInit): Promise<authControllerRegistrationResponse> => {
-	return customApiFetch<authControllerRegistrationResponse>(getAuthControllerRegistrationUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(createUserDto),
-	});
-};
+  
+  return customApiFetch<authControllerRegistrationResponse>(getAuthControllerRegistrationUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createUserDto,)
+  }
+);}
+  
 
-export const getAuthControllerRegistrationMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError, { data: CreateUserDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError, { data: CreateUserDto }, TContext> => {
-	const mutationKey = ['authControllerRegistration'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerRegistration>>, { data: CreateUserDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return authControllerRegistration(data, requestOptions);
-	};
+export const getAuthControllerRegistrationMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError,{data: CreateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError,{data: CreateUserDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['authControllerRegistration'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type AuthControllerRegistrationMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerRegistration>>>;
-export type AuthControllerRegistrationMutationBody = CreateUserDto;
-export type AuthControllerRegistrationMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerRegistration>>, {data: CreateUserDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authControllerRegistration(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerRegistrationMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerRegistration>>>
+    export type AuthControllerRegistrationMutationBody = CreateUserDto
+    export type AuthControllerRegistrationMutationError = unknown
+
+    /**
  * @summary Registration your profile
  */
-export const useAuthControllerRegistration = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError, { data: CreateUserDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof authControllerRegistration>>, TError, { data: CreateUserDto }, TContext> => {
-	return useMutation(getAuthControllerRegistrationMutationOptions(options), queryClient);
-};
-
+export const useAuthControllerRegistration = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRegistration>>, TError,{data: CreateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerRegistration>>,
+        TError,
+        {data: CreateUserDto},
+        TContext
+      > => {
+      return useMutation(getAuthControllerRegistrationMutationOptions(options), queryClient);
+    }
+    
 /**
  * Create one new user
  * @summary Create new user
  */
 export type userControllerCreateResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerCreateResponseSuccess = userControllerCreateResponse200 & {
-	headers: Headers;
+export type userControllerCreateResponseSuccess = (userControllerCreateResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerCreateResponse = userControllerCreateResponseSuccess;
+export type userControllerCreateResponse = (userControllerCreateResponseSuccess)
 
 export const getUserControllerCreateUrl = () => {
-	return `/api/user`;
-};
+
+
+  
+
+  return `/api/user`
+}
 
 export const userControllerCreate = async (createUserDto: CreateUserDto, options?: RequestInit): Promise<userControllerCreateResponse> => {
-	return customApiFetch<userControllerCreateResponse>(getUserControllerCreateUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(createUserDto),
-	});
-};
+  
+  return customApiFetch<userControllerCreateResponse>(getUserControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createUserDto,)
+  }
+);}
+  
 
-export const getUserControllerCreateMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError, { data: CreateUserDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError, { data: CreateUserDto }, TContext> => {
-	const mutationKey = ['userControllerCreate'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerCreate>>, { data: CreateUserDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return userControllerCreate(data, requestOptions);
-	};
+export const getUserControllerCreateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError,{data: CreateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError,{data: CreateUserDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerCreate>>>;
-export type UserControllerCreateMutationBody = CreateUserDto;
-export type UserControllerCreateMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerCreate>>, {data: CreateUserDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  userControllerCreate(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerCreate>>>
+    export type UserControllerCreateMutationBody = CreateUserDto
+    export type UserControllerCreateMutationError = unknown
+
+    /**
  * @summary Create new user
  */
-export const useUserControllerCreate = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError, { data: CreateUserDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerCreate>>, TError, { data: CreateUserDto }, TContext> => {
-	return useMutation(getUserControllerCreateMutationOptions(options), queryClient);
-};
-
+export const useUserControllerCreate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerCreate>>, TError,{data: CreateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerCreate>>,
+        TError,
+        {data: CreateUserDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerCreateMutationOptions(options), queryClient);
+    }
+    
 /**
  * Get all users
  * @summary Get all
  */
 export type userControllerFindAllResponse200 = {
-	data: UserEntity[];
-	status: 200;
-};
+  data: UserEntity[]
+  status: 200
+}
 
-export type userControllerFindAllResponseSuccess = userControllerFindAllResponse200 & {
-	headers: Headers;
+export type userControllerFindAllResponseSuccess = (userControllerFindAllResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerFindAllResponse = userControllerFindAllResponseSuccess;
+export type userControllerFindAllResponse = (userControllerFindAllResponseSuccess)
 
 export const getUserControllerFindAllUrl = () => {
-	return `/api/user`;
-};
 
-export const userControllerFindAll = async (options?: RequestInit): Promise<userControllerFindAllResponse> => {
-	return customApiFetch<userControllerFindAllResponse>(getUserControllerFindAllUrl(), {
-		...options,
-		method: 'GET',
-	});
-};
+
+  
+
+  return `/api/user`
+}
+
+export const userControllerFindAll = async ( options?: RequestInit): Promise<userControllerFindAllResponse> => {
+  
+  return customApiFetch<userControllerFindAllResponse>(getUserControllerFindAllUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
 
 export const getUserControllerFindAllQueryKey = () => {
-	return [`/api/user`] as const;
-};
+    return [
+    `/api/user`
+    ] as const;
+    }
 
-export const getUserControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>(options?: {
-	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>;
-	request?: SecondParameter<typeof customApiFetch>;
-}) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
+    
+export const getUserControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
 
-	const queryKey = queryOptions?.queryKey ?? getUserControllerFindAllQueryKey();
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerFindAll>>> = ({ signal }) => userControllerFindAll({ signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getUserControllerFindAllQueryKey();
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type UserControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerFindAll>>>;
-export type UserControllerFindAllQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerFindAll>>> = ({ signal }) => userControllerFindAll({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UserControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerFindAll>>>
+export type UserControllerFindAllQueryError = unknown
+
 
 export function useUserControllerFindAll<TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>(
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, Awaited<ReturnType<typeof userControllerFindAll>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindAll<TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, Awaited<ReturnType<typeof userControllerFindAll>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindAll<TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get all
  */
 
 export function useUserControllerFindAll<TData = Awaited<ReturnType<typeof userControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getUserControllerFindAllQueryOptions(options);
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getUserControllerFindAllQueryOptions(options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Get auth user
  * @summary Get auth user
  */
 export type userControllerGetAuthResponse200 = {
-	data: UserEntity[];
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerGetAuthResponseSuccess = userControllerGetAuthResponse200 & {
-	headers: Headers;
+export type userControllerGetAuthResponseSuccess = (userControllerGetAuthResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerGetAuthResponse = userControllerGetAuthResponseSuccess;
+export type userControllerGetAuthResponse = (userControllerGetAuthResponseSuccess)
 
 export const getUserControllerGetAuthUrl = () => {
-	return `/api/user/auth`;
-};
 
-export const userControllerGetAuth = async (options?: RequestInit): Promise<userControllerGetAuthResponse> => {
-	return customApiFetch<userControllerGetAuthResponse>(getUserControllerGetAuthUrl(), {
-		...options,
-		method: 'GET',
-	});
-};
+
+  
+
+  return `/api/user/auth`
+}
+
+export const userControllerGetAuth = async ( options?: RequestInit): Promise<userControllerGetAuthResponse> => {
+  
+  return customApiFetch<userControllerGetAuthResponse>(getUserControllerGetAuthUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
 
 export const getUserControllerGetAuthQueryKey = () => {
-	return [`/api/user/auth`] as const;
-};
+    return [
+    `/api/user/auth`
+    ] as const;
+    }
 
-export const getUserControllerGetAuthQueryOptions = <TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>(options?: {
-	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>;
-	request?: SecondParameter<typeof customApiFetch>;
-}) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
+    
+export const getUserControllerGetAuthQueryOptions = <TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
 
-	const queryKey = queryOptions?.queryKey ?? getUserControllerGetAuthQueryKey();
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerGetAuth>>> = ({ signal }) => userControllerGetAuth({ signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getUserControllerGetAuthQueryKey();
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type UserControllerGetAuthQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerGetAuth>>>;
-export type UserControllerGetAuthQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerGetAuth>>> = ({ signal }) => userControllerGetAuth({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UserControllerGetAuthQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerGetAuth>>>
+export type UserControllerGetAuthQueryError = unknown
+
 
 export function useUserControllerGetAuth<TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>(
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, Awaited<ReturnType<typeof userControllerGetAuth>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerGetAuth>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerGetAuth>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerGetAuth<TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, Awaited<ReturnType<typeof userControllerGetAuth>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerGetAuth>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerGetAuth>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerGetAuth<TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get auth user
  */
 
 export function useUserControllerGetAuth<TData = Awaited<ReturnType<typeof userControllerGetAuth>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getUserControllerGetAuthQueryOptions(options);
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerGetAuth>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getUserControllerGetAuthQueryOptions(options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Get one user by id
  * @summary Get one user by id
  */
 export type userControllerFindOneResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerFindOneResponseSuccess = userControllerFindOneResponse200 & {
-	headers: Headers;
+export type userControllerFindOneResponseSuccess = (userControllerFindOneResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerFindOneResponse = userControllerFindOneResponseSuccess;
+export type userControllerFindOneResponse = (userControllerFindOneResponseSuccess)
 
-export const getUserControllerFindOneUrl = (id: string) => {
-	return `/api/user/${id}`;
-};
+export const getUserControllerFindOneUrl = (id: string,) => {
+
+
+  
+
+  return `/api/user/${id}`
+}
 
 export const userControllerFindOne = async (id: string, options?: RequestInit): Promise<userControllerFindOneResponse> => {
-	return customApiFetch<userControllerFindOneResponse>(getUserControllerFindOneUrl(id), {
-		...options,
-		method: 'GET',
-	});
-};
+  
+  return customApiFetch<userControllerFindOneResponse>(getUserControllerFindOneUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
 
-export const getUserControllerFindOneQueryKey = (id: string) => {
-	return [`/api/user/${id}`] as const;
-};
 
-export const getUserControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
+
+
+export const getUserControllerFindOneQueryKey = (id: string,) => {
+    return [
+    `/api/user/${id}`
+    ] as const;
+    }
+
+    
+export const getUserControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-	const queryKey = queryOptions?.queryKey ?? getUserControllerFindOneQueryKey(id);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerFindOne>>> = ({ signal }) => userControllerFindOne(id, { signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getUserControllerFindOneQueryKey(id);
 
-	return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type UserControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerFindOne>>>;
-export type UserControllerFindOneQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userControllerFindOne>>> = ({ signal }) => userControllerFindOne(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type UserControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof userControllerFindOne>>>
+export type UserControllerFindOneQueryError = unknown
+
 
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
-	id: string,
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, Awaited<ReturnType<typeof userControllerFindOne>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, Awaited<ReturnType<typeof userControllerFindOne>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof userControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof userControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get one user by id
  */
 
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getUserControllerFindOneQueryOptions(id, options);
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getUserControllerFindOneQueryOptions(id,options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Update one user by id
  * @summary Update one user by id
  */
 export type userControllerUpdateResponse200 = {
-	data: UserEntity;
-	status: 200;
+  data: UserEntity
+  status: 200
+}
+
+export type userControllerUpdateResponseSuccess = (userControllerUpdateResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerUpdateResponseSuccess = userControllerUpdateResponse200 & {
-	headers: Headers;
-};
+export type userControllerUpdateResponse = (userControllerUpdateResponseSuccess)
 
-export type userControllerUpdateResponse = userControllerUpdateResponseSuccess;
+export const getUserControllerUpdateUrl = (id: string,) => {
 
-export const getUserControllerUpdateUrl = (id: string) => {
-	return `/api/user/${id}`;
-};
 
-export const userControllerUpdate = async (id: string, updateUserDto: UpdateUserDto, options?: RequestInit): Promise<userControllerUpdateResponse> => {
-	return customApiFetch<userControllerUpdateResponse>(getUserControllerUpdateUrl(id), {
-		...options,
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(updateUserDto),
-	});
-};
+  
 
-export const getUserControllerUpdateMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError, { id: string; data: UpdateUserDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError, { id: string; data: UpdateUserDto }, TContext> => {
-	const mutationKey = ['userControllerUpdate'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
+  return `/api/user/${id}`
+}
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerUpdate>>, { id: string; data: UpdateUserDto }> = (props) => {
-		const { id, data } = props ?? {};
+export const userControllerUpdate = async (id: string,
+    updateUserDto: UpdateUserDto, options?: RequestInit): Promise<userControllerUpdateResponse> => {
+  
+  return customApiFetch<userControllerUpdateResponse>(getUserControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateUserDto,)
+  }
+);}
+  
 
-		return userControllerUpdate(id, data, requestOptions);
-	};
 
-	return { mutationFn, ...mutationOptions };
-};
 
-export type UserControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerUpdate>>>;
-export type UserControllerUpdateMutationBody = UpdateUserDto;
-export type UserControllerUpdateMutationError = unknown;
+export const getUserControllerUpdateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext> => {
 
-/**
+const mutationKey = ['userControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerUpdate>>, {id: string;data: UpdateUserDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  userControllerUpdate(id,data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerUpdate>>>
+    export type UserControllerUpdateMutationBody = UpdateUserDto
+    export type UserControllerUpdateMutationError = unknown
+
+    /**
  * @summary Update one user by id
  */
-export const useUserControllerUpdate = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError, { id: string; data: UpdateUserDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerUpdate>>, TError, { id: string; data: UpdateUserDto }, TContext> => {
-	return useMutation(getUserControllerUpdateMutationOptions(options), queryClient);
-};
-
+export const useUserControllerUpdate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerUpdate>>,
+        TError,
+        {id: string;data: UpdateUserDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerUpdateMutationOptions(options), queryClient);
+    }
+    
 /**
  * Delete one user by id
  * @summary Delete one user by id
  */
 export type userControllerRemoveResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerRemoveResponseSuccess = userControllerRemoveResponse200 & {
-	headers: Headers;
+export type userControllerRemoveResponseSuccess = (userControllerRemoveResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerRemoveResponse = userControllerRemoveResponseSuccess;
+export type userControllerRemoveResponse = (userControllerRemoveResponseSuccess)
 
-export const getUserControllerRemoveUrl = (id: string) => {
-	return `/api/user/${id}`;
-};
+export const getUserControllerRemoveUrl = (id: string,) => {
+
+
+  
+
+  return `/api/user/${id}`
+}
 
 export const userControllerRemove = async (id: string, options?: RequestInit): Promise<userControllerRemoveResponse> => {
-	return customApiFetch<userControllerRemoveResponse>(getUserControllerRemoveUrl(id), {
-		...options,
-		method: 'DELETE',
-	});
-};
+  
+  return customApiFetch<userControllerRemoveResponse>(getUserControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+  
 
-export const getUserControllerRemoveMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError, { id: string }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError, { id: string }, TContext> => {
-	const mutationKey = ['userControllerRemove'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemove>>, { id: string }> = (props) => {
-		const { id } = props ?? {};
 
-		return userControllerRemove(id, requestOptions);
-	};
+export const getUserControllerRemoveMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemove>>>;
+      
 
-export type UserControllerRemoveMutationError = unknown;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemove>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  userControllerRemove(id,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemove>>>
+    
+    export type UserControllerRemoveMutationError = unknown
+
+    /**
  * @summary Delete one user by id
  */
-export const useUserControllerRemove = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError, { id: string }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerRemove>>, TError, { id: string }, TContext> => {
-	return useMutation(getUserControllerRemoveMutationOptions(options), queryClient);
-};
-
+export const useUserControllerRemove = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerRemove>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getUserControllerRemoveMutationOptions(options), queryClient);
+    }
+    
 /**
  * Add role to user
  * @summary Add role to user
  */
 export type userControllerAddRoleResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerAddRoleResponseSuccess = userControllerAddRoleResponse200 & {
-	headers: Headers;
+export type userControllerAddRoleResponseSuccess = (userControllerAddRoleResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerAddRoleResponse = userControllerAddRoleResponseSuccess;
+export type userControllerAddRoleResponse = (userControllerAddRoleResponseSuccess)
 
 export const getUserControllerAddRoleUrl = () => {
-	return `/api/user/add-role`;
-};
+
+
+  
+
+  return `/api/user/add-role`
+}
 
 export const userControllerAddRole = async (addUserRoleDto: AddUserRoleDto, options?: RequestInit): Promise<userControllerAddRoleResponse> => {
-	return customApiFetch<userControllerAddRoleResponse>(getUserControllerAddRoleUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(addUserRoleDto),
-	});
-};
+  
+  return customApiFetch<userControllerAddRoleResponse>(getUserControllerAddRoleUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      addUserRoleDto,)
+  }
+);}
+  
 
-export const getUserControllerAddRoleMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError, { data: AddUserRoleDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError, { data: AddUserRoleDto }, TContext> => {
-	const mutationKey = ['userControllerAddRole'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerAddRole>>, { data: AddUserRoleDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return userControllerAddRole(data, requestOptions);
-	};
+export const getUserControllerAddRoleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError,{data: AddUserRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError,{data: AddUserRoleDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerAddRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerAddRoleMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerAddRole>>>;
-export type UserControllerAddRoleMutationBody = AddUserRoleDto;
-export type UserControllerAddRoleMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerAddRole>>, {data: AddUserRoleDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  userControllerAddRole(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerAddRoleMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerAddRole>>>
+    export type UserControllerAddRoleMutationBody = AddUserRoleDto
+    export type UserControllerAddRoleMutationError = unknown
+
+    /**
  * @summary Add role to user
  */
-export const useUserControllerAddRole = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError, { data: AddUserRoleDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerAddRole>>, TError, { data: AddUserRoleDto }, TContext> => {
-	return useMutation(getUserControllerAddRoleMutationOptions(options), queryClient);
-};
-
+export const useUserControllerAddRole = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerAddRole>>, TError,{data: AddUserRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerAddRole>>,
+        TError,
+        {data: AddUserRoleDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerAddRoleMutationOptions(options), queryClient);
+    }
+    
 /**
  * Add role to user
  * @summary Add role to user
  */
 export type userControllerRemoveRoleResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerRemoveRoleResponseSuccess = userControllerRemoveRoleResponse200 & {
-	headers: Headers;
+export type userControllerRemoveRoleResponseSuccess = (userControllerRemoveRoleResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerRemoveRoleResponse = userControllerRemoveRoleResponseSuccess;
+export type userControllerRemoveRoleResponse = (userControllerRemoveRoleResponseSuccess)
 
 export const getUserControllerRemoveRoleUrl = () => {
-	return `/api/user/remove-role`;
-};
+
+
+  
+
+  return `/api/user/remove-role`
+}
 
 export const userControllerRemoveRole = async (removeUserRoleDto: RemoveUserRoleDto, options?: RequestInit): Promise<userControllerRemoveRoleResponse> => {
-	return customApiFetch<userControllerRemoveRoleResponse>(getUserControllerRemoveRoleUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(removeUserRoleDto),
-	});
-};
+  
+  return customApiFetch<userControllerRemoveRoleResponse>(getUserControllerRemoveRoleUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      removeUserRoleDto,)
+  }
+);}
+  
 
-export const getUserControllerRemoveRoleMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError, { data: RemoveUserRoleDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError, { data: RemoveUserRoleDto }, TContext> => {
-	const mutationKey = ['userControllerRemoveRole'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemoveRole>>, { data: RemoveUserRoleDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return userControllerRemoveRole(data, requestOptions);
-	};
+export const getUserControllerRemoveRoleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError,{data: RemoveUserRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError,{data: RemoveUserRoleDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerRemoveRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerRemoveRoleMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemoveRole>>>;
-export type UserControllerRemoveRoleMutationBody = RemoveUserRoleDto;
-export type UserControllerRemoveRoleMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemoveRole>>, {data: RemoveUserRoleDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  userControllerRemoveRole(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerRemoveRoleMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemoveRole>>>
+    export type UserControllerRemoveRoleMutationBody = RemoveUserRoleDto
+    export type UserControllerRemoveRoleMutationError = unknown
+
+    /**
  * @summary Add role to user
  */
-export const useUserControllerRemoveRole = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError, { data: RemoveUserRoleDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError, { data: RemoveUserRoleDto }, TContext> => {
-	return useMutation(getUserControllerRemoveRoleMutationOptions(options), queryClient);
-};
-
+export const useUserControllerRemoveRole = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveRole>>, TError,{data: RemoveUserRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerRemoveRole>>,
+        TError,
+        {data: RemoveUserRoleDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerRemoveRoleMutationOptions(options), queryClient);
+    }
+    
 /**
  * Add ban to user
  * @summary Add ban to user
  */
 export type userControllerAddBanResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerAddBanResponseSuccess = userControllerAddBanResponse200 & {
-	headers: Headers;
+export type userControllerAddBanResponseSuccess = (userControllerAddBanResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerAddBanResponse = userControllerAddBanResponseSuccess;
+export type userControllerAddBanResponse = (userControllerAddBanResponseSuccess)
 
 export const getUserControllerAddBanUrl = () => {
-	return `/api/user/add-ban`;
-};
+
+
+  
+
+  return `/api/user/add-ban`
+}
 
 export const userControllerAddBan = async (addUserBanDto: AddUserBanDto, options?: RequestInit): Promise<userControllerAddBanResponse> => {
-	return customApiFetch<userControllerAddBanResponse>(getUserControllerAddBanUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(addUserBanDto),
-	});
-};
+  
+  return customApiFetch<userControllerAddBanResponse>(getUserControllerAddBanUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      addUserBanDto,)
+  }
+);}
+  
 
-export const getUserControllerAddBanMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError, { data: AddUserBanDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError, { data: AddUserBanDto }, TContext> => {
-	const mutationKey = ['userControllerAddBan'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerAddBan>>, { data: AddUserBanDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return userControllerAddBan(data, requestOptions);
-	};
+export const getUserControllerAddBanMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError,{data: AddUserBanDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError,{data: AddUserBanDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerAddBan'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerAddBanMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerAddBan>>>;
-export type UserControllerAddBanMutationBody = AddUserBanDto;
-export type UserControllerAddBanMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerAddBan>>, {data: AddUserBanDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  userControllerAddBan(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerAddBanMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerAddBan>>>
+    export type UserControllerAddBanMutationBody = AddUserBanDto
+    export type UserControllerAddBanMutationError = unknown
+
+    /**
  * @summary Add ban to user
  */
-export const useUserControllerAddBan = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError, { data: AddUserBanDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerAddBan>>, TError, { data: AddUserBanDto }, TContext> => {
-	return useMutation(getUserControllerAddBanMutationOptions(options), queryClient);
-};
-
+export const useUserControllerAddBan = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerAddBan>>, TError,{data: AddUserBanDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerAddBan>>,
+        TError,
+        {data: AddUserBanDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerAddBanMutationOptions(options), queryClient);
+    }
+    
 /**
  * Remove ban to user
  * @summary Remove ban to user
  */
 export type userControllerRemoveBanResponse200 = {
-	data: UserEntity;
-	status: 200;
-};
+  data: UserEntity
+  status: 200
+}
 
-export type userControllerRemoveBanResponseSuccess = userControllerRemoveBanResponse200 & {
-	headers: Headers;
+export type userControllerRemoveBanResponseSuccess = (userControllerRemoveBanResponse200) & {
+  headers: Headers;
 };
+;
 
-export type userControllerRemoveBanResponse = userControllerRemoveBanResponseSuccess;
+export type userControllerRemoveBanResponse = (userControllerRemoveBanResponseSuccess)
 
 export const getUserControllerRemoveBanUrl = () => {
-	return `/api/user/remove-ban`;
-};
+
+
+  
+
+  return `/api/user/remove-ban`
+}
 
 export const userControllerRemoveBan = async (removeUserBanDto: RemoveUserBanDto, options?: RequestInit): Promise<userControllerRemoveBanResponse> => {
-	return customApiFetch<userControllerRemoveBanResponse>(getUserControllerRemoveBanUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(removeUserBanDto),
-	});
-};
+  
+  return customApiFetch<userControllerRemoveBanResponse>(getUserControllerRemoveBanUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      removeUserBanDto,)
+  }
+);}
+  
 
-export const getUserControllerRemoveBanMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError, { data: RemoveUserBanDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError, { data: RemoveUserBanDto }, TContext> => {
-	const mutationKey = ['userControllerRemoveBan'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemoveBan>>, { data: RemoveUserBanDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return userControllerRemoveBan(data, requestOptions);
-	};
+export const getUserControllerRemoveBanMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError,{data: RemoveUserBanDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError,{data: RemoveUserBanDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['userControllerRemoveBan'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type UserControllerRemoveBanMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemoveBan>>>;
-export type UserControllerRemoveBanMutationBody = RemoveUserBanDto;
-export type UserControllerRemoveBanMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemoveBan>>, {data: RemoveUserBanDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  userControllerRemoveBan(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserControllerRemoveBanMutationResult = NonNullable<Awaited<ReturnType<typeof userControllerRemoveBan>>>
+    export type UserControllerRemoveBanMutationBody = RemoveUserBanDto
+    export type UserControllerRemoveBanMutationError = unknown
+
+    /**
  * @summary Remove ban to user
  */
-export const useUserControllerRemoveBan = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError, { data: RemoveUserBanDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError, { data: RemoveUserBanDto }, TContext> => {
-	return useMutation(getUserControllerRemoveBanMutationOptions(options), queryClient);
-};
-
+export const useUserControllerRemoveBan = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemoveBan>>, TError,{data: RemoveUserBanDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof userControllerRemoveBan>>,
+        TError,
+        {data: RemoveUserBanDto},
+        TContext
+      > => {
+      return useMutation(getUserControllerRemoveBanMutationOptions(options), queryClient);
+    }
+    
 /**
  * Create one new role
  * @summary Create new role
  */
 export type roleControllerCreateResponse201 = {
-	data: RoleEntity;
-	status: 201;
-};
+  data: RoleEntity
+  status: 201
+}
 
-export type roleControllerCreateResponseSuccess = roleControllerCreateResponse201 & {
-	headers: Headers;
+export type roleControllerCreateResponseSuccess = (roleControllerCreateResponse201) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerCreateResponse = roleControllerCreateResponseSuccess;
+export type roleControllerCreateResponse = (roleControllerCreateResponseSuccess)
 
 export const getRoleControllerCreateUrl = () => {
-	return `/api/role`;
-};
+
+
+  
+
+  return `/api/role`
+}
 
 export const roleControllerCreate = async (createRoleDto: CreateRoleDto, options?: RequestInit): Promise<roleControllerCreateResponse> => {
-	return customApiFetch<roleControllerCreateResponse>(getRoleControllerCreateUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(createRoleDto),
-	});
-};
+  
+  return customApiFetch<roleControllerCreateResponse>(getRoleControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createRoleDto,)
+  }
+);}
+  
 
-export const getRoleControllerCreateMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError, { data: CreateRoleDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError, { data: CreateRoleDto }, TContext> => {
-	const mutationKey = ['roleControllerCreate'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerCreate>>, { data: CreateRoleDto }> = (props) => {
-		const { data } = props ?? {};
 
-		return roleControllerCreate(data, requestOptions);
-	};
+export const getRoleControllerCreateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError,{data: CreateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError,{data: CreateRoleDto}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['roleControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type RoleControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerCreate>>>;
-export type RoleControllerCreateMutationBody = CreateRoleDto;
-export type RoleControllerCreateMutationError = unknown;
+      
 
-/**
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerCreate>>, {data: CreateRoleDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  roleControllerCreate(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RoleControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerCreate>>>
+    export type RoleControllerCreateMutationBody = CreateRoleDto
+    export type RoleControllerCreateMutationError = unknown
+
+    /**
  * @summary Create new role
  */
-export const useRoleControllerCreate = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError, { data: CreateRoleDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof roleControllerCreate>>, TError, { data: CreateRoleDto }, TContext> => {
-	return useMutation(getRoleControllerCreateMutationOptions(options), queryClient);
-};
-
+export const useRoleControllerCreate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerCreate>>, TError,{data: CreateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof roleControllerCreate>>,
+        TError,
+        {data: CreateRoleDto},
+        TContext
+      > => {
+      return useMutation(getRoleControllerCreateMutationOptions(options), queryClient);
+    }
+    
 /**
  * Find all roles
  * @summary Find all roles
  */
 export type roleControllerFindAllResponse201 = {
-	data: RoleEntity[];
-	status: 201;
-};
+  data: RoleEntity[]
+  status: 201
+}
 
-export type roleControllerFindAllResponseSuccess = roleControllerFindAllResponse201 & {
-	headers: Headers;
+export type roleControllerFindAllResponseSuccess = (roleControllerFindAllResponse201) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerFindAllResponse = roleControllerFindAllResponseSuccess;
+export type roleControllerFindAllResponse = (roleControllerFindAllResponseSuccess)
 
 export const getRoleControllerFindAllUrl = () => {
-	return `/api/role`;
-};
 
-export const roleControllerFindAll = async (options?: RequestInit): Promise<roleControllerFindAllResponse> => {
-	return customApiFetch<roleControllerFindAllResponse>(getRoleControllerFindAllUrl(), {
-		...options,
-		method: 'GET',
-	});
-};
+
+  
+
+  return `/api/role`
+}
+
+export const roleControllerFindAll = async ( options?: RequestInit): Promise<roleControllerFindAllResponse> => {
+  
+  return customApiFetch<roleControllerFindAllResponse>(getRoleControllerFindAllUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
 
 export const getRoleControllerFindAllQueryKey = () => {
-	return [`/api/role`] as const;
-};
+    return [
+    `/api/role`
+    ] as const;
+    }
 
-export const getRoleControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>(options?: {
-	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>;
-	request?: SecondParameter<typeof customApiFetch>;
-}) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
+    
+export const getRoleControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
 
-	const queryKey = queryOptions?.queryKey ?? getRoleControllerFindAllQueryKey();
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindAll>>> = ({ signal }) => roleControllerFindAll({ signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getRoleControllerFindAllQueryKey();
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type RoleControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindAll>>>;
-export type RoleControllerFindAllQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindAll>>> = ({ signal }) => roleControllerFindAll({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type RoleControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindAll>>>
+export type RoleControllerFindAllQueryError = unknown
+
 
 export function useRoleControllerFindAll<TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>(
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, Awaited<ReturnType<typeof roleControllerFindAll>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindAll<TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, Awaited<ReturnType<typeof roleControllerFindAll>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindAll<TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find all roles
  */
 
 export function useRoleControllerFindAll<TData = Awaited<ReturnType<typeof roleControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getRoleControllerFindAllQueryOptions(options);
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getRoleControllerFindAllQueryOptions(options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Find role by type
  * @summary Find role by type
  */
 export type roleControllerFindOneByTypeResponse200 = {
-	data: RoleEntity;
-	status: 200;
+  data: RoleEntity
+  status: 200
+}
+
+export type roleControllerFindOneByTypeResponseSuccess = (roleControllerFindOneByTypeResponse200) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerFindOneByTypeResponseSuccess = roleControllerFindOneByTypeResponse200 & {
-	headers: Headers;
-};
+export type roleControllerFindOneByTypeResponse = (roleControllerFindOneByTypeResponseSuccess)
 
-export type roleControllerFindOneByTypeResponse = roleControllerFindOneByTypeResponseSuccess;
+export const getRoleControllerFindOneByTypeUrl = (params: RoleControllerFindOneByTypeParams,) => {
+  const normalizedParams = new URLSearchParams();
 
-export const getRoleControllerFindOneByTypeUrl = (params: RoleControllerFindOneByTypeParams) => {
-	const normalizedParams = new URLSearchParams();
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
 
-	Object.entries(params || {}).forEach(([key, value]) => {
-		if (value !== undefined) {
-			normalizedParams.append(key, value === null ? 'null' : value.toString());
-		}
-	});
+  const stringifiedParams = normalizedParams.toString();
 
-	const stringifiedParams = normalizedParams.toString();
+  return stringifiedParams.length > 0 ? `/api/role/search?${stringifiedParams}` : `/api/role/search`
+}
 
-	return stringifiedParams.length > 0 ? `/api/role/search?${stringifiedParams}` : `/api/role/search`;
-};
+export const roleControllerFindOneByType = async (params: RoleControllerFindOneByTypeParams, options?: RequestInit): Promise<roleControllerFindOneByTypeResponse> => {
+  
+  return customApiFetch<roleControllerFindOneByTypeResponse>(getRoleControllerFindOneByTypeUrl(params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
 
-export const roleControllerFindOneByType = async (
-	params: RoleControllerFindOneByTypeParams,
-	options?: RequestInit,
-): Promise<roleControllerFindOneByTypeResponse> => {
-	return customApiFetch<roleControllerFindOneByTypeResponse>(getRoleControllerFindOneByTypeUrl(params), {
-		...options,
-		method: 'GET',
-	});
-};
 
-export const getRoleControllerFindOneByTypeQueryKey = (params?: RoleControllerFindOneByTypeParams) => {
-	return [`/api/role/search`, ...(params ? [params] : [])] as const;
-};
 
-export const getRoleControllerFindOneByTypeQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(
-	params: RoleControllerFindOneByTypeParams,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
+
+export const getRoleControllerFindOneByTypeQueryKey = (params?: RoleControllerFindOneByTypeParams,) => {
+    return [
+    `/api/role/search`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getRoleControllerFindOneByTypeQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(params: RoleControllerFindOneByTypeParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-	const queryKey = queryOptions?.queryKey ?? getRoleControllerFindOneByTypeQueryKey(params);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindOneByType>>> = ({ signal }) =>
-		roleControllerFindOneByType(params, { signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getRoleControllerFindOneByTypeQueryKey(params);
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type RoleControllerFindOneByTypeQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindOneByType>>>;
-export type RoleControllerFindOneByTypeQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindOneByType>>> = ({ signal }) => roleControllerFindOneByType(params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type RoleControllerFindOneByTypeQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindOneByType>>>
+export type RoleControllerFindOneByTypeQueryError = unknown
+
 
 export function useRoleControllerFindOneByType<TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(
-	params: RoleControllerFindOneByTypeParams,
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, Awaited<ReturnType<typeof roleControllerFindOneByType>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ params: RoleControllerFindOneByTypeParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindOneByType>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindOneByType>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOneByType<TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(
-	params: RoleControllerFindOneByTypeParams,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, Awaited<ReturnType<typeof roleControllerFindOneByType>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ params: RoleControllerFindOneByTypeParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindOneByType>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindOneByType>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOneByType<TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(
-	params: RoleControllerFindOneByTypeParams,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ params: RoleControllerFindOneByTypeParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find role by type
  */
 
 export function useRoleControllerFindOneByType<TData = Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError = unknown>(
-	params: RoleControllerFindOneByTypeParams,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getRoleControllerFindOneByTypeQueryOptions(params, options);
+ params: RoleControllerFindOneByTypeParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOneByType>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getRoleControllerFindOneByTypeQueryOptions(params,options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Find role by id
  * @summary Find role by id
  */
 export type roleControllerFindOneResponse200 = {
-	data: RoleEntity;
-	status: 200;
-};
+  data: RoleEntity
+  status: 200
+}
 
-export type roleControllerFindOneResponseSuccess = roleControllerFindOneResponse200 & {
-	headers: Headers;
+export type roleControllerFindOneResponseSuccess = (roleControllerFindOneResponse200) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerFindOneResponse = roleControllerFindOneResponseSuccess;
+export type roleControllerFindOneResponse = (roleControllerFindOneResponseSuccess)
 
-export const getRoleControllerFindOneUrl = (id: string) => {
-	return `/api/role/${id}`;
-};
+export const getRoleControllerFindOneUrl = (id: string,) => {
+
+
+  
+
+  return `/api/role/${id}`
+}
 
 export const roleControllerFindOne = async (id: string, options?: RequestInit): Promise<roleControllerFindOneResponse> => {
-	return customApiFetch<roleControllerFindOneResponse>(getRoleControllerFindOneUrl(id), {
-		...options,
-		method: 'GET',
-	});
-};
+  
+  return customApiFetch<roleControllerFindOneResponse>(getRoleControllerFindOneUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
 
-export const getRoleControllerFindOneQueryKey = (id: string) => {
-	return [`/api/role/${id}`] as const;
-};
 
-export const getRoleControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
+
+
+export const getRoleControllerFindOneQueryKey = (id: string,) => {
+    return [
+    `/api/role/${id}`
+    ] as const;
+    }
+
+    
+export const getRoleControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-	const queryKey = queryOptions?.queryKey ?? getRoleControllerFindOneQueryKey(id);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindOne>>> = ({ signal }) => roleControllerFindOne(id, { signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getRoleControllerFindOneQueryKey(id);
 
-	return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type RoleControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindOne>>>;
-export type RoleControllerFindOneQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof roleControllerFindOne>>> = ({ signal }) => roleControllerFindOne(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type RoleControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof roleControllerFindOne>>>
+export type RoleControllerFindOneQueryError = unknown
+
 
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
-	id: string,
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, Awaited<ReturnType<typeof roleControllerFindOne>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, Awaited<ReturnType<typeof roleControllerFindOne>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof roleControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Find role by id
  */
 
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
-	id: string,
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getRoleControllerFindOneQueryOptions(id, options);
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getRoleControllerFindOneQueryOptions(id,options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Update role by id
  * @summary Update role by id
  */
 export type roleControllerUpdateResponse201 = {
-	data: RoleEntity;
-	status: 201;
+  data: RoleEntity
+  status: 201
+}
+
+export type roleControllerUpdateResponseSuccess = (roleControllerUpdateResponse201) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerUpdateResponseSuccess = roleControllerUpdateResponse201 & {
-	headers: Headers;
-};
+export type roleControllerUpdateResponse = (roleControllerUpdateResponseSuccess)
 
-export type roleControllerUpdateResponse = roleControllerUpdateResponseSuccess;
+export const getRoleControllerUpdateUrl = (id: string,) => {
 
-export const getRoleControllerUpdateUrl = (id: string) => {
-	return `/api/role/${id}`;
-};
 
-export const roleControllerUpdate = async (id: string, updateRoleDto: UpdateRoleDto, options?: RequestInit): Promise<roleControllerUpdateResponse> => {
-	return customApiFetch<roleControllerUpdateResponse>(getRoleControllerUpdateUrl(id), {
-		...options,
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(updateRoleDto),
-	});
-};
+  
 
-export const getRoleControllerUpdateMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError, { id: string; data: UpdateRoleDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError, { id: string; data: UpdateRoleDto }, TContext> => {
-	const mutationKey = ['roleControllerUpdate'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
+  return `/api/role/${id}`
+}
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerUpdate>>, { id: string; data: UpdateRoleDto }> = (props) => {
-		const { id, data } = props ?? {};
+export const roleControllerUpdate = async (id: string,
+    updateRoleDto: UpdateRoleDto, options?: RequestInit): Promise<roleControllerUpdateResponse> => {
+  
+  return customApiFetch<roleControllerUpdateResponse>(getRoleControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateRoleDto,)
+  }
+);}
+  
 
-		return roleControllerUpdate(id, data, requestOptions);
-	};
 
-	return { mutationFn, ...mutationOptions };
-};
 
-export type RoleControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerUpdate>>>;
-export type RoleControllerUpdateMutationBody = UpdateRoleDto;
-export type RoleControllerUpdateMutationError = unknown;
+export const getRoleControllerUpdateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext> => {
 
-/**
+const mutationKey = ['roleControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerUpdate>>, {id: string;data: UpdateRoleDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  roleControllerUpdate(id,data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RoleControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerUpdate>>>
+    export type RoleControllerUpdateMutationBody = UpdateRoleDto
+    export type RoleControllerUpdateMutationError = unknown
+
+    /**
  * @summary Update role by id
  */
-export const useRoleControllerUpdate = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError, { id: string; data: UpdateRoleDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof roleControllerUpdate>>, TError, { id: string; data: UpdateRoleDto }, TContext> => {
-	return useMutation(getRoleControllerUpdateMutationOptions(options), queryClient);
-};
-
+export const useRoleControllerUpdate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof roleControllerUpdate>>,
+        TError,
+        {id: string;data: UpdateRoleDto},
+        TContext
+      > => {
+      return useMutation(getRoleControllerUpdateMutationOptions(options), queryClient);
+    }
+    
 /**
  * Delete role by id
  * @summary Delete role by id
  */
 export type roleControllerRemoveResponse201 = {
-	data: RoleEntity;
-	status: 201;
-};
+  data: RoleEntity
+  status: 201
+}
 
-export type roleControllerRemoveResponseSuccess = roleControllerRemoveResponse201 & {
-	headers: Headers;
+export type roleControllerRemoveResponseSuccess = (roleControllerRemoveResponse201) & {
+  headers: Headers;
 };
+;
 
-export type roleControllerRemoveResponse = roleControllerRemoveResponseSuccess;
+export type roleControllerRemoveResponse = (roleControllerRemoveResponseSuccess)
 
-export const getRoleControllerRemoveUrl = (id: string) => {
-	return `/api/role/${id}`;
-};
+export const getRoleControllerRemoveUrl = (id: string,) => {
+
+
+  
+
+  return `/api/role/${id}`
+}
 
 export const roleControllerRemove = async (id: string, options?: RequestInit): Promise<roleControllerRemoveResponse> => {
-	return customApiFetch<roleControllerRemoveResponse>(getRoleControllerRemoveUrl(id), {
-		...options,
-		method: 'DELETE',
-	});
-};
+  
+  return customApiFetch<roleControllerRemoveResponse>(getRoleControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+  
 
-export const getRoleControllerRemoveMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError, { id: string }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError, { id: string }, TContext> => {
-	const mutationKey = ['roleControllerRemove'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerRemove>>, { id: string }> = (props) => {
-		const { id } = props ?? {};
 
-		return roleControllerRemove(id, requestOptions);
-	};
+export const getRoleControllerRemoveMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext> => {
 
-	return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['roleControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type RoleControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerRemove>>>;
+      
 
-export type RoleControllerRemoveMutationError = unknown;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerRemove>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  roleControllerRemove(id,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RoleControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof roleControllerRemove>>>
+    
+    export type RoleControllerRemoveMutationError = unknown
+
+    /**
  * @summary Delete role by id
  */
-export const useRoleControllerRemove = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError, { id: string }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof roleControllerRemove>>, TError, { id: string }, TContext> => {
-	return useMutation(getRoleControllerRemoveMutationOptions(options), queryClient);
-};
-
+export const useRoleControllerRemove = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof roleControllerRemove>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getRoleControllerRemoveMutationOptions(options), queryClient);
+    }
+    
 /**
  * Get all announcements
  * @summary Get all
  */
 export type announcementControllerFindAllResponse200 = {
-	data: AnnouncementEntity[];
-	status: 200;
-};
+  data: AnnouncementEntity[]
+  status: 200
+}
 
-export type announcementControllerFindAllResponseSuccess = announcementControllerFindAllResponse200 & {
-	headers: Headers;
+export type announcementControllerFindAllResponseSuccess = (announcementControllerFindAllResponse200) & {
+  headers: Headers;
 };
+;
 
-export type announcementControllerFindAllResponse = announcementControllerFindAllResponseSuccess;
+export type announcementControllerFindAllResponse = (announcementControllerFindAllResponseSuccess)
 
 export const getAnnouncementControllerFindAllUrl = () => {
-	return `/api/announcement`;
-};
 
-export const announcementControllerFindAll = async (options?: RequestInit): Promise<announcementControllerFindAllResponse> => {
-	return customApiFetch<announcementControllerFindAllResponse>(getAnnouncementControllerFindAllUrl(), {
-		...options,
-		method: 'GET',
-	});
-};
+
+  
+
+  return `/api/announcement`
+}
+
+export const announcementControllerFindAll = async ( options?: RequestInit): Promise<announcementControllerFindAllResponse> => {
+  
+  return customApiFetch<announcementControllerFindAllResponse>(getAnnouncementControllerFindAllUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
 
 export const getAnnouncementControllerFindAllQueryKey = () => {
-	return [`/api/announcement`] as const;
-};
+    return [
+    `/api/announcement`
+    ] as const;
+    }
 
-export const getAnnouncementControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(options?: {
-	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>;
-	request?: SecondParameter<typeof customApiFetch>;
-}) => {
-	const { query: queryOptions, request: requestOptions } = options ?? {};
+    
+export const getAnnouncementControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
 
-	const queryKey = queryOptions?.queryKey ?? getAnnouncementControllerFindAllQueryKey();
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof announcementControllerFindAll>>> = ({ signal }) =>
-		announcementControllerFindAll({ signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getAnnouncementControllerFindAllQueryKey();
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
-};
+  
 
-export type AnnouncementControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof announcementControllerFindAll>>>;
-export type AnnouncementControllerFindAllQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof announcementControllerFindAll>>> = ({ signal }) => announcementControllerFindAll({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AnnouncementControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof announcementControllerFindAll>>>
+export type AnnouncementControllerFindAllQueryError = unknown
+
 
 export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(
-	options: {
-		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>> &
-			Pick<
-				DefinedInitialDataOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, Awaited<ReturnType<typeof announcementControllerFindAll>>>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof announcementControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>> &
-			Pick<
-				UndefinedInitialDataOptions<
-					Awaited<ReturnType<typeof announcementControllerFindAll>>,
-					TError,
-					Awaited<ReturnType<typeof announcementControllerFindAll>>
-				>,
-				'initialData'
-			>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof announcementControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get all
  */
 
 export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(
-	options?: {
-		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getAnnouncementControllerFindAllQueryOptions(options);
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getAnnouncementControllerFindAllQueryOptions(options)
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 /**
  * Create new announcement
  * @summary Create
  */
 export type announcementControllerCreateResponse201 = {
-	data: AnnouncementEntity;
-	status: 201;
-};
+  data: AnnouncementEntity
+  status: 201
+}
 
-export type announcementControllerCreateResponseSuccess = announcementControllerCreateResponse201 & {
-	headers: Headers;
+export type announcementControllerCreateResponseSuccess = (announcementControllerCreateResponse201) & {
+  headers: Headers;
 };
+;
 
-export type announcementControllerCreateResponse = announcementControllerCreateResponseSuccess;
+export type announcementControllerCreateResponse = (announcementControllerCreateResponseSuccess)
 
 export const getAnnouncementControllerCreateUrl = () => {
-	return `/api/announcement`;
-};
 
-export const announcementControllerCreate = async (
-	createAnnouncementDto: CreateAnnouncementDto,
-	options?: RequestInit,
-): Promise<announcementControllerCreateResponse> => {
-	return customApiFetch<announcementControllerCreateResponse>(getAnnouncementControllerCreateUrl(), {
-		...options,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...options?.headers },
-		body: JSON.stringify(createAnnouncementDto),
-	});
-};
 
-export const getAnnouncementControllerCreateMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-	mutation?: UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError, { data: CreateAnnouncementDto }, TContext>;
-	request?: SecondParameter<typeof customApiFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError, { data: CreateAnnouncementDto }, TContext> => {
-	const mutationKey = ['announcementControllerCreate'];
-	const { mutation: mutationOptions, request: requestOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey }, request: undefined };
+  
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerCreate>>, { data: CreateAnnouncementDto }> = (props) => {
-		const { data } = props ?? {};
+  return `/api/announcement`
+}
 
-		return announcementControllerCreate(data, requestOptions);
-	};
+export const announcementControllerCreate = async (createAnnouncementDto: CreateAnnouncementDto, options?: RequestInit): Promise<announcementControllerCreateResponse> => {
+  
+  return customApiFetch<announcementControllerCreateResponse>(getAnnouncementControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAnnouncementDto,)
+  }
+);}
+  
 
-	return { mutationFn, ...mutationOptions };
-};
 
-export type AnnouncementControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerCreate>>>;
-export type AnnouncementControllerCreateMutationBody = CreateAnnouncementDto;
-export type AnnouncementControllerCreateMutationError = unknown;
 
-/**
+export const getAnnouncementControllerCreateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext> => {
+
+const mutationKey = ['announcementControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerCreate>>, {data: CreateAnnouncementDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  announcementControllerCreate(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerCreate>>>
+    export type AnnouncementControllerCreateMutationBody = CreateAnnouncementDto
+    export type AnnouncementControllerCreateMutationError = unknown
+
+    /**
  * @summary Create
  */
-export const useAnnouncementControllerCreate = <TError = unknown, TContext = unknown>(
-	options?: {
-		mutation?: UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError, { data: CreateAnnouncementDto }, TContext>;
-		request?: SecondParameter<typeof customApiFetch>;
-	},
-	queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof announcementControllerCreate>>, TError, { data: CreateAnnouncementDto }, TContext> => {
-	return useMutation(getAnnouncementControllerCreateMutationOptions(options), queryClient);
-};
+export const useAnnouncementControllerCreate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementControllerCreate>>,
+        TError,
+        {data: CreateAnnouncementDto},
+        TContext
+      > => {
+      return useMutation(getAnnouncementControllerCreateMutationOptions(options), queryClient);
+    }

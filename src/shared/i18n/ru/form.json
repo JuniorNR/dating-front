@@ -1,0 +1,12 @@
+{
+	"username": {
+		"label": "Имя пользователя",
+		"placeholder": "Введите имя пользователя...",
+		"example": "Пример: PuffDiddy56"
+	},
+	"password": {
+		"label": "Пароль",
+		"placeholder": "Введите пароль...",
+		"example": "Пример: PuffDiddy@56"
+	}
+}

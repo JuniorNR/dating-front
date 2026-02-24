@@ -1,3 +1,8 @@
 {
-	"test": "test"
+	"minSymbols": "{{count}} - minimum count of symbols",
+	"emailIncorrect": "Email is incorrect",
+	"passwordUppercase": "Password must contain at least one uppercase letter",
+	"passwordLowercase": "Password must contain at least one lowercase letter",
+	"passwordNumber": "Password must contain at least one number",
+	"passwordSpecial": "Password must contain at least one special character"
 }

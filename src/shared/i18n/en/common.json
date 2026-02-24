@@ -29,9 +29,20 @@
 				"title": "My chats",
 				"description": "Visit your chats"
 			}
+		},
+		"loginModal": {
+			"title": "Authorization",
+			"description": "Enter your data and click \"Apply\".",
+			"login": "Authorization"
 		}
 	},
 	"footer": {
 		"rights": "Ecosystem. All rights reserved."
+	},
+	"modal": {
+		"confirm": "Apply",
+		"cancel": "Cancel",
+		"save": "Save",
+		"close": "Close"
 	}
 }

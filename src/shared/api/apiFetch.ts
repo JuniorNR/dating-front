@@ -1,5 +1,7 @@
-export interface ApiError extends Error {
-	status: number;
+export interface ApiError {
+	error: string;
+	message: string;
+	statusCode: number;
 }
 
 export const customApiFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -15,8 +17,7 @@ export const customApiFetch = async <T>(url: string, options?: RequestInit): Pro
 	});
 
 	if (!response.ok) {
-		const error = new Error(`Request failed: ${response.status}`);
-		(error as ApiError).status = response.status;
+		const error = (await response.json()) as ApiError;
 		throw error;
 	}
 

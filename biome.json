@@ -13,7 +13,8 @@
 			"!.next",
 			"!dist",
 			"!build",
-			"!src/shared/api/generated.ts"
+			"!src/shared/api/generated.ts",
+			"!src/shared/ui/*"
 		]
 	},
 	"formatter": {

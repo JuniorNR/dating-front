@@ -1,5 +1,5 @@
 import { forwardRef, useId } from 'react';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/shared/lib/cn';
 import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from '@/shared/ui/field';
 
 export type InputProps = React.ComponentProps<'input'> & {

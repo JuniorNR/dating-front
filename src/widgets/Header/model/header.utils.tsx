@@ -1,10 +1,15 @@
 import { TFunction } from 'i18next';
-import { Handshake, MessageCircle, UserPen, Users } from 'lucide-react';
+import { Handshake, LogOut, MessageCircle, Settings, UserPen, Users } from 'lucide-react';
+import { useUserStore } from '@/entities/user';
+import { useAuthControllerLogout } from '@/shared/api/ApiGenerated';
 
 export const getProfileNavItems = (tCommon: TFunction<'common'>) => {
+	const { mutate } = useAuthControllerLogout();
+	const resetUser = useUserStore((store) => store.reset);
+
 	const profileNavItemsData = {
 		title: tCommon('header.profileNavigation.title'),
-		items: [
+		links: [
 			{
 				title: tCommon('header.profileNavigation.myProfile.title'),
 				href: '/profile',
@@ -28,6 +33,23 @@ export const getProfileNavItems = (tCommon: TFunction<'common'>) => {
 				href: '/chats',
 				icon: MessageCircle,
 				description: tCommon('header.profileNavigation.myChats.description'),
+			},
+			{
+				title: tCommon('header.profileNavigation.mySettings.title'),
+				href: '/settings',
+				icon: Settings,
+				description: tCommon('header.profileNavigation.mySettings.description'),
+			},
+		],
+		buttons: [
+			{
+				title: tCommon('header.profileNavigation.logout.title'),
+				icon: LogOut,
+				description: tCommon('header.profileNavigation.logout.description'),
+				onClick: () => {
+					mutate();
+					resetUser();
+				},
 			},
 		],
 	};

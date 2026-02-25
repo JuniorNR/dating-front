@@ -28,6 +28,14 @@
 			"myChats": {
 				"title": "Чаты",
 				"description": "Посетить чаты"
+			},
+			"mySettings": {
+				"title": "Настройки",
+				"description": "Открыть настройки"
+			},
+			"logout": {
+				"title": "Выйти",
+				"description": "Завершить текущую сессию"
 			}
 		},
 		"loginModal": {

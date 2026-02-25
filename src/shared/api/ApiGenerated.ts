@@ -307,6 +307,89 @@ export const useAuthControllerRegistration = <TError = unknown,
     }
     
 /**
+ * Get logged out from your profile
+ * @summary Logged out your profile
+ */
+export type authControllerLogoutResponseDefault = {
+  data: unknown
+  status: number
+}
+
+;
+export type authControllerLogoutResponseError = (authControllerLogoutResponseDefault) & {
+  headers: Headers;
+};
+
+export type authControllerLogoutResponse = (authControllerLogoutResponseError)
+
+export const getAuthControllerLogoutUrl = () => {
+
+
+  
+
+  return `/api/auth/logout`
+}
+
+export const authControllerLogout = async ( options?: RequestInit): Promise<authControllerLogoutResponse> => {
+  
+  return customApiFetch<authControllerLogoutResponse>(getAuthControllerLogoutUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+);}
+  
+
+
+
+export const getAuthControllerLogoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext> => {
+
+const mutationKey = ['authControllerLogout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogout>>, void> = () => {
+          
+
+          return  authControllerLogout(requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogout>>>
+    
+    export type AuthControllerLogoutMutationError = unknown
+
+    /**
+ * @summary Logged out your profile
+ */
+export const useAuthControllerLogout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerLogout>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getAuthControllerLogoutMutationOptions(options), queryClient);
+    }
+    
+/**
  * Create one new user
  * @summary Create new user
  */

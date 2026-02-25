@@ -28,6 +28,14 @@
 			"myChats": {
 				"title": "My chats",
 				"description": "Visit your chats"
+			},
+			"mySettings": {
+				"title": "Settings",
+				"description": "Open settings"
+			},
+			"logout": {
+				"title": "Logout",
+				"description": "Sign out of your current session"
 			}
 		},
 		"loginModal": {

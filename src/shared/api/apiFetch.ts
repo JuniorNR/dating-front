@@ -21,5 +21,11 @@ export const customApiFetch = async <T>(url: string, options?: RequestInit): Pro
 		throw error;
 	}
 
-	return response.json() as T;
+	const data = await response.json();
+
+	return {
+		data,
+		status: response.status,
+		headers: response.headers,
+	} as T;
 };

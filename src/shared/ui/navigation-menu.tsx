@@ -1,9 +1,12 @@
 import { cva } from 'class-variance-authority';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, LucideProps } from 'lucide-react';
 import { NavigationMenu as NavigationMenuPrimitive } from 'radix-ui';
 import * as React from 'react';
 
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/shared/lib/cn';
+import Link from 'next/link';
+import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { Button } from './button';
 
 function NavigationMenu({
 	className,
@@ -96,7 +99,13 @@ function NavigationMenuViewport({
 	);
 }
 
-function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
+function NavigationMenuLink({ className, title, icon, description, href, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Link> & {
+	href: string;
+	icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+	title: string;
+	description: string;
+}) {
+	const IconComponent = icon;
 	return (
 		<NavigationMenuPrimitive.Link
 			data-slot="navigation-menu-link"
@@ -105,7 +114,55 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
 				className,
 			)}
 			{...props}
-		/>
+		>
+			<Link href={href}>
+				<div className="flex">
+					{IconComponent && <IconComponent className="mr-2 mt-1" />}
+					<div>
+						<p className="text-sm font-medium whitespace-nowrap">{title}</p>
+						<p className="text-sm text-muted-foreground whitespace-nowrap">{description}</p>
+					</div>
+				</div>
+			</Link>
+		</NavigationMenuPrimitive.Link>
+	);
+}
+
+function NavigationMenuButton({ className, title, icon, description, onClick, color = 'default', ...props }: Omit<React.ComponentProps<typeof NavigationMenuPrimitive.Link>, 'href'> & {
+	icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+	title: string;
+	description: string;
+	onClick: () => void;
+	color?: 'default' | 'danger';
+}) {
+	const IconComponent = icon;
+	const colorDangerClasses = color === 'danger' ? {
+		mainClasses:
+			'text-destructive border-destructive/20 bg-destructive/5 hover:bg-destructive/12 focus:bg-destructive/12 data-[active=true]:bg-destructive/12 data-[active=true]:text-destructive focus-visible:ring-destructive/35 dark:border-destructive/30 dark:bg-destructive/10 dark:hover:bg-destructive/20',
+		iconClasses: 'text-destructive',
+		titleClasses: 'text-destructive',
+		descriptionClasses: 'text-destructive/80 dark:text-destructive/70',
+	} : null;
+	return (
+		<NavigationMenuPrimitive.Link
+			data-slot="navigation-menu-link"
+			className={cn(
+				"data-[active=true]:focus:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4 cursor-pointer",
+				className,
+				colorDangerClasses?.mainClasses,
+			)}
+			{...props}
+		>
+			<button onClick={onClick} className="text-left">
+				<div className="flex">
+					{IconComponent && <IconComponent className={cn('mr-2 mt-1', colorDangerClasses?.iconClasses)} />}
+					<div>
+						<p className={cn('text-sm font-medium whitespace-nowrap', colorDangerClasses?.titleClasses)}>{title}</p>
+						<p className={cn('text-sm text-muted-foreground whitespace-nowrap', colorDangerClasses?.descriptionClasses)}>{description}</p>
+					</div>
+				</div>
+			</button>
+		</NavigationMenuPrimitive.Link>
 	);
 }
 
@@ -131,6 +188,7 @@ export {
 	NavigationMenuContent,
 	NavigationMenuTrigger,
 	NavigationMenuLink,
+	NavigationMenuButton,
 	NavigationMenuIndicator,
 	NavigationMenuViewport,
 	navigationMenuTriggerStyle,

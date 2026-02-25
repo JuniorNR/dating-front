@@ -4,7 +4,7 @@ import { LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LoginForm } from '@/features';
+import { LoginForm, RegistrationForm } from '@/features';
 import { Button } from '@/shared/ui/button';
 import {
 	NavigationMenu,
@@ -20,8 +20,12 @@ import { getProfileNavItems } from '../model/header.utils';
 export const Header: FC = () => {
 	const { t: tCommon } = useTranslation('common');
 	const profileNavItems = getProfileNavItems(tCommon);
+
 	const [isOpenModalLogin, setIsOpenModalLogin] = useState<boolean>(false);
 	const [isLoadingModalLogin, setIsLoadingModalLogin] = useState<boolean>(false);
+
+	const [isOpenModalRegistration, setIsOpenModalRegistration] = useState<boolean>(false);
+	const [isLoadingRegistration, setIsLoadingRegistration] = useState<boolean>(false);
 
 	return (
 		<header className="h-[50px] bg-accent">
@@ -72,10 +76,11 @@ export const Header: FC = () => {
 								setIsOpen={setIsOpenModalLogin}
 								renderTrigger={
 									<Button
+										className="flex gap-0 text-sm"
 										variant="outline"
-										size="icon"
 									>
-										<LogIn />
+										<LogIn className="size-4 mr-2" />
+										<p>{tCommon('header.loginModal.login')}</p>
 									</Button>
 								}
 							>
@@ -86,6 +91,38 @@ export const Header: FC = () => {
 									}}
 									onLoading={(isLoading) => {
 										setIsLoadingModalLogin(isLoading);
+									}}
+								/>
+							</Modal>
+						</NavigationMenuItem>
+						<NavigationMenuItem>
+							<Modal
+								formId="registrationForm"
+								openText={tCommon('header.registrationModal.registration')}
+								title={tCommon('header.registrationModal.title')}
+								description={tCommon('header.registrationModal.description')}
+								confirmText={tCommon('modal.confirm')}
+								closeText={tCommon('modal.close')}
+								isLoading={isLoadingRegistration}
+								isOpen={isOpenModalRegistration}
+								setIsOpen={setIsOpenModalRegistration}
+								renderTrigger={
+									<Button
+										className="flex gap-0 text-sm"
+										variant="outline"
+									>
+										<LogIn className="size-4 mr-2" />
+										<p>{tCommon('header.registrationModal.registration')}</p>
+									</Button>
+								}
+							>
+								<RegistrationForm
+									formId="registrationForm"
+									onSuccess={() => {
+										setIsOpenModalRegistration(false);
+									}}
+									onLoading={(isLoading) => {
+										setIsLoadingRegistration(isLoading);
 									}}
 								/>
 							</Modal>

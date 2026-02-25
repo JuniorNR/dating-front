@@ -1,20 +1,18 @@
-'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
-import { type FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';
-import { useAuthControllerLogin } from '@/shared/api/ApiGenerated';
+import { useAuthControllerRegistration } from '@/shared/api/ApiGenerated';
 import { ApiError } from '@/shared/api/apiFetch';
 import { publicRoutes } from '@/shared/constants';
 import { FieldFormError, FieldGroup } from '@/shared/ui/field';
 import { Input } from '@/widgets';
-import { getLoginSchema, LoginFormType } from '../model/auth.schema';
-import { LoginFormProps } from '../model/auth.types';
+import { getRegistrationSchema, RegistrationFormType } from '../model/auth.schema';
+import { RegistrationFormProps } from '../model/auth.types';
 
-export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) => {
+export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess, onLoading }) => {
 	const pathname = usePathname();
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
@@ -22,12 +20,13 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 	const { checkAuth } = useUserStore();
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
-	const { handleSubmit, control, watch } = useForm<LoginFormType>({
-		resolver: zodResolver(getLoginSchema(tValidation)),
+	const { handleSubmit, control, watch } = useForm({
 		defaultValues: {
 			username: '',
+			email: '',
 			password: '',
 		},
+		resolver: zodResolver(getRegistrationSchema(tValidation)),
 	});
 
 	useEffect(() => {
@@ -40,11 +39,11 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 		watch,
 	]);
 
-	const { mutate } = useAuthControllerLogin<ApiError, LoginFormType>({
+	const { mutate } = useAuthControllerRegistration<ApiError, RegistrationFormType>({
 		mutation: {
 			onError: (error) => {
 				setFormErrorMessage(error.message);
-				onLoading?.(false);
+				onLoading(false);
 			},
 			onSuccess: () => {
 				onSuccess();
@@ -59,8 +58,7 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 		},
 	});
 
-	const onSubmit: SubmitHandler<LoginFormType> = (data) => {
-		onLoading?.(true);
+	const onSubmit: SubmitHandler<RegistrationFormType> = (data) => {
 		mutate({
 			data,
 		});
@@ -82,6 +80,20 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 							autoComplete="username"
 							placeholder={tForm('username.placeholder')}
 							description={tForm('username.example')}
+							error={fieldState.error?.message}
+						/>
+					)}
+				/>
+				<Controller
+					name="email"
+					control={control}
+					render={({ field, fieldState }) => (
+						<Input
+							{...field}
+							label={tForm('email.label')}
+							autoComplete="email"
+							placeholder={tForm('email.placeholder')}
+							description={tForm('email.example')}
 							error={fieldState.error?.message}
 						/>
 					)}

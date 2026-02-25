@@ -8,5 +8,10 @@
 		"label": "Password",
 		"placeholder": "Enter your password...",
 		"example": "Example: PuffDiddy@56"
+	},
+	"email": {
+		"label": "Email",
+		"placeholder": "Enter your email...",
+		"example": "Example: puffdiddy56@mail.com"
 	}
 }

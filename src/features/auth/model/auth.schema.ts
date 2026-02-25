@@ -46,4 +46,4 @@ export const getRegistrationSchema = (tValidation: TFunction<'validation'>) => {
 };
 
 export type LoginFormType = z.infer<ReturnType<typeof getLoginSchema>>;
-export type RegisterFormType = z.infer<ReturnType<typeof getRegistrationSchema>>;
+export type RegistrationFormType = z.infer<ReturnType<typeof getRegistrationSchema>>;

@@ -8,5 +8,10 @@
 		"label": "Пароль",
 		"placeholder": "Введите пароль...",
 		"example": "Пример: PuffDiddy@56"
+	},
+	"email": {
+		"label": "Электронная почта",
+		"placeholder": "Введите электронную почту...",
+		"example": "Пример: puffdiddy56@mail.com"
 	}
 }

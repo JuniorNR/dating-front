@@ -34,6 +34,11 @@
 			"title": "Authorization",
 			"description": "Enter your data and click \"Apply\".",
 			"login": "Authorization"
+		},
+		"registrationModal": {
+			"title": "Registration",
+			"description": "Enter your data and click \"Registration\".",
+			"registration": "Registration"
 		}
 	},
 	"footer": {

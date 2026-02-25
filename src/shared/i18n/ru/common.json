@@ -1,15 +1,4 @@
 {
-	"languageSwitcher": {
-		"title": "Сменить язык",
-		"russian": "Русский",
-		"english": "Английский"
-	},
-	"themeSwitcher": {
-		"title": "Сменить тему",
-		"light": "Светлая",
-		"dark": "Темная",
-		"system": "Системная"
-	},
 	"header": {
 		"profileNavigation": {
 			"title": "Профиль",
@@ -57,5 +46,20 @@
 		"cancel": "Отменить",
 		"save": "Сохранить",
 		"close": "Закрыть"
+	},
+	"languageSwitcher": {
+		"title": "Сменить язык",
+		"russian": "Русский",
+		"english": "Английский"
+	},
+	"themeSwitcher": {
+		"title": "Сменить тему",
+		"light": "Светлая",
+		"dark": "Темная",
+		"system": "Системная"
+	},
+	"AuthLoadingFallback": {
+		"titleOne": "Проверка авторизации",
+		"titleTwo": "Подготовка рабочего места"
 	}
 }

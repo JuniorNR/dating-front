@@ -1,15 +1,4 @@
 {
-	"languageSwitcher": {
-		"title": "Switch language",
-		"russian": "Russian",
-		"english": "English"
-	},
-	"themeSwitcher": {
-		"title": "Switch theme",
-		"light": "Light",
-		"dark": "Dark",
-		"system": "System"
-	},
 	"header": {
 		"profileNavigation": {
 			"title": "Profile",
@@ -57,5 +46,20 @@
 		"cancel": "Cancel",
 		"save": "Save",
 		"close": "Close"
+	},
+	"languageSwitcher": {
+		"title": "Switch language",
+		"russian": "Russian",
+		"english": "English"
+	},
+	"themeSwitcher": {
+		"title": "Switch theme",
+		"light": "Light",
+		"dark": "Dark",
+		"system": "System"
+	},
+	"AuthLoadingFallback": {
+		"titleOne": "Checking authorization",
+		"titleTwo": "Preparing your workspace"
 	}
 }

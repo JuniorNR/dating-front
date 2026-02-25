@@ -4,6 +4,7 @@ import { UserState } from './user.types';
 
 export const useUserStore = create<UserState>()((set) => ({
 	user: null,
+	roles: null,
 	isAuth: false,
 	isLoading: true,
 	setUser: (user) =>
@@ -15,6 +16,7 @@ export const useUserStore = create<UserState>()((set) => ({
 	reset: () =>
 		set({
 			user: null,
+			roles: null,
 			isAuth: false,
 			isLoading: false,
 		}),
@@ -22,14 +24,18 @@ export const useUserStore = create<UserState>()((set) => ({
 		try {
 			const response = await userControllerGetAuth();
 			const authUser = response.data;
+			const userRoles = authUser.roles.map((role) => role.type);
+
 			set({
 				user: authUser,
+				roles: userRoles,
 				isAuth: true,
 				isLoading: false,
 			});
 		} catch {
 			set({
 				user: null,
+				roles: null,
 				isAuth: false,
 				isLoading: false,
 			});

@@ -1,7 +1,6 @@
 'use client';
 
 import { LogIn } from 'lucide-react';
-import Link from 'next/link';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';

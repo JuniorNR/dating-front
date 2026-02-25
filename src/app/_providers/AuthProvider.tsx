@@ -2,6 +2,7 @@
 
 import { type FC, type ReactNode, useEffect } from 'react';
 import { useUserStore } from '@/entities/user';
+import { AuthLoadingFallback } from './ui/AuthLoadingFallback';
 
 export const AuthProvider: FC<{
 	children: ReactNode;
@@ -16,7 +17,7 @@ export const AuthProvider: FC<{
 	]);
 
 	if (checking) {
-		// return <AuthLoadingFallback>{children}</AuthLoadingFallback>;
+		return <AuthLoadingFallback />;
 	}
 
 	return children;

@@ -28,22 +28,22 @@ export default function RootLayout({
 			suppressHydrationWarning
 		>
 			<body className={`${openSans.variable} antialiased`}>
-				<AuthProvider>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="dark"
-					>
-						<QueryProvider>
-							<I18nProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+				>
+					<QueryProvider>
+						<I18nProvider>
+							<AuthProvider>
 								<div className="flex flex-col justify-between min-h-screen">
 									<Header />
 									<Main>{children}</Main>
 									<Footer />
 								</div>
-							</I18nProvider>
-						</QueryProvider>
-					</ThemeProvider>
-				</AuthProvider>
+							</AuthProvider>
+						</I18nProvider>
+					</QueryProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

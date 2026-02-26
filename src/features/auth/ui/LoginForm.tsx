@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';
 import { useAuthControllerLogin } from '@/shared/api/ApiGenerated';
 import { ApiError } from '@/shared/api/apiFetch';
-import { publicRoutes } from '@/shared/constants';
+import { PUBLIC_ROUTES } from '@/shared/constants';
 import { FieldFormError, FieldGroup } from '@/shared/ui/field';
 import { Input } from '@/widgets';
 import { getLoginSchema, LoginFormType } from '../model/auth.schema';
@@ -50,7 +50,7 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 				onSuccess();
 				onLoading(false);
 				checkAuth();
-				if (publicRoutes.includes(pathname)) {
+				if (PUBLIC_ROUTES.includes(pathname)) {
 					router.push(pathname);
 				} else {
 					router.push('/');

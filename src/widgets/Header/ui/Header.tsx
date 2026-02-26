@@ -16,11 +16,10 @@ import {
 	NavigationMenuTrigger,
 } from '@/shared/ui/navigation-menu';
 import { LanguageSwitcher, Modal, ThemeSwitcher } from '@/widgets';
-import { getProfileNavItems } from '../model/header.utils';
+import { useProfileNavItems } from '../model/header.utils';
 
 export const Header: FC = () => {
 	const { t: tCommon } = useTranslation('common');
-	const profileNavItems = getProfileNavItems(tCommon);
 
 	const [isOpenModalLogin, setIsOpenModalLogin] = useState<boolean>(false);
 	const [isLoadingModalLogin, setIsLoadingModalLogin] = useState<boolean>(false);
@@ -28,7 +27,9 @@ export const Header: FC = () => {
 	const [isOpenModalRegistration, setIsOpenModalRegistration] = useState<boolean>(false);
 	const [isLoadingRegistration, setIsLoadingRegistration] = useState<boolean>(false);
 
-	const { user, isAuth } = useUserStore();
+	const { user, isAuth, roles } = useUserStore();
+
+	const profileNavItems = useProfileNavItems(tCommon, roles);
 
 	return (
 		<header className="h-[50px] bg-accent">

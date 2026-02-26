@@ -1,10 +1,14 @@
 import { create } from 'zustand';
 import { userControllerGetAuth } from '@/shared/api/ApiGenerated';
+import { ROLES } from '@/shared/constants';
+import { Role } from '@/shared/types';
 import { UserState } from './user.types';
 
 export const useUserStore = create<UserState>()((set) => ({
 	user: null,
-	roles: null,
+	roles: [
+		'user',
+	],
 	isAuth: false,
 	isLoading: true,
 	setUser: (user) =>
@@ -16,7 +20,9 @@ export const useUserStore = create<UserState>()((set) => ({
 	reset: () =>
 		set({
 			user: null,
-			roles: null,
+			roles: [
+				'user',
+			],
 			isAuth: false,
 			isLoading: false,
 		}),
@@ -24,7 +30,12 @@ export const useUserStore = create<UserState>()((set) => ({
 		try {
 			const response = await userControllerGetAuth();
 			const authUser = response.data;
-			const userRoles = authUser.roles.map((role) => role.type);
+
+			const isRoleFilter = (role: string): role is Role => {
+				return Object.values(ROLES).includes(role as Role);
+			};
+
+			const userRoles: Role[] = authUser.roles.map((role) => role.type).filter(isRoleFilter);
 
 			set({
 				user: authUser,
@@ -35,7 +46,9 @@ export const useUserStore = create<UserState>()((set) => ({
 		} catch {
 			set({
 				user: null,
-				roles: null,
+				roles: [
+					'user',
+				],
 				isAuth: false,
 				isLoading: false,
 			});

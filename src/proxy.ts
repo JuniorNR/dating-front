@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { publicRoutes } from './shared/constants';
+import { PUBLIC_ROUTES } from './shared/constants';
 
 export function proxy(request: NextRequest) {
 	const token = request.cookies.get(String(process.env.NEXT_PUBLIC_JWT_COOKIE_NAME));
 	const { pathname } = request.nextUrl;
 
-	if (publicRoutes.includes(pathname)) {
+	if (PUBLIC_ROUTES.includes(pathname)) {
 		return NextResponse.next();
 	}
 
@@ -14,7 +14,7 @@ export function proxy(request: NextRequest) {
 
 		if (referer) {
 			const prevPath = new URL(referer).pathname;
-			if (publicRoutes.includes(prevPath)) {
+			if (PUBLIC_ROUTES.includes(prevPath)) {
 				return NextResponse.redirect(new URL(prevPath, request.url));
 			}
 		}

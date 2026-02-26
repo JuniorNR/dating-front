@@ -2,25 +2,33 @@
 	"header": {
 		"profileNavigation": {
 			"title": "Profile",
-			"myProfile": {
-				"title": "My profile",
-				"description": "Visit your profile"
+			"profile": {
+				"title": "Profile",
+				"description": "Visit profile"
 			},
-			"myFriends": {
-				"title": "My friends",
-				"description": "Visit your friends"
+			"friends": {
+				"title": "Friends",
+				"description": "Visit friends"
 			},
-			"myGroups": {
-				"title": "My groups",
-				"description": "Visit your groups"
+			"groups": {
+				"title": "Groups",
+				"description": "Visit groups"
 			},
-			"myChats": {
-				"title": "My chats",
-				"description": "Visit your chats"
+			"chats": {
+				"title": "Chats",
+				"description": "Visit chats"
 			},
-			"mySettings": {
+			"settings": {
 				"title": "Settings",
 				"description": "Open settings"
+			},
+			"roles": {
+				"title": "Roles",
+				"description": "Manage user roles and permissions"
+			},
+			"users": {
+				"title": "Users",
+				"description": "Administer all platform users"
 			},
 			"logout": {
 				"title": "Logout",

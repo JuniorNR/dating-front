@@ -2,25 +2,33 @@
 	"header": {
 		"profileNavigation": {
 			"title": "Профиль",
-			"myProfile": {
-				"title": "Мой профиль",
-				"description": "Посетить свой профиль"
+			"profile": {
+				"title": "Профиль",
+				"description": "Посетить профиль"
 			},
-			"myFriends": {
+			"friends": {
 				"title": "Друзья",
 				"description": "Посетить друзей"
 			},
-			"myGroups": {
+			"groups": {
 				"title": "Группы",
 				"description": "Посетить группы"
 			},
-			"myChats": {
+			"chats": {
 				"title": "Чаты",
 				"description": "Посетить чаты"
 			},
-			"mySettings": {
+			"settings": {
 				"title": "Настройки",
 				"description": "Открыть настройки"
+			},
+			"roles": {
+				"title": "Роли",
+				"description": "Управлять ролями и правами пользователей"
+			},
+			"users": {
+				"title": "Пользователи",
+				"description": "Администрировать всех пользователей платформы"
 			},
 			"logout": {
 				"title": "Выйти",

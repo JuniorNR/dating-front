@@ -1,8 +1,9 @@
-import { RoleEntity, UserEntity } from '@/shared/api/ApiGenerated';
+import { UserEntity } from '@/shared/api/ApiGenerated';
+import { Role } from '@/shared/types';
 
 export interface UserState {
 	user: UserEntity | null;
-	roles: RoleEntity['type'][] | null;
+	roles: Role[];
 	isAuth: boolean;
 	isLoading: boolean;
 	setUser: (user: UserEntity) => void;

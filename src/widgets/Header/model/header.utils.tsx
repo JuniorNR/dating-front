@@ -1,13 +1,12 @@
 import { TFunction } from 'i18next';
 import { Handshake, LogOut, MessageCircle, Settings, UserCog, UserKey, UserPen, Users } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/entities/user';
-import { useAuthControllerLogout } from '@/shared/api/ApiGenerated';
 import { ROLES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
-import { Role } from '@/shared/types';
 
-export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: Role[]) => {
-	const { mutate } = useAuthControllerLogout();
-	const resetUser = useUserStore((store) => store.reset);
+export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
+	const userStore = useUserStore();
+	const router = useRouter();
 
 	if (roles.includes(ROLES.superUser)) {
 		const profileNavItemsSuperUserData = {
@@ -49,9 +48,9 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: Role[]) 
 					title: tCommon('header.profileNavigation.logout.title'),
 					icon: LogOut,
 					description: tCommon('header.profileNavigation.logout.description'),
-					onClick: () => {
-						mutate();
-						resetUser();
+					onClick: async () => {
+						await userStore.logout();
+						router.push('/');
 					},
 				},
 			],
@@ -99,9 +98,9 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: Role[]) 
 				title: tCommon('header.profileNavigation.logout.title'),
 				icon: LogOut,
 				description: tCommon('header.profileNavigation.logout.description'),
-				onClick: () => {
-					mutate();
-					resetUser();
+				onClick: async () => {
+					await userStore.logout();
+					router.push('/');
 				},
 			},
 		],

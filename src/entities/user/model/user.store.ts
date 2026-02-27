@@ -1,7 +1,6 @@
 import { create } from 'zustand';
-import { userControllerGetAuth } from '@/shared/api/ApiGenerated';
-import { ROLES } from '@/shared/constants';
-import { Role } from '@/shared/types';
+import { authControllerLogout, userControllerGetAuth } from '@/shared/api/ApiGenerated';
+import { apiError } from '@/shared/api/apiFetch';
 import { UserState } from './user.types';
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -11,31 +10,19 @@ export const useUserStore = create<UserState>()((set) => ({
 	],
 	isAuth: false,
 	isLoading: true,
+	isInitialized: true,
+	error: null,
 	setUser: (user) =>
 		set({
 			user,
 			isAuth: true,
 			isLoading: false,
 		}),
-	reset: () =>
-		set({
-			user: null,
-			roles: [
-				'user',
-			],
-			isAuth: false,
-			isLoading: false,
-		}),
 	checkAuth: async () => {
 		try {
 			const response = await userControllerGetAuth();
 			const authUser = response.data;
-
-			const isRoleFilter = (role: string): role is Role => {
-				return Object.values(ROLES).includes(role as Role);
-			};
-
-			const userRoles: Role[] = authUser.roles.map((role) => role.type).filter(isRoleFilter);
+			const userRoles = response.data.roles.map((role) => role.type);
 
 			set({
 				user: authUser,
@@ -54,4 +41,40 @@ export const useUserStore = create<UserState>()((set) => ({
 			});
 		}
 	},
+	logout: async () => {
+		set({
+			isLoading: true,
+			error: null,
+		});
+		try {
+			await authControllerLogout();
+		} catch (error) {
+			set({
+				error: apiError(error, 'Logout request failed'),
+			});
+		} finally {
+			set({
+				user: null,
+				roles: [
+					'user',
+				],
+				isAuth: false,
+				isLoading: false,
+				isInitialized: true,
+			});
+		}
+	},
+	reset: () =>
+		set({
+			user: null,
+			roles: [
+				'user',
+			],
+			isAuth: false,
+			isLoading: false,
+		}),
+	resetError: () =>
+		set({
+			error: null,
+		}),
 }));

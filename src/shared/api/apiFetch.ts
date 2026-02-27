@@ -4,6 +4,18 @@ export interface ApiError {
 	statusCode: number;
 }
 
+export const apiError = (error: unknown, fallbackErrorMessage: string): ApiError => {
+	if (typeof error === 'object' && error !== null && 'error' in error && 'message' in error && 'statusCode' in error) {
+		return error as ApiError;
+	}
+
+	return {
+		error: 'Unknown error',
+		message: fallbackErrorMessage,
+		statusCode: 500,
+	};
+};
+
 export const customApiFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
 	const baseURL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 

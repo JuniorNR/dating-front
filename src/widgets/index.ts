@@ -4,4 +4,6 @@ export { Input } from './Input';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { Main } from './Main';
 export { Modal } from './Modal';
+export { Role } from './Role';
+export { TerminalOverlay } from './TerminalOverlay';
 export { ThemeSwitcher } from './ThemeSwitcher';

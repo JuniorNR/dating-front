@@ -42,42 +42,44 @@ export const Header: FC = () => {
 						<NavigationMenuItem>
 							<LanguageSwitcher />
 						</NavigationMenuItem>
-						<NavigationMenuItem>
-							<NavigationMenuTrigger
-								className="text-xl cursor-copy"
-								onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}
-							>
-								@{user?.username}
-							</NavigationMenuTrigger>
-							<NavigationMenuContent
-								align="right"
-								className="w-[400px]"
-							>
-								{profileNavItems.links.map((profileItemLink) => (
-									<NavigationMenuLink
-										key={profileItemLink.href}
-										asChild
-										className="w-full"
-										href={profileItemLink.href}
-										icon={profileItemLink.icon}
-										title={profileItemLink.title}
-										description={profileItemLink.description}
-									/>
-								))}
-								{profileNavItems.buttons.map((profileItemButton) => (
-									<NavigationMenuButton
-										key={profileItemButton.title}
-										asChild
-										className="w-full"
-										icon={profileItemButton.icon}
-										title={profileItemButton.title}
-										description={profileItemButton.description}
-										onClick={profileItemButton.onClick}
-										color="danger"
-									/>
-								))}
-							</NavigationMenuContent>
-						</NavigationMenuItem>
+						{isAuth && (
+							<NavigationMenuItem>
+								<NavigationMenuTrigger
+									className="cursor-copy bg-transparent text-xl text-foreground hover:bg-muted focus:bg-muted data-[state=open]:bg-muted"
+									onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}
+								>
+									@{user?.username}
+								</NavigationMenuTrigger>
+								<NavigationMenuContent
+									align="right"
+									className="w-[400px]"
+								>
+									{profileNavItems.links.map((profileItemLink) => (
+										<NavigationMenuLink
+											key={profileItemLink.href}
+											asChild
+											className="w-full"
+											href={profileItemLink.href}
+											icon={profileItemLink.icon}
+											title={profileItemLink.title}
+											description={profileItemLink.description}
+										/>
+									))}
+									{profileNavItems.buttons.map((profileItemButton) => (
+										<NavigationMenuButton
+											key={profileItemButton.title}
+											asChild
+											className="w-full"
+											icon={profileItemButton.icon}
+											title={profileItemButton.title}
+											description={profileItemButton.description}
+											onClick={profileItemButton.onClick}
+											color="danger"
+										/>
+									))}
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+						)}
 						{!isAuth && (
 							<>
 								<NavigationMenuItem>

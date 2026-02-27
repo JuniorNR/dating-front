@@ -1,0 +1,62 @@
+'use client';
+import { FC, useEffect, useState } from 'react';
+import { useRoleStore } from '@/entities/role';
+import { RoleListVariant } from '../model/role.types';
+import { RoleSkeleton } from './Role.skeleton';
+import { RoleList } from './RoleList';
+import { RoleListHeader } from './RoleListHeader';
+
+export const Role: FC = () => {
+	const localStorageActiveTab = localStorage.getItem('rolesActiveTab') as RoleListVariant;
+	const [listVariant, setListVariant] = useState<RoleListVariant>(localStorageActiveTab || 'byList');
+	const { roles, isLoading, isInitialized, getRoles } = useRoleStore();
+
+	useEffect(() => {
+		if (!isInitialized) {
+			getRoles();
+		}
+	}, [
+		getRoles,
+		isInitialized,
+	]);
+
+	if (!isInitialized || isLoading) {
+		return <RoleSkeleton />;
+	}
+
+	return (
+		<section className="overflow-hidden rounded-3xl border bg-card p-4 text-card-foreground sm:p-6">
+			<div className="mb-5">
+				<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Role Gallery</h1>
+				<p className="mt-1 text-sm text-muted-foreground">Choose the most convenient role view for admin tasks, quick checks and detailed review.</p>
+			</div>
+			<div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+				<RoleListHeader
+					variant={listVariant}
+					setVariant={setListVariant}
+				/>
+				<div className="col-span-full mt-2 hidden peer-checked/by-console:block">
+					<RoleList
+						title="by console"
+						roles={roles || []}
+						variant="byConsole"
+					/>
+				</div>
+				<div className="col-span-full mt-2 hidden peer-checked/by-table:block">
+					<RoleList
+						title="by table"
+						roles={roles || []}
+						variant="byTable"
+					/>
+				</div>
+				<div className="col-span-full mt-2 hidden peer-checked/by-list:block">
+					<RoleList
+						title="by list"
+						roles={roles || []}
+						variant="byList"
+					/>
+				</div>
+			</div>
+		</section>
+	);
+};

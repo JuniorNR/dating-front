@@ -2,6 +2,7 @@
 import { Plus } from 'lucide-react';
 import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
 import { RoleEntity } from '@/shared/api/ApiGenerated';
 import { Button } from '@/shared/ui/button';
@@ -10,6 +11,7 @@ import { RoleListListItem } from '@/widgets/Role/ui/RoleListListItem';
 import { RoleListListProps } from '../model/role.types';
 
 export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
+	const { t: tRole } = useTranslation('role');
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [sortedRoles, setSortedRoles] = useState<RoleEntity[]>(roles);
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
@@ -19,27 +21,28 @@ export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
 			<div className="mb-4 flex flex-wrap items-start justify-between gap-3">
 				<div>
 					<h2 className="text-lg font-semibold text-card-foreground">{title}</h2>
-					<p className="mt-1 text-sm text-muted-foreground">Role list</p>
+					<p className="mt-1 text-sm text-muted-foreground">{tRole('RoleListList.subtitle')}</p>
 				</div>
 				<div className="flex items-center gap-2">
 					<SortBy
+						label={tRole('RoleListList.sortBy.label')}
 						value={sortType}
 						onChange={setSortType}
 						sortedValue={sortedRoles}
 						getSortedValue={(sortedValue) => setSortedRoles(sortedValue)}
 						options={[
 							{
-								label: 'Created',
+								label: tRole('RoleListList.sortBy.created'),
 								value: 'created',
 								sorter: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
 							},
 							{
-								label: 'Updated',
+								label: tRole('RoleListList.sortBy.updated'),
 								value: 'updated',
 								sorter: (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
 							},
 							{
-								label: 'Name',
+								label: tRole('RoleListList.sortBy.name'),
 								value: 'name',
 								sorter: (a, b) => a.name.localeCompare(b.name),
 							},
@@ -47,16 +50,16 @@ export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
 					/>
 					<Modal
 						formId="create-role-form"
-						openText="Create"
-						title="Create role"
+						openText={tRole('RoleListList.create.openText')}
+						title={tRole('RoleListList.create.title')}
 						isLoading={isLoadingModalCreate}
 						renderTrigger={
 							<Button
 								variant="outline"
 								size="icon"
 								type="button"
-								aria-label="Add role"
-								title="Add role"
+								aria-label={tRole('RoleListList.create.triggerAria')}
+								title={tRole('RoleListList.create.triggerAria')}
 							>
 								<Plus />
 							</Button>

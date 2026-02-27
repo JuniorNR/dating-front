@@ -8,7 +8,7 @@ import { Input } from '@/widgets';
 import { CreateRoleFormType, getCreateRoleSchema } from '../model/role.schema';
 import { CreateRoleFormProps } from '../model/role.types';
 
-export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading }) => {
+export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onSuccess }) => {
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
@@ -33,9 +33,11 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading }) =
 		watch,
 	]);
 
-	const onSubmit: SubmitHandler<CreateRoleFormType> = (data) => {
+	const onSubmit: SubmitHandler<CreateRoleFormType> = async (data) => {
 		onLoading?.(true);
-		addRole(data);
+		await addRole(data);
+		onSuccess?.();
+		onLoading?.(false);
 	};
 
 	return (

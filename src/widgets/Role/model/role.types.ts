@@ -26,3 +26,12 @@ export interface RoleListListProps {
 	title: string;
 	roles: RoleEntity[];
 }
+
+export interface RoleListTableItemProps {
+	role: RoleEntity;
+	order: number;
+}
+
+export interface RoleListTerminalItemProps {
+	role: RoleEntity;
+}

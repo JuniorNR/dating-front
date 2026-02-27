@@ -1,0 +1,84 @@
+{
+	"Role": {
+		"title": "Role Gallery",
+		"description": "Choose the most convenient role view for admin tasks, quick checks and detailed review.",
+		"listTitles": {
+			"byConsole": "by console",
+			"byTable": "by table",
+			"byList": "by list"
+		}
+	},
+	"RoleListHeader": {
+		"variants": {
+			"byConsole": "by console",
+			"byTable": "by table",
+			"byList": "by list"
+		}
+	},
+	"RoleListList": {
+		"subtitle": "Role list",
+		"sortBy": {
+			"label": "Sort by",
+			"created": "Created",
+			"updated": "Updated",
+			"name": "Name"
+		},
+		"create": {
+			"openText": "Create",
+			"title": "Create role",
+			"triggerAria": "Add role"
+		}
+	},
+	"RoleListListItem": {
+		"actions": {
+			"editRole": "Edit role",
+			"managePermissions": "Manage permissions",
+			"viewAssignedUsers": "View assigned users",
+			"deleteRole": "Delete role"
+		},
+		"deleteModal": {
+			"title": "Delete role",
+			"description": "Delete this role"
+		},
+		"meta": {
+			"created": "created {{value}}",
+			"updated": "updated {{value}}"
+		}
+	},
+	"RoleListTable": {
+		"rolesCount": "{{count}} roles",
+		"create": {
+			"openText": "Create",
+			"title": "Create role",
+			"triggerAria": "Add role"
+		},
+		"sortBy": {
+			"label": "Sort by",
+			"created": "Created",
+			"updated": "Updated",
+			"name": "Name"
+		},
+		"columns": {
+			"order": "Order",
+			"id": "Id",
+			"type": "Type",
+			"role": "Role",
+			"description": "Description",
+			"users": "Users",
+			"created": "Created",
+			"updated": "Updated",
+			"actions": "Actions"
+		},
+		"actions": {
+			"editRoleData": "Edit role data",
+			"managePermissions": "Manage permissions",
+			"viewAssignedUsers": "View assigned users",
+			"deleteRole": "Delete role"
+		},
+		"modals": {
+			"editRoleTitle": "Edit role",
+			"deleteRoleTitle": "Delete role",
+			"deleteRoleDescription": "Delete this role"
+		}
+	}
+}

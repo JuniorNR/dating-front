@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { Pencil, Shield, Trash2, Users } from 'lucide-react';
 import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
 import { UpdateRoleForm } from '@/features';
 import { RoleEntity } from '@/shared/api/ApiGenerated';
@@ -14,6 +15,7 @@ interface RoleListListItemProps {
 }
 
 export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
+	const { t: tRole } = useTranslation('role');
 	const formatDate = (date: string) => {
 		return format(new Date(date), 'dd.MM.yyyy hh:mm');
 	};
@@ -41,8 +43,8 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 					<div className="flex shrink-0 items-center gap-1">
 						<Modal
 							formId={`edit-role-${role.id}`}
-							openText="Edit role"
-							title="Edit role"
+							openText={tRole('RoleListListItem.actions.editRole')}
+							title={tRole('RoleListListItem.actions.editRole')}
 							isLoading={isLoadingModalEdit}
 							renderTrigger={
 								<Button
@@ -50,8 +52,8 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 									size="icon-lg"
 									type="button"
 									className="text-muted-foreground hover:text-foreground"
-									aria-label="Edit role"
-									title="Edit role"
+									aria-label={tRole('RoleListListItem.actions.editRole')}
+									title={tRole('RoleListListItem.actions.editRole')}
 									disabled={role.type === 'user'}
 								>
 									<Pencil />
@@ -70,9 +72,9 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 							size="icon-lg"
 							type="button"
 							className="text-muted-foreground hover:text-foreground"
-							aria-label="Manage permissions"
+							aria-label={tRole('RoleListListItem.actions.managePermissions')}
 							disabled
-							title="Manage permissions"
+							title={tRole('RoleListListItem.actions.managePermissions')}
 						>
 							<Shield />
 						</Button>
@@ -81,15 +83,15 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 							size="icon-lg"
 							type="button"
 							className="text-muted-foreground hover:text-foreground"
-							aria-label="View assigned users"
+							aria-label={tRole('RoleListListItem.actions.viewAssignedUsers')}
 							disabled
-							title="View assigned users"
+							title={tRole('RoleListListItem.actions.viewAssignedUsers')}
 						>
 							<Users />
 						</Button>
 						<SimpleModal
-							title="Delete role"
-							description="Delete this role"
+							title={tRole('RoleListListItem.deleteModal.title')}
+							description={tRole('RoleListListItem.deleteModal.description')}
 							onSuccess={() => {
 								setIsLoadingModalDelete(false);
 								deleteRole(role.id);
@@ -101,8 +103,8 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 									size="icon-lg"
 									type="button"
 									className="text-destructive hover:text-destructive"
-									aria-label="Delete role"
-									title="Delete role"
+									aria-label={tRole('RoleListListItem.actions.deleteRole')}
+									title={tRole('RoleListListItem.actions.deleteRole')}
 									disabled={role.type === 'user'}
 								>
 									<Trash2 />
@@ -120,8 +122,8 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 							{role.type}
 						</span>
 						<div className="flex flex-col items-end gap-0.5">
-							<span>created {formatDate(role.createdAt)}</span>
-							<span>updated {formatDate(role.updatedAt)}</span>
+							<span>{tRole('RoleListListItem.meta.created', { value: formatDate(role.createdAt) })}</span>
+							<span>{tRole('RoleListListItem.meta.updated', { value: formatDate(role.updatedAt) })}</span>
 						</div>
 					</div>
 				</div>

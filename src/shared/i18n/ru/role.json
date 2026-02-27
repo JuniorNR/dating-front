@@ -1,0 +1,84 @@
+{
+	"Role": {
+		"title": "Галерея ролей",
+		"description": "Выберите самый удобный формат просмотра ролей для задач администратора, быстрых проверок и детального анализа.",
+		"listTitles": {
+			"byConsole": "по консоли",
+			"byTable": "по таблице",
+			"byList": "по списку"
+		}
+	},
+	"RoleListHeader": {
+		"variants": {
+			"byConsole": "по консоли",
+			"byTable": "по таблице",
+			"byList": "по списку"
+		}
+	},
+	"RoleListList": {
+		"subtitle": "Список ролей",
+		"sortBy": {
+			"label": "Сортировать по",
+			"created": "Созданию",
+			"updated": "Обновлению",
+			"name": "Названию"
+		},
+		"create": {
+			"openText": "Создать",
+			"title": "Создать роль",
+			"triggerAria": "Добавить роль"
+		}
+	},
+	"RoleListListItem": {
+		"actions": {
+			"editRole": "Редактировать роль",
+			"managePermissions": "Управлять правами",
+			"viewAssignedUsers": "Посмотреть назначенных пользователей",
+			"deleteRole": "Удалить роль"
+		},
+		"deleteModal": {
+			"title": "Удалить роль",
+			"description": "Удалить эту роль"
+		},
+		"meta": {
+			"created": "создано {{value}}",
+			"updated": "обновлено {{value}}"
+		}
+	},
+	"RoleListTable": {
+		"rolesCount": "{{count}} ролей",
+		"create": {
+			"openText": "Создать",
+			"title": "Создать роль",
+			"triggerAria": "Добавить роль"
+		},
+		"sortBy": {
+			"label": "Сортировать по",
+			"created": "Созданию",
+			"updated": "Обновлению",
+			"name": "Названию"
+		},
+		"columns": {
+			"order": "Порядок",
+			"id": "Id",
+			"type": "Тип",
+			"role": "Роль",
+			"description": "Описание",
+			"users": "Пользователи",
+			"created": "Создана",
+			"updated": "Обновлена",
+			"actions": "Действия"
+		},
+		"actions": {
+			"editRoleData": "Редактировать данные роли",
+			"managePermissions": "Управлять правами",
+			"viewAssignedUsers": "Посмотреть назначенных пользователей",
+			"deleteRole": "Удалить роль"
+		},
+		"modals": {
+			"editRoleTitle": "Редактировать роль",
+			"deleteRoleTitle": "Удалить роль",
+			"deleteRoleDescription": "Удалить эту роль"
+		}
+	}
+}

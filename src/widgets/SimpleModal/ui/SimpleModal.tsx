@@ -6,7 +6,17 @@ import { Button } from '@/shared/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/shared/ui/dialog';
 import { SimpleModalProps } from '../model/simpleModal.types';
 
-export const SimpleModal: FC<SimpleModalProps> = ({ title, description, isLoading, confirmText, openText, closeText, onSuccess, onCancel, renderTrigger }) => {
+export const SimpleModal: FC<SimpleModalProps> = ({
+	title,
+	description,
+	isLoading,
+	confirmText,
+	openText,
+	closeText,
+	onSuccess,
+	onCancel,
+	renderTrigger,
+}) => {
 	const { t: tCommon } = useTranslation('common');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	return (

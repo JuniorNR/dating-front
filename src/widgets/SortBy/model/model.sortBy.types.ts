@@ -8,6 +8,7 @@ export interface SortByOptionWithSorter<TValue extends string = string, TItem = 
 }
 
 export interface SortByProps<TValue extends string = string, TItem = unknown> {
+	label: string;
 	value: TValue;
 	sortedValue: TItem[];
 	getSortedValue: (sortedValue: TItem[]) => void;

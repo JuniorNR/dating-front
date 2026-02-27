@@ -13,5 +13,22 @@
 		"label": "Email",
 		"placeholder": "Enter your email...",
 		"example": "Example: puffdiddy56@mail.com"
+	},
+	"role": {
+		"name": {
+			"label": "Role name",
+			"placeholder": "Enter role name...",
+			"example": "Example: Content Moderator"
+		},
+		"type": {
+			"label": "Role type",
+			"placeholder": "Enter role type...",
+			"example": "Example: admin"
+		},
+		"description": {
+			"label": "Role description",
+			"placeholder": "Enter role description...",
+			"example": "Example: Can moderate user-generated content."
+		}
 	}
 }

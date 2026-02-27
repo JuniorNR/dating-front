@@ -5,5 +5,7 @@ export { LanguageSwitcher } from './LanguageSwitcher';
 export { Main } from './Main';
 export { Modal } from './Modal';
 export { Role } from './Role';
+export { SortBy } from './SortBy';
+export { SimpleModal } from './SimpleModal';
 export { TerminalOverlay } from './TerminalOverlay';
 export { ThemeSwitcher } from './ThemeSwitcher';

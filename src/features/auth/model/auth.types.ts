@@ -1,4 +1,4 @@
-import { FormModalIdentity } from '@/shared/types';
+import { BaseFormModal } from '@/shared/types';
 
-export interface LoginFormProps extends FormModalIdentity {}
-export interface RegistrationFormProps extends FormModalIdentity {}
+export interface LoginFormProps extends BaseFormModal {}
+export interface RegistrationFormProps extends BaseFormModal {}

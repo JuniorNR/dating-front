@@ -1,5 +1,5 @@
-export interface FormModalIdentity {
+export interface BaseFormModal {
 	formId: string;
-	onSuccess: () => void;
 	onLoading: (isLoading: boolean) => void;
+	onSuccess?: () => void;
 }

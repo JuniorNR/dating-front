@@ -21,3 +21,8 @@ export interface RoleListTableProps {
 export interface RoleListTerminalProps {
 	roles: RoleEntity[];
 }
+
+export interface RoleListListProps {
+	title: string;
+	roles: RoleEntity[];
+}

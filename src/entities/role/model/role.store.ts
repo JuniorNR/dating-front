@@ -10,7 +10,7 @@ import {
 import { apiError } from '@/shared/api/apiFetch';
 import { RoleState } from './role.types';
 
-export const useRoleStore = create<RoleState>()((set) => ({
+export const useRoleStore = create<RoleState>()((set, get) => ({
 	roles: null,
 	isLoading: true,
 	isInitialized: false,
@@ -91,6 +91,9 @@ export const useRoleStore = create<RoleState>()((set) => ({
 				error: apiError(error, '[role][delete] unknown error'),
 			});
 		}
+	},
+	getRoleFromStore: (id: number) => {
+		return get().roles?.find((role) => role.id === id) ?? null;
 	},
 	reset: () =>
 		set({

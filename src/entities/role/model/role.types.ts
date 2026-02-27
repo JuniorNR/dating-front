@@ -8,5 +8,6 @@ export interface RoleState extends BaseState {
 	addRole: (dto: CreateRoleDto) => Promise<void>;
 	updateRole: (id: number, dto: UpdateRoleDto) => Promise<void>;
 	deleteRole: (id: number) => Promise<void>;
+	getRoleFromStore: (id: number) => RoleEntity | null;
 	reset: () => void;
 }

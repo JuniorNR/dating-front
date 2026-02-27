@@ -47,7 +47,7 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 				onLoading?.(false);
 			},
 			onSuccess: () => {
-				onSuccess();
+				onSuccess?.();
 				onLoading(false);
 				checkAuth();
 				if (PUBLIC_ROUTES.includes(pathname)) {

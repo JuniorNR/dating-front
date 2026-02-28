@@ -48,6 +48,9 @@
 
 :root {
 	--radius: 0.625rem;
+	--scrollbar-thumb: oklch(0.72 0 0 / 55%);
+	--scrollbar-thumb-hover: oklch(0.62 0 0 / 72%);
+	--scrollbar-track: transparent;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -82,6 +85,9 @@
 }
 
 .dark {
+	--scrollbar-thumb: oklch(0.62 0 0 / 55%);
+	--scrollbar-thumb-hover: oklch(0.75 0 0 / 72%);
+	--scrollbar-track: transparent;
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);
@@ -118,6 +124,45 @@
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+		scrollbar-width: thin;
+		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	}
+
+	*::-webkit-scrollbar {
+		width: 2px;
+		height: 2px;
+	}
+
+	*::-webkit-scrollbar-track {
+		background: var(--scrollbar-track);
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background: var(--scrollbar-thumb);
+		border-radius: 999px;
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background: var(--scrollbar-thumb-hover);
+		border-radius: 999px;
+	}
+
+	*::-webkit-scrollbar-button {
+		display: none;
+		width: 0;
+		height: 0;
+		background: transparent;
+	}
+
+	*::-webkit-scrollbar-button:single-button,
+	*::-webkit-scrollbar-button:vertical:decrement,
+	*::-webkit-scrollbar-button:vertical:increment,
+	*::-webkit-scrollbar-button:horizontal:decrement,
+	*::-webkit-scrollbar-button:horizontal:increment {
+		display: none;
+		width: 0;
+		height: 0;
+		background: transparent;
 	}
 	body {
 		@apply bg-background text-foreground;

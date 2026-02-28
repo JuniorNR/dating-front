@@ -14,7 +14,7 @@ export const getUpdateRoleSchema = (tValidation: TFunction<'validation'>) => {
 			tValidation('minSymbols', {
 				count: 3,
 			}),
-		),
+		).regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
 		description: z.string().min(
 			10,
 			tValidation('minSymbols', {
@@ -37,7 +37,7 @@ export const getCreateRoleSchema = (tValidation: TFunction<'validation'>) => {
 			tValidation('minSymbols', {
 				count: 3,
 			}),
-		),
+		).regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
 		description: z.string().min(
 			10,
 			tValidation('minSymbols', {

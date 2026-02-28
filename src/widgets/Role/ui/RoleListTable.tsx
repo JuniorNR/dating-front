@@ -1,7 +1,7 @@
 'use client';
 import { Plus } from 'lucide-react';
 import { Reorder } from 'motion/react';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
 import { RoleEntity } from '@/shared/api/ApiGenerated';
@@ -15,6 +15,12 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [sortedRoles, setSortedRoles] = useState<RoleEntity[]>(roles);
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
+
+	useEffect(() => {
+		setSortedRoles(roles);
+	}, [
+		roles,
+	]);
 
 	return (
 		<section className="rounded-2xl border border-border bg-card p-4 sm:p-5">
@@ -74,15 +80,31 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 				<table className="min-w-full border-collapse text-left">
 					<thead>
 						<tr className="bg-accent">
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.order')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.id')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.type')}</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.order')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.id')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.type')}
+							</th>
 							<th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.role')}</th>
-							<th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.description')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.users')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.created')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.updated')}</th>
-							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{tRole('RoleListTable.columns.actions')}</th>
+							<th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.description')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.users')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.created')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.updated')}
+							</th>
+							<th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+								{tRole('RoleListTable.columns.actions')}
+							</th>
 						</tr>
 					</thead>
 					<Reorder.Group

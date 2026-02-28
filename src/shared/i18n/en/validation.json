@@ -4,5 +4,6 @@
 	"passwordUppercase": "Password must contain at least one uppercase letter",
 	"passwordLowercase": "Password must contain at least one lowercase letter",
 	"passwordNumber": "Password must contain at least one number",
-	"passwordSpecial": "Password must contain at least one special character"
+	"passwordSpecial": "Password must contain at least one special character",
+	"noCyrillic": "Cyrillic is not allowed"
 }

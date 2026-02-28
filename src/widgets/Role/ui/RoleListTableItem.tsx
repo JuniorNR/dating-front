@@ -12,6 +12,11 @@ import { RoleListTableItemProps } from '../model/role.types';
 
 export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) => {
 	const { t: tRole } = useTranslation('role');
+	const isProtectedRole = [
+		'user',
+		'admin',
+		'super-user',
+	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const { deleteRole } = useRoleStore();
@@ -59,7 +64,7 @@ export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) =
 								className="text-muted-foreground hover:text-foreground"
 								aria-label={tRole('RoleListTable.actions.editRoleData')}
 								title={tRole('RoleListTable.actions.editRoleData')}
-								disabled={role.type === 'user'}
+								disabled={isProtectedRole}
 							>
 								<Pencil />
 							</Button>
@@ -109,7 +114,7 @@ export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) =
 								className="text-destructive hover:text-destructive"
 								aria-label={tRole('RoleListTable.actions.deleteRole')}
 								title={tRole('RoleListTable.actions.deleteRole')}
-								disabled={role.type === 'user'}
+								disabled={isProtectedRole}
 							>
 								<Trash2 />
 							</Button>

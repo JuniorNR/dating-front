@@ -1,7 +1,7 @@
 'use client';
 import { Plus } from 'lucide-react';
 import { Reorder } from 'motion/react';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
 import { RoleEntity } from '@/shared/api/ApiGenerated';
@@ -15,6 +15,12 @@ export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [sortedRoles, setSortedRoles] = useState<RoleEntity[]>(roles);
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
+
+	useEffect(() => {
+		setSortedRoles(roles);
+	}, [
+		roles,
+	]);
 
 	return (
 		<section className="rounded-2xl border border-border bg-card p-4 sm:p-5">

@@ -9,6 +9,11 @@ import { Modal, SimpleModal } from '@/widgets';
 import { RoleListTerminalItemProps } from '../model/role.types';
 
 export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) => {
+	const isProtectedRole = [
+		'user',
+		'admin',
+		'super-user',
+	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const { deleteRole } = useRoleStore();
@@ -47,7 +52,7 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 								<Button
 									size="xs"
 									type="button"
-									disabled={role.type === 'user'}
+									disabled={isProtectedRole}
 									className="w-full justify-start rounded border border-emerald-500/40 bg-emerald-200/60 px-2 py-1 text-left text-[11px] text-emerald-800 transition-colors hover:bg-emerald-300/70 dark:border-emerald-400/40 dark:bg-emerald-900/50 dark:text-emerald-200 dark:hover:bg-emerald-800/70"
 								>
 									$ role edit data --id={role.id}
@@ -71,6 +76,7 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 						<Button
 							size="xs"
 							type="button"
+							disabled={isProtectedRole}
 							className="w-full justify-start rounded border border-emerald-500/40 bg-emerald-200/60 px-2 py-1 text-left text-[11px] text-emerald-800 transition-colors hover:bg-emerald-300/70 dark:border-emerald-400/40 dark:bg-emerald-900/50 dark:text-emerald-200 dark:hover:bg-emerald-800/70"
 						>
 							$ role get users_list --id={role.id}
@@ -87,7 +93,7 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 								<Button
 									size="xs"
 									type="button"
-									disabled={role.type === 'user'}
+									disabled={isProtectedRole}
 									className="w-full justify-start rounded border border-emerald-500/40 bg-emerald-200/60 px-2 py-1 text-left text-[11px] text-emerald-800 transition-colors hover:bg-emerald-300/70 dark:border-emerald-400/40 dark:bg-emerald-900/50 dark:text-emerald-200 dark:hover:bg-emerald-800/70"
 								>
 									$ role delete --id={role.id}

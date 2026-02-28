@@ -16,6 +16,11 @@ interface RoleListListItemProps {
 
 export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 	const { t: tRole } = useTranslation('role');
+	const isProtectedRole = [
+		'user',
+		'admin',
+		'super-user',
+	].includes(role.type.toLowerCase());
 	const formatDate = (date: string) => {
 		return format(new Date(date), 'dd.MM.yyyy hh:mm');
 	};
@@ -54,7 +59,7 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 									className="text-muted-foreground hover:text-foreground"
 									aria-label={tRole('RoleListListItem.actions.editRole')}
 									title={tRole('RoleListListItem.actions.editRole')}
-									disabled={role.type === 'user'}
+									disabled={isProtectedRole}
 								>
 									<Pencil />
 								</Button>
@@ -105,7 +110,7 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 									className="text-destructive hover:text-destructive"
 									aria-label={tRole('RoleListListItem.actions.deleteRole')}
 									title={tRole('RoleListListItem.actions.deleteRole')}
-									disabled={role.type === 'user'}
+									disabled={isProtectedRole}
 								>
 									<Trash2 />
 								</Button>

@@ -1,8 +1,8 @@
 import { TFunction } from 'i18next';
-import { Handshake, LogOut, MessageCircle, Settings, UserCog, UserKey, UserPen, Users } from 'lucide-react';
+import { Handshake, LogOut, Megaphone, MessageCircle, Settings, UserCog, UserKey, UserPen, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/entities/user';
-import { ROLES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
+import { INFORMATION_ROUTES, ROLES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
 
 export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
 	const userStore = useUserStore();
@@ -107,4 +107,21 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]
 	};
 
 	return profileNavItemsUserData;
+};
+
+export const useInformationNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
+	const informationNavItemsData = {
+		title: 'Information',
+		links: [
+			{
+				title: 'Announcements',
+				href: INFORMATION_ROUTES.ANNOUNCEMENTS,
+				icon: Megaphone,
+				description: 'Announcements description',
+			},
+		],
+		buttons: [],
+	};
+
+	return informationNavItemsData;
 };

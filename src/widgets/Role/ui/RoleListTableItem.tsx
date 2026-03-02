@@ -19,7 +19,7 @@ export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) =
 	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
-	const { deleteRole } = useRoleStore();
+	const { remove } = useRoleStore();
 
 	const formatDate = (date: string) => {
 		return format(new Date(date), 'dd.MM.yyyy hh:mm');
@@ -103,7 +103,7 @@ export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) =
 						description={tRole('RoleListTable.modals.deleteRoleDescription')}
 						onSuccess={() => {
 							setIsLoadingModalDelete(false);
-							deleteRole(role.id);
+							remove(role.id);
 						}}
 						isLoading={isLoadingModalDelete}
 						renderTrigger={

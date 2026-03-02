@@ -36,12 +36,99 @@ export interface CreateUserDto {
   password: string;
 }
 
-export interface AnnouncementEntity {
+/**
+ * @nullable
+ */
+export type AnnouncementCategoryTranslationEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementCategoryTranslationEntity {
   id: number;
+  locale: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementCategoryTranslationEntityUpdatedAt;
+}
+
+/**
+ * @nullable
+ */
+export type AnnouncementCategoryEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementCategoryEntity {
+  id: number;
+  type: string;
+  translations: AnnouncementCategoryTranslationEntity[];
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementCategoryEntityUpdatedAt;
+}
+
+export interface AnnouncementAuthorEntity {
+  /** Unique id */
+  id: number;
+  /** Username */
+  username: string;
+  /** Email */
+  email: string;
+}
+
+/**
+ * @nullable
+ */
+export type AnnouncementTranslationsEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementTranslationsEntity {
+  /** Unique id */
+  id: number;
+  locale: string;
   title: string;
   content: string;
-  author: UserEntity;
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementTranslationsEntityUpdatedAt;
+}
+
+/**
+ * Updated at
+ * @nullable
+ */
+export type AnnouncementEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementEntity {
+  /** Unique id */
+  id: number;
+  /** Category of announcement */
+  category: AnnouncementCategoryEntity;
+  /** Category id */
+  categoryId: number;
+  /** Author of announcement */
+  author: AnnouncementAuthorEntity;
+  /** Author id */
   authorId: number;
+  /** Announcement translations */
+  translations: AnnouncementTranslationsEntity[];
+  /** Created at */
+  createdAt: string;
+  /**
+   * Updated at
+   * @nullable
+   */
+  updatedAt: AnnouncementEntityUpdatedAt;
+}
+
+export interface RoleEntity {
+  /** Unique id */
+  id: number;
+  /** Unique name of role */
+  name: string;
+  /** Unique type of role like a name */
+  type: string;
+  /** Description about role */
+  description: string;
+  /** All users, who have this role */
+  users: UserEntity[];
   createdAt: string;
   updatedAt: string;
 }
@@ -61,21 +148,6 @@ export interface UserEntity {
   announcements: AnnouncementEntity[];
   /** Announcements list of user */
   roles: RoleEntity[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RoleEntity {
-  /** Unique id */
-  id: number;
-  /** Unique name of role */
-  name: string;
-  /** Unique type of role like a name */
-  type: string;
-  /** Description about role */
-  description: string;
-  /** All users, who have this role */
-  users: UserEntity[];
   createdAt: string;
   updatedAt: string;
 }
@@ -124,10 +196,60 @@ export interface UpdateRoleDto {
   description?: string;
 }
 
-export interface CreateAnnouncementDto {
+export interface CreateAnnouncementTranslationDto {
+  locale: string;
   title: string;
   content: string;
+}
+
+export interface CreateAnnouncementDto {
+  categoryId: number;
   authorId: number;
+  translations: CreateAnnouncementTranslationDto[];
+}
+
+export interface UpdateAnnouncementDto {
+  categoryId?: number;
+  authorId?: number;
+  translations?: CreateAnnouncementTranslationDto[];
+}
+
+/**
+ * Updated at
+ * @nullable
+ */
+export type DeleteAnnouncementResponseDtoUpdatedAt = { [key: string]: unknown } | null;
+
+export interface DeleteAnnouncementResponseDto {
+  /** Unique id */
+  id: number;
+  /** Category id */
+  categoryId: number;
+  /** Author id */
+  authorId: number;
+  /** Created at */
+  createdAt: string;
+  /**
+   * Updated at
+   * @nullable
+   */
+  updatedAt: DeleteAnnouncementResponseDtoUpdatedAt;
+}
+
+export interface CreateAnnouncementCategoryTranslationDto {
+  locale: string;
+  title: string;
+  description: string;
+}
+
+export interface CreateAnnouncementCategoryDto {
+  type: string;
+  translations: CreateAnnouncementCategoryTranslationDto[];
+}
+
+export interface UpdateAnnouncementCategoryDto {
+  type?: string;
+  translations?: CreateAnnouncementCategoryTranslationDto[];
 }
 
 export type RoleControllerFindOneByTypeParams = {
@@ -1909,8 +2031,92 @@ export const useRoleControllerRemove = <TError = unknown,
     }
     
 /**
+ * Create announcement
+ * @summary Create announcement
+ */
+export type announcementControllerCreateResponse201 = {
+  data: AnnouncementEntity
+  status: 201
+}
+
+export type announcementControllerCreateResponseSuccess = (announcementControllerCreateResponse201) & {
+  headers: Headers;
+};
+;
+
+export type announcementControllerCreateResponse = (announcementControllerCreateResponseSuccess)
+
+export const getAnnouncementControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/announcement`
+}
+
+export const announcementControllerCreate = async (createAnnouncementDto: CreateAnnouncementDto, options?: RequestInit): Promise<announcementControllerCreateResponse> => {
+  
+  return customApiFetch<announcementControllerCreateResponse>(getAnnouncementControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAnnouncementDto,)
+  }
+);}
+  
+
+
+
+export const getAnnouncementControllerCreateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext> => {
+
+const mutationKey = ['announcementControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerCreate>>, {data: CreateAnnouncementDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  announcementControllerCreate(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerCreate>>>
+    export type AnnouncementControllerCreateMutationBody = CreateAnnouncementDto
+    export type AnnouncementControllerCreateMutationError = unknown
+
+    /**
+ * @summary Create announcement
+ */
+export const useAnnouncementControllerCreate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementControllerCreate>>,
+        TError,
+        {data: CreateAnnouncementDto},
+        TContext
+      > => {
+      return useMutation(getAnnouncementControllerCreateMutationOptions(options), queryClient);
+    }
+    
+/**
  * Get all announcements
- * @summary Get all
+ * @summary Get all announcements
  */
 export type announcementControllerFindAllResponse200 = {
   data: AnnouncementEntity[]
@@ -2001,7 +2207,7 @@ export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<type
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Get all
+ * @summary Get all announcements
  */
 
 export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<typeof announcementControllerFindAll>>, TError = unknown>(
@@ -2021,49 +2227,162 @@ export function useAnnouncementControllerFindAll<TData = Awaited<ReturnType<type
 
 
 /**
- * Create new announcement
- * @summary Create
+ * Get one announcement by id
+ * @summary Get one announcement by id
  */
-export type announcementControllerCreateResponse201 = {
+export type announcementControllerFindOneResponse200 = {
   data: AnnouncementEntity
-  status: 201
+  status: 200
 }
 
-export type announcementControllerCreateResponseSuccess = (announcementControllerCreateResponse201) & {
+export type announcementControllerFindOneResponseSuccess = (announcementControllerFindOneResponse200) & {
   headers: Headers;
 };
 ;
 
-export type announcementControllerCreateResponse = (announcementControllerCreateResponseSuccess)
+export type announcementControllerFindOneResponse = (announcementControllerFindOneResponseSuccess)
 
-export const getAnnouncementControllerCreateUrl = () => {
+export const getAnnouncementControllerFindOneUrl = (id: string,) => {
 
 
   
 
-  return `/api/announcement`
+  return `/api/announcement/${id}`
 }
 
-export const announcementControllerCreate = async (createAnnouncementDto: CreateAnnouncementDto, options?: RequestInit): Promise<announcementControllerCreateResponse> => {
+export const announcementControllerFindOne = async (id: string, options?: RequestInit): Promise<announcementControllerFindOneResponse> => {
   
-  return customApiFetch<announcementControllerCreateResponse>(getAnnouncementControllerCreateUrl(),
+  return customApiFetch<announcementControllerFindOneResponse>(getAnnouncementControllerFindOneUrl(id),
   {      
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      createAnnouncementDto,)
+    method: 'GET'
+    
+    
   }
 );}
   
 
 
 
-export const getAnnouncementControllerCreateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext> => {
 
-const mutationKey = ['announcementControllerCreate'];
+export const getAnnouncementControllerFindOneQueryKey = (id: string,) => {
+    return [
+    `/api/announcement/${id}`
+    ] as const;
+    }
+
+    
+export const getAnnouncementControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAnnouncementControllerFindOneQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof announcementControllerFindOne>>> = ({ signal }) => announcementControllerFindOne(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AnnouncementControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof announcementControllerFindOne>>>
+export type AnnouncementControllerFindOneQueryError = unknown
+
+
+export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof announcementControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof announcementControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get one announcement by id
+ */
+
+export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAnnouncementControllerFindOneQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+/**
+ * Update announcement by id
+ * @summary Update announcement by id
+ */
+export type announcementControllerUpdateResponse200 = {
+  data: AnnouncementEntity
+  status: 200
+}
+
+export type announcementControllerUpdateResponseSuccess = (announcementControllerUpdateResponse200) & {
+  headers: Headers;
+};
+;
+
+export type announcementControllerUpdateResponse = (announcementControllerUpdateResponseSuccess)
+
+export const getAnnouncementControllerUpdateUrl = (id: string,) => {
+
+
+  
+
+  return `/api/announcement/${id}`
+}
+
+export const announcementControllerUpdate = async (id: string,
+    updateAnnouncementDto: UpdateAnnouncementDto, options?: RequestInit): Promise<announcementControllerUpdateResponse> => {
+  
+  return customApiFetch<announcementControllerUpdateResponse>(getAnnouncementControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateAnnouncementDto,)
+  }
+);}
+  
+
+
+
+export const getAnnouncementControllerUpdateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext> => {
+
+const mutationKey = ['announcementControllerUpdate'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -2073,10 +2392,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerCreate>>, {data: CreateAnnouncementDto}> = (props) => {
-          const {data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerUpdate>>, {id: string;data: UpdateAnnouncementDto}> = (props) => {
+          const {id,data} = props ?? {};
 
-          return  announcementControllerCreate(data,requestOptions)
+          return  announcementControllerUpdate(id,data,requestOptions)
         }
 
 
@@ -2086,20 +2405,607 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type AnnouncementControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerCreate>>>
-    export type AnnouncementControllerCreateMutationBody = CreateAnnouncementDto
-    export type AnnouncementControllerCreateMutationError = unknown
+    export type AnnouncementControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerUpdate>>>
+    export type AnnouncementControllerUpdateMutationBody = UpdateAnnouncementDto
+    export type AnnouncementControllerUpdateMutationError = unknown
 
     /**
- * @summary Create
+ * @summary Update announcement by id
  */
-export const useAnnouncementControllerCreate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerCreate>>, TError,{data: CreateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+export const useAnnouncementControllerUpdate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof announcementControllerCreate>>,
+        Awaited<ReturnType<typeof announcementControllerUpdate>>,
         TError,
-        {data: CreateAnnouncementDto},
+        {id: string;data: UpdateAnnouncementDto},
         TContext
       > => {
-      return useMutation(getAnnouncementControllerCreateMutationOptions(options), queryClient);
+      return useMutation(getAnnouncementControllerUpdateMutationOptions(options), queryClient);
+    }
+    
+/**
+ * Delete announcement by id
+ * @summary Delete announcement by id
+ */
+export type announcementControllerRemoveResponse200 = {
+  data: DeleteAnnouncementResponseDto
+  status: 200
+}
+
+export type announcementControllerRemoveResponseSuccess = (announcementControllerRemoveResponse200) & {
+  headers: Headers;
+};
+;
+
+export type announcementControllerRemoveResponse = (announcementControllerRemoveResponseSuccess)
+
+export const getAnnouncementControllerRemoveUrl = (id: string,) => {
+
+
+  
+
+  return `/api/announcement/${id}`
+}
+
+export const announcementControllerRemove = async (id: string, options?: RequestInit): Promise<announcementControllerRemoveResponse> => {
+  
+  return customApiFetch<announcementControllerRemoveResponse>(getAnnouncementControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+  
+
+
+
+export const getAnnouncementControllerRemoveMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['announcementControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerRemove>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  announcementControllerRemove(id,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof announcementControllerRemove>>>
+    
+    export type AnnouncementControllerRemoveMutationError = unknown
+
+    /**
+ * @summary Delete announcement by id
+ */
+export const useAnnouncementControllerRemove = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementControllerRemove>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getAnnouncementControllerRemoveMutationOptions(options), queryClient);
+    }
+    
+/**
+ * @summary Create announcement category with translations
+ */
+export type announcementCategoryControllerCreateResponse201 = {
+  data: void
+  status: 201
+}
+
+export type announcementCategoryControllerCreateResponse400 = {
+  data: void
+  status: 400
+}
+
+export type announcementCategoryControllerCreateResponseSuccess = (announcementCategoryControllerCreateResponse201) & {
+  headers: Headers;
+};
+export type announcementCategoryControllerCreateResponseError = (announcementCategoryControllerCreateResponse400) & {
+  headers: Headers;
+};
+
+export type announcementCategoryControllerCreateResponse = (announcementCategoryControllerCreateResponseSuccess | announcementCategoryControllerCreateResponseError)
+
+export const getAnnouncementCategoryControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/announcement-category`
+}
+
+export const announcementCategoryControllerCreate = async (createAnnouncementCategoryDto: CreateAnnouncementCategoryDto, options?: RequestInit): Promise<announcementCategoryControllerCreateResponse> => {
+  
+  return customApiFetch<announcementCategoryControllerCreateResponse>(getAnnouncementCategoryControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAnnouncementCategoryDto,)
+  }
+);}
+  
+
+
+
+export const getAnnouncementCategoryControllerCreateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext> => {
+
+const mutationKey = ['announcementCategoryControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, {data: CreateAnnouncementCategoryDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  announcementCategoryControllerCreate(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementCategoryControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>>
+    export type AnnouncementCategoryControllerCreateMutationBody = CreateAnnouncementCategoryDto
+    export type AnnouncementCategoryControllerCreateMutationError = void
+
+    /**
+ * @summary Create announcement category with translations
+ */
+export const useAnnouncementCategoryControllerCreate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementCategoryControllerCreate>>,
+        TError,
+        {data: CreateAnnouncementCategoryDto},
+        TContext
+      > => {
+      return useMutation(getAnnouncementCategoryControllerCreateMutationOptions(options), queryClient);
+    }
+    
+/**
+ * @summary Get all announcement categories
+ */
+export type announcementCategoryControllerFindAllResponse200 = {
+  data: void
+  status: 200
+}
+
+export type announcementCategoryControllerFindAllResponseSuccess = (announcementCategoryControllerFindAllResponse200) & {
+  headers: Headers;
+};
+;
+
+export type announcementCategoryControllerFindAllResponse = (announcementCategoryControllerFindAllResponseSuccess)
+
+export const getAnnouncementCategoryControllerFindAllUrl = () => {
+
+
+  
+
+  return `/api/announcement-category`
+}
+
+export const announcementCategoryControllerFindAll = async ( options?: RequestInit): Promise<announcementCategoryControllerFindAllResponse> => {
+  
+  return customApiFetch<announcementCategoryControllerFindAllResponse>(getAnnouncementCategoryControllerFindAllUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getAnnouncementCategoryControllerFindAllQueryKey = () => {
+    return [
+    `/api/announcement-category`
+    ] as const;
+    }
+
+    
+export const getAnnouncementCategoryControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAnnouncementCategoryControllerFindAllQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>> = ({ signal }) => announcementCategoryControllerFindAll({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AnnouncementCategoryControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>>
+export type AnnouncementCategoryControllerFindAllQueryError = unknown
+
+
+export function useAnnouncementCategoryControllerFindAll<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementCategoryControllerFindAll<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>,
+          TError,
+          Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementCategoryControllerFindAll<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all announcement categories
+ */
+
+export function useAnnouncementCategoryControllerFindAll<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAnnouncementCategoryControllerFindAllQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+/**
+ * @summary Get announcement category by id
+ */
+export type announcementCategoryControllerFindOneResponse200 = {
+  data: void
+  status: 200
+}
+
+export type announcementCategoryControllerFindOneResponse404 = {
+  data: void
+  status: 404
+}
+
+export type announcementCategoryControllerFindOneResponseSuccess = (announcementCategoryControllerFindOneResponse200) & {
+  headers: Headers;
+};
+export type announcementCategoryControllerFindOneResponseError = (announcementCategoryControllerFindOneResponse404) & {
+  headers: Headers;
+};
+
+export type announcementCategoryControllerFindOneResponse = (announcementCategoryControllerFindOneResponseSuccess | announcementCategoryControllerFindOneResponseError)
+
+export const getAnnouncementCategoryControllerFindOneUrl = (id: number,) => {
+
+
+  
+
+  return `/api/announcement-category/${id}`
+}
+
+export const announcementCategoryControllerFindOne = async (id: number, options?: RequestInit): Promise<announcementCategoryControllerFindOneResponse> => {
+  
+  return customApiFetch<announcementCategoryControllerFindOneResponse>(getAnnouncementCategoryControllerFindOneUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getAnnouncementCategoryControllerFindOneQueryKey = (id: number,) => {
+    return [
+    `/api/announcement-category/${id}`
+    ] as const;
+    }
+
+    
+export const getAnnouncementCategoryControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAnnouncementCategoryControllerFindOneQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>> = ({ signal }) => announcementCategoryControllerFindOne(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AnnouncementCategoryControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>>
+export type AnnouncementCategoryControllerFindOneQueryError = void
+
+
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>,
+          TError,
+          Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get announcement category by id
+ */
+
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAnnouncementCategoryControllerFindOneQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+/**
+ * @summary Update announcement category and translations
+ */
+export type announcementCategoryControllerUpdateResponse200 = {
+  data: void
+  status: 200
+}
+
+export type announcementCategoryControllerUpdateResponse400 = {
+  data: void
+  status: 400
+}
+
+export type announcementCategoryControllerUpdateResponse404 = {
+  data: void
+  status: 404
+}
+
+export type announcementCategoryControllerUpdateResponseSuccess = (announcementCategoryControllerUpdateResponse200) & {
+  headers: Headers;
+};
+export type announcementCategoryControllerUpdateResponseError = (announcementCategoryControllerUpdateResponse400 | announcementCategoryControllerUpdateResponse404) & {
+  headers: Headers;
+};
+
+export type announcementCategoryControllerUpdateResponse = (announcementCategoryControllerUpdateResponseSuccess | announcementCategoryControllerUpdateResponseError)
+
+export const getAnnouncementCategoryControllerUpdateUrl = (id: number,) => {
+
+
+  
+
+  return `/api/announcement-category/${id}`
+}
+
+export const announcementCategoryControllerUpdate = async (id: number,
+    updateAnnouncementCategoryDto: UpdateAnnouncementCategoryDto, options?: RequestInit): Promise<announcementCategoryControllerUpdateResponse> => {
+  
+  return customApiFetch<announcementCategoryControllerUpdateResponse>(getAnnouncementCategoryControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateAnnouncementCategoryDto,)
+  }
+);}
+  
+
+
+
+export const getAnnouncementCategoryControllerUpdateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext> => {
+
+const mutationKey = ['announcementCategoryControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, {id: number;data: UpdateAnnouncementCategoryDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  announcementCategoryControllerUpdate(id,data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementCategoryControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>>
+    export type AnnouncementCategoryControllerUpdateMutationBody = UpdateAnnouncementCategoryDto
+    export type AnnouncementCategoryControllerUpdateMutationError = void
+
+    /**
+ * @summary Update announcement category and translations
+ */
+export const useAnnouncementCategoryControllerUpdate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>,
+        TError,
+        {id: number;data: UpdateAnnouncementCategoryDto},
+        TContext
+      > => {
+      return useMutation(getAnnouncementCategoryControllerUpdateMutationOptions(options), queryClient);
+    }
+    
+/**
+ * @summary Delete announcement category by id
+ */
+export type announcementCategoryControllerRemoveResponse200 = {
+  data: void
+  status: 200
+}
+
+export type announcementCategoryControllerRemoveResponse404 = {
+  data: void
+  status: 404
+}
+
+export type announcementCategoryControllerRemoveResponseSuccess = (announcementCategoryControllerRemoveResponse200) & {
+  headers: Headers;
+};
+export type announcementCategoryControllerRemoveResponseError = (announcementCategoryControllerRemoveResponse404) & {
+  headers: Headers;
+};
+
+export type announcementCategoryControllerRemoveResponse = (announcementCategoryControllerRemoveResponseSuccess | announcementCategoryControllerRemoveResponseError)
+
+export const getAnnouncementCategoryControllerRemoveUrl = (id: number,) => {
+
+
+  
+
+  return `/api/announcement-category/${id}`
+}
+
+export const announcementCategoryControllerRemove = async (id: number, options?: RequestInit): Promise<announcementCategoryControllerRemoveResponse> => {
+  
+  return customApiFetch<announcementCategoryControllerRemoveResponse>(getAnnouncementCategoryControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+  
+
+
+
+export const getAnnouncementCategoryControllerRemoveMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerRemove>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['announcementCategoryControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementCategoryControllerRemove>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  announcementCategoryControllerRemove(id,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnnouncementCategoryControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerRemove>>>
+    
+    export type AnnouncementCategoryControllerRemoveMutationError = void
+
+    /**
+ * @summary Delete announcement category by id
+ */
+export const useAnnouncementCategoryControllerRemove = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof announcementCategoryControllerRemove>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getAnnouncementCategoryControllerRemoveMutationOptions(options), queryClient);
     }

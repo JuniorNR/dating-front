@@ -11,14 +11,14 @@ export const Role: FC = () => {
 	const { t: tRole } = useTranslation('role');
 	const localStorageActiveTab = localStorage.getItem('rolesActiveTab') as RoleListVariant;
 	const [listVariant, setListVariant] = useState<RoleListVariant>(localStorageActiveTab || 'byList');
-	const { roles, isLoading, isInitialized, getRoles } = useRoleStore();
+	const { items: roles, isInitialized, getAll } = useRoleStore();
 
 	useEffect(() => {
 		if (!isInitialized) {
-			getRoles();
+			getAll();
 		}
 	}, [
-		getRoles,
+		getAll,
 		isInitialized,
 	]);
 

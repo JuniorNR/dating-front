@@ -6,8 +6,9 @@
 		"start:dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "biome check",
-		"format": "biome format --write",
+		"lint:biome": "biome check",
+		"lint:biome:fix": "biome format --write",
+		"lint:ts": "tsc --noEmit",
 		"api:generate": "orval"
 	},
 	"dependencies": {

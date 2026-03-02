@@ -9,12 +9,15 @@ export const getUpdateRoleSchema = (tValidation: TFunction<'validation'>) => {
 				count: 3,
 			}),
 		),
-		type: z.string().min(
-			3,
-			tValidation('minSymbols', {
-				count: 3,
-			}),
-		).regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
+		type: z
+			.string()
+			.min(
+				3,
+				tValidation('minSymbols', {
+					count: 3,
+				}),
+			)
+			.regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
 		description: z.string().min(
 			10,
 			tValidation('minSymbols', {
@@ -32,12 +35,15 @@ export const getCreateRoleSchema = (tValidation: TFunction<'validation'>) => {
 				count: 3,
 			}),
 		),
-		type: z.string().min(
-			3,
-			tValidation('minSymbols', {
-				count: 3,
-			}),
-		).regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
+		type: z
+			.string()
+			.min(
+				3,
+				tValidation('minSymbols', {
+					count: 3,
+				}),
+			)
+			.regex(/^[^\u0400-\u04FF]+$/, tValidation('noCyrillic')),
 		description: z.string().min(
 			10,
 			tValidation('minSymbols', {

@@ -16,7 +16,7 @@ import {
 	NavigationMenuTrigger,
 } from '@/shared/ui/navigation-menu';
 import { LanguageSwitcher, Modal, ThemeSwitcher } from '@/widgets';
-import { useProfileNavItems } from '../model/header.utils';
+import { useInformationNavItems, useProfileNavItems } from '../model/header.utils';
 
 export const Header: FC = () => {
 	const { t: tCommon } = useTranslation('common');
@@ -30,6 +30,7 @@ export const Header: FC = () => {
 	const { user, isAuth, roles } = useUserStore();
 
 	const profileNavItems = useProfileNavItems(tCommon, roles);
+	const informationNavItems = useInformationNavItems(tCommon, roles);
 
 	return (
 		<header className="h-[50px] bg-accent">
@@ -43,42 +44,57 @@ export const Header: FC = () => {
 							<LanguageSwitcher />
 						</NavigationMenuItem>
 						{isAuth && (
-							<NavigationMenuItem>
-								<NavigationMenuTrigger
-									className="cursor-copy bg-transparent text-xl text-foreground hover:bg-muted focus:bg-muted data-[state=open]:bg-muted"
-									onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}
-								>
-									@{user?.username}
-								</NavigationMenuTrigger>
-								<NavigationMenuContent
-									align="right"
-									className="w-[400px]"
-								>
-									{profileNavItems.links.map((profileItemLink) => (
-										<NavigationMenuLink
-											key={profileItemLink.href}
-											asChild
-											className="w-full"
-											href={profileItemLink.href}
-											icon={profileItemLink.icon}
-											title={profileItemLink.title}
-											description={profileItemLink.description}
-										/>
-									))}
-									{profileNavItems.buttons.map((profileItemButton) => (
-										<NavigationMenuButton
-											key={profileItemButton.title}
-											asChild
-											className="w-full"
-											icon={profileItemButton.icon}
-											title={profileItemButton.title}
-											description={profileItemButton.description}
-											onClick={profileItemButton.onClick}
-											color="danger"
-										/>
-									))}
-								</NavigationMenuContent>
-							</NavigationMenuItem>
+							<>
+								<NavigationMenuItem>
+									<NavigationMenuTrigger className="text-lg">{informationNavItems.title}</NavigationMenuTrigger>
+									<NavigationMenuContent>
+										{informationNavItems.links.map((informationItemLink) => (
+											<NavigationMenuLink
+												key={informationItemLink.href}
+												asChild
+												className="w-full"
+												href={informationItemLink.href}
+												icon={informationItemLink.icon}
+												title={informationItemLink.title}
+												description={informationItemLink.description}
+											/>
+										))}
+									</NavigationMenuContent>
+								</NavigationMenuItem>
+								<NavigationMenuItem>
+									<NavigationMenuTrigger
+										className="cursor-copy text-xl"
+										onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}
+									>
+										@{user?.username}
+									</NavigationMenuTrigger>
+									<NavigationMenuContent>
+										{profileNavItems.links.map((profileItemLink) => (
+											<NavigationMenuLink
+												key={profileItemLink.href}
+												asChild
+												className="w-full"
+												href={profileItemLink.href}
+												icon={profileItemLink.icon}
+												title={profileItemLink.title}
+												description={profileItemLink.description}
+											/>
+										))}
+										{profileNavItems.buttons.map((profileItemButton) => (
+											<NavigationMenuButton
+												key={profileItemButton.title}
+												asChild
+												className="w-full"
+												icon={profileItemButton.icon}
+												title={profileItemButton.title}
+												description={profileItemButton.description}
+												onClick={profileItemButton.onClick}
+												color="danger"
+											/>
+										))}
+									</NavigationMenuContent>
+								</NavigationMenuItem>
+							</>
 						)}
 						{!isAuth && (
 							<>

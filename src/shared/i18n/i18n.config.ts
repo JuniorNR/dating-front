@@ -10,9 +10,6 @@ import formRu from './ru/form.json';
 import roleRu from './ru/role.json';
 import validationRu from './ru/validation.json';
 
-// import { CommonTranslationTypes } from './types/common.types';
-// import { ValidationTranslationTypes } from './types/validation.types';
-
 const resources: Record<
 	string,
 	{
@@ -42,6 +39,7 @@ i18n
 	.init({
 		resources,
 		detection: {
+			lookupCookie: 'locale',
 			order: [
 				'cookie',
 				'localStorage',
@@ -51,7 +49,6 @@ i18n
 				'cookie',
 				'localStorage',
 			],
-			lookupLocalStorage: 'language',
 		},
 		fallbackLng: 'en',
 		interpolation: {

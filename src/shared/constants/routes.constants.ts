@@ -14,3 +14,7 @@ export const SUPERUSER_ROUTES = {
 	ROLES: '/roles',
 	USERS: '/users',
 } as const;
+
+export const INFORMATION_ROUTES = {
+	ANNOUNCEMENTS: '/announcements',
+} as const;

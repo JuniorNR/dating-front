@@ -26,7 +26,7 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 	};
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
-	const { deleteRole } = useRoleStore();
+	const { remove } = useRoleStore();
 
 	return (
 		<Reorder.Item
@@ -99,7 +99,7 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 							description={tRole('RoleListListItem.deleteModal.description')}
 							onSuccess={() => {
 								setIsLoadingModalDelete(false);
-								deleteRole(role.id);
+								remove(role.id);
 							}}
 							isLoading={isLoadingModalDelete}
 							renderTrigger={
@@ -127,8 +127,16 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 							{role.type}
 						</span>
 						<div className="flex flex-col items-end gap-0.5">
-							<span>{tRole('RoleListListItem.meta.created', { value: formatDate(role.createdAt) })}</span>
-							<span>{tRole('RoleListListItem.meta.updated', { value: formatDate(role.updatedAt) })}</span>
+							<span>
+								{tRole('RoleListListItem.meta.created', {
+									value: formatDate(role.createdAt),
+								})}
+							</span>
+							<span>
+								{tRole('RoleListListItem.meta.updated', {
+									value: formatDate(role.updatedAt),
+								})}
+							</span>
 						</div>
 					</div>
 				</div>

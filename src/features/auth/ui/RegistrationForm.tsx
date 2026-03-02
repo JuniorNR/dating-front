@@ -46,7 +46,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 				onLoading(false);
 			},
 			onSuccess: () => {
-				onSuccess();
+				onSuccess?.();
 				onLoading(false);
 				checkAuth();
 				if (PUBLIC_ROUTES.includes(pathname)) {

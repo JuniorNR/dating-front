@@ -12,7 +12,7 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onS
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
-	const { addRole } = useRoleStore();
+	const { create } = useRoleStore();
 
 	const { handleSubmit, control, watch } = useForm<CreateRoleFormType>({
 		resolver: zodResolver(getCreateRoleSchema(tValidation)),
@@ -35,7 +35,7 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onS
 
 	const onSubmit: SubmitHandler<CreateRoleFormType> = async (data) => {
 		onLoading?.(true);
-		await addRole(data);
+		await create(data);
 		onSuccess?.();
 		onLoading?.(false);
 	};

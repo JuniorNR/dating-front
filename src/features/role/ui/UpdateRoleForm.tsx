@@ -12,9 +12,9 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
-	const { updateRole, getRoleFromStore } = useRoleStore();
+	const { update, getFromStoreById } = useRoleStore();
 
-	const currentRole = getRoleFromStore(roleId);
+	const currentRole = getFromStoreById(roleId);
 
 	const { handleSubmit, control, watch } = useForm<UpdateRoleFormType>({
 		resolver: zodResolver(getUpdateRoleSchema(tValidation)),
@@ -37,7 +37,7 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 
 	const onSubmit: SubmitHandler<UpdateRoleFormType> = (data) => {
 		onLoading?.(true);
-		updateRole(roleId, data);
+		update(roleId, data);
 	};
 
 	return (

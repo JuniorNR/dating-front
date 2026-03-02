@@ -8,7 +8,7 @@ export function proxy(request: NextRequest) {
 	if (PUBLIC_ROUTES.includes(pathname)) {
 		return NextResponse.next();
 	}
-
+	// TODO: Создать редирект при 401
 	if (!token) {
 		const referer = request.headers.get('referer');
 

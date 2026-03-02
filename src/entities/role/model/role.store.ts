@@ -1,40 +1,14 @@
 import { create } from 'zustand';
-import {
-	CreateRoleDto,
-	roleControllerCreate,
-	roleControllerFindAll,
-	roleControllerRemove,
-	roleControllerUpdate,
-	UpdateRoleDto,
-} from '@/shared/api/ApiGenerated';
+import { roleControllerCreate, roleControllerFindAll, roleControllerRemove, roleControllerUpdate } from '@/shared/api/ApiGenerated';
 import { apiError } from '@/shared/api/apiFetch';
 import { RoleState } from './role.types';
 
 export const useRoleStore = create<RoleState>()((set, get) => ({
-	roles: null,
+	items: [],
 	isLoading: true,
 	isInitialized: false,
 	error: null,
-	getRoles: async () => {
-		set({
-			isLoading: true,
-		});
-		try {
-			const result = await roleControllerFindAll();
-			set({
-				roles: result.data,
-				isLoading: false,
-				isInitialized: true,
-			});
-		} catch (error) {
-			set({
-				isLoading: false,
-				isInitialized: true,
-				error: apiError(error, '[role][get]: unknown error'),
-			});
-		}
-	},
-	addRole: async (dto: CreateRoleDto) => {
+	create: async (dto) => {
 		set({
 			isLoading: true,
 		});
@@ -42,8 +16,8 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			const result = await roleControllerCreate(dto);
 
 			set((state) => ({
-				roles: [
-					...(state.roles || []),
+				items: [
+					...(state.items || []),
 					result.data,
 				],
 				isLoading: false,
@@ -55,7 +29,27 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			});
 		}
 	},
-	updateRole: async (id: number, dto: UpdateRoleDto) => {
+	getAll: async () => {
+		set({
+			isLoading: true,
+		});
+		try {
+			const result = await roleControllerFindAll();
+			set({
+				items: result.data,
+				isLoading: false,
+				isInitialized: true,
+			});
+		} catch (error) {
+			set({
+				isLoading: false,
+				isInitialized: true,
+				error: apiError(error, '[role][get]: unknown error'),
+			});
+		}
+	},
+	getById: async () => {},
+	update: async (id, dto) => {
 		set({
 			isLoading: true,
 		});
@@ -64,7 +58,7 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			const result = await roleControllerUpdate(String(id), dto);
 			set((state) => ({
 				isLoading: false,
-				roles: (state.roles || []).map((role) => (role.id === id ? result.data : role)),
+				items: (state.items || []).map((role) => (role.id === id ? result.data : role)),
 			}));
 		} catch (error) {
 			set({
@@ -73,7 +67,7 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			});
 		}
 	},
-	deleteRole: async (id) => {
+	remove: async (id) => {
 		set({
 			isLoading: true,
 		});
@@ -82,7 +76,7 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			await roleControllerRemove(String(id));
 
 			set((state) => ({
-				roles: (state.roles || []).filter((role) => role.id !== id),
+				items: (state.items || []).filter((role) => role.id !== id),
 				isLoading: false,
 			}));
 		} catch (error) {
@@ -92,12 +86,12 @@ export const useRoleStore = create<RoleState>()((set, get) => ({
 			});
 		}
 	},
-	getRoleFromStore: (id: number) => {
-		return get().roles?.find((role) => role.id === id) ?? null;
+	getFromStoreById: (id) => {
+		return get().items.find((role) => role.id === id);
 	},
 	reset: () =>
 		set({
-			roles: [],
+			items: [],
 			isLoading: false,
 			isInitialized: false,
 			error: null,

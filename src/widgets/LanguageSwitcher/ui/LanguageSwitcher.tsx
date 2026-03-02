@@ -1,6 +1,5 @@
 'use client';
-// import { setCookie } from '@/shared/lib/cookies';
-import { setCookie } from 'cookies-next/client';
+
 import { Languages } from 'lucide-react';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +11,6 @@ export const LanguageSwitcher: FC = () => {
 
 	const changeLanguage = async (lang: 'en' | 'ru') => {
 		await i18n.changeLanguage(lang);
-		setCookie(String(process.env.NEXT_PUBLIC_LANGUAGE_COOKIE_NAME), lang);
 	};
 
 	return (

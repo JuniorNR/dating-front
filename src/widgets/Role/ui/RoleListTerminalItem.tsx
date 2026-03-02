@@ -16,18 +16,14 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
-	const { deleteRole } = useRoleStore();
+	const { remove } = useRoleStore();
 
 	const formatDate = (date: string) => {
 		return format(new Date(date), 'dd.MM.yyyy hh:mm');
 	};
 
 	return (
-		<li
-			className={cn(
-				'bg-emerald-100/70 p-3 font-mono dark:bg-emerald-950/30',
-			)}
-		>
+		<li className={cn('bg-emerald-100/70 p-3 font-mono dark:bg-emerald-950/30')}>
 			<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 				<div className="min-w-0">
 					<p className="text-xs text-emerald-700 dark:text-emerald-400">$ role.get --id {role.id}</p>
@@ -86,7 +82,7 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 							description="Delete this role"
 							onSuccess={() => {
 								setIsLoadingModalDelete(false);
-								deleteRole(role.id);
+								remove(role.id);
 							}}
 							isLoading={isLoadingModalDelete}
 							renderTrigger={

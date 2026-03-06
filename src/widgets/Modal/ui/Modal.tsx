@@ -21,37 +21,35 @@ export const Modal: FC<ModalProps> = ({
 	const { t: tCommon } = useTranslation('common');
 
 	return (
-		<div>
-			<Dialog
-				open={isOpen}
-				onOpenChange={setIsOpen}
-			>
-				<DialogTrigger asChild>{renderTrigger ?? <Button variant="outline">{openText}</Button>}</DialogTrigger>
-				<DialogContent className="sm:max-w-sm">
-					<DialogHeader>
-						<DialogTitle>{title}</DialogTitle>
-						<DialogDescription>{description}</DialogDescription>
-					</DialogHeader>
-					{children}
-					<DialogFooter>
-						<DialogClose asChild>
-							<Button
-								variant="outline"
-								form={formId}
-							>
-								{closeText ?? tCommon('modal.close')}
-							</Button>
-						</DialogClose>
+		<Dialog
+			open={isOpen}
+			onOpenChange={setIsOpen}
+		>
+			<DialogTrigger asChild>{renderTrigger ?? <Button variant="outline">{openText}</Button>}</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>{title}</DialogTitle>
+					<DialogDescription>{description}</DialogDescription>
+				</DialogHeader>
+				{children}
+				<DialogFooter>
+					<DialogClose asChild>
 						<Button
-							type="submit"
+							variant="outline"
 							form={formId}
-							isLoading={isLoading}
 						>
-							{confirmText ?? tCommon('modal.confirm')}
+							{closeText ?? tCommon('modal.close')}
 						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
-		</div>
+					</DialogClose>
+					<Button
+						type="submit"
+						form={formId}
+						isLoading={isLoading}
+					>
+						{confirmText ?? tCommon('modal.confirm')}
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 };

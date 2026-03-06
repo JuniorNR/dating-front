@@ -30,5 +30,22 @@
 			"placeholder": "Enter role description...",
 			"example": "Example: Can moderate user-generated content."
 		}
+	},
+	"announcement": {
+		"category": {
+			"label": "Category",
+			"placeholder": "Select announcement category...",
+			"example": "Example: Community"
+		},
+		"title": {
+			"label": "Title",
+			"placeholder": "Enter title...",
+			"example": "Example: The result of the day"
+		},
+		"content": {
+			"label": "Content",
+			"placeholder": "Enter announcement content...",
+			"example": "Example: Today was a good day!"
+		}
 	}
 }

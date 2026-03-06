@@ -1,0 +1,35 @@
+{
+	"Announcements": {
+		"title": "Объявления",
+		"description": "Лента объявлений.",
+		"createButton": "Создать объявление",
+		"loading": "Загрузка объявлений...",
+		"empty": "Объявления пока отсутствуют."
+	},
+	"AnnouncementsItem": {
+		"editButton": "Редактировать",
+		"deleteButton": "Удалить",
+		"deleteModal": {
+			"title": "Удалить объявление",
+			"description": "Вы уверены, что хотите удалить объявление «{{title}}»?"
+		}
+	},
+	"CreateAnnouncementForm": {
+		"modal": {
+			"title": "Создание объявления"
+		},
+		"translations": {
+			"legendRu": "Русский перевод",
+			"legendEn": "Английский перевод"
+		}
+	},
+	"UpdateAnnouncementForm": {
+		"modal": {
+			"title": "Редактировать «{{title}}»"
+		},
+		"translations": {
+			"legendRu": "Русский перевод",
+			"legendEn": "Английский перевод"
+		}
+	}
+}

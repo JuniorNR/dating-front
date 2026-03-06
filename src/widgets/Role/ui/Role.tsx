@@ -2,6 +2,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
+import { ErrorComponent } from '@/widgets';
 import { RoleListVariant } from '../model/role.types';
 import { RoleSkeleton } from './Role.skeleton';
 import { RoleList } from './RoleList';
@@ -11,7 +12,7 @@ export const Role: FC = () => {
 	const { t: tRole } = useTranslation('role');
 	const localStorageActiveTab = localStorage.getItem('rolesActiveTab') as RoleListVariant;
 	const [listVariant, setListVariant] = useState<RoleListVariant>(localStorageActiveTab || 'byList');
-	const { items: roles, isInitialized, getAll } = useRoleStore();
+	const { items: roles, isInitialized, getAll, error } = useRoleStore();
 
 	useEffect(() => {
 		if (!isInitialized) {
@@ -24,6 +25,15 @@ export const Role: FC = () => {
 
 	if (!isInitialized) {
 		return <RoleSkeleton />;
+	}
+
+	if (error) {
+		return (
+			<ErrorComponent
+				error={error}
+				isGlobal
+			/>
+		);
 	}
 
 	return (

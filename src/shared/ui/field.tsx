@@ -29,13 +29,15 @@ function FieldLegend({
 		<legend
 			data-slot="field-legend"
 			data-variant={variant}
-			className={cn('mb-3 font-medium', 'data-[variant=legend]:text-base', 'data-[variant=label]:text-sm', className)}
+			className={cn('font-medium', 'data-[variant=legend]:text-base', 'data-[variant=label]:text-sm', className)}
 			{...props}
 		/>
 	);
 }
 
-function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
+function FieldGroup({ title, className, ...props }: React.ComponentProps<'div'> & {
+	title?: string;
+}) {
 	return (
 		<div
 			data-slot="field-group"

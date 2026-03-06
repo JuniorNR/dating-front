@@ -1,5 +1,13 @@
 {
 	"minSymbols": "{{count}} - minimum count of symbols",
+	"maxSymbols": "{{count}} - maximum count of symbols",
+	"exactSymbols": "Must be exactly {{count}} symbols",
+	"minItems": "Minimum {{count}} item",
+	"mustBeInteger": "Value must be an integer",
+	"mustBePositive": "Value must be greater than 0",
+	"requiredField": "Field is required",
+	"unsupportedLocale": "Only ru and en locales are allowed",
+	"duplicateLocale": "Locale must be unique",
 	"emailIncorrect": "Email is incorrect",
 	"passwordUppercase": "Password must contain at least one uppercase letter",
 	"passwordLowercase": "Password must contain at least one lowercase letter",

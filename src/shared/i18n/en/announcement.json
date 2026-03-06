@@ -1,0 +1,35 @@
+{
+	"Announcements": {
+		"title": "Announcements",
+		"description": "Announcements feed.",
+		"createButton": "Create announcement",
+		"loading": "Loading announcements...",
+		"empty": "No announcements yet."
+	},
+	"AnnouncementsItem": {
+		"editButton": "Edit",
+		"deleteButton": "Delete",
+		"deleteModal": {
+			"title": "Delete announcement",
+			"description": "Are you sure you want to delete \"{{title}}\" announcement?"
+		}
+	},
+	"CreateAnnouncementForm": {
+		"modal": {
+			"title": "Create announcement"
+		},
+		"translations": {
+			"legendRu": "Ru translation",
+			"legendEn": "En translation"
+		}
+	},
+	"UpdateAnnouncementForm": {
+		"modal": {
+			"title": "Edit \"{{title}}\""
+		},
+		"translations": {
+			"legendRu": "Ru translation",
+			"legendEn": "En translation"
+		}
+	}
+}

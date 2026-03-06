@@ -15,6 +15,7 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [sortedRoles, setSortedRoles] = useState<RoleEntity[]>(roles);
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
+	const [isOpenModalCreate, setIsOpenModalCreate] = useState<boolean>(false);
 
 	useEffect(() => {
 		setSortedRoles(roles);
@@ -56,6 +57,8 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 						openText={tRole('RoleListTable.create.openText')}
 						title={tRole('RoleListTable.create.title')}
 						isLoading={isLoadingModalCreate}
+						isOpen={isOpenModalCreate}
+						setIsOpen={setIsOpenModalCreate}
 						renderTrigger={
 							<Button
 								variant="outline"
@@ -70,6 +73,7 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 					>
 						<CreateRoleForm
 							formId="create-role-form-table"
+							onSuccess={() => setIsOpenModalCreate(false)}
 							onLoading={(isLoading) => setIsLoadingModalCreate(isLoading)}
 						/>
 					</Modal>

@@ -39,83 +39,18 @@ export interface CreateUserDto {
 /**
  * @nullable
  */
-export type AnnouncementCategoryTranslationEntityUpdatedAt = { [key: string]: unknown } | null;
+export type UserAnnouncementEntityUpdatedAt = { [key: string]: unknown } | null;
 
-export interface AnnouncementCategoryTranslationEntity {
-  id: number;
-  locale: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  /** @nullable */
-  updatedAt: AnnouncementCategoryTranslationEntityUpdatedAt;
-}
-
-/**
- * @nullable
- */
-export type AnnouncementCategoryEntityUpdatedAt = { [key: string]: unknown } | null;
-
-export interface AnnouncementCategoryEntity {
-  id: number;
-  type: string;
-  translations: AnnouncementCategoryTranslationEntity[];
-  createdAt: string;
-  /** @nullable */
-  updatedAt: AnnouncementCategoryEntityUpdatedAt;
-}
-
-export interface AnnouncementAuthorEntity {
+export interface UserAnnouncementEntity {
   /** Unique id */
   id: number;
-  /** Username */
-  username: string;
-  /** Email */
-  email: string;
-}
-
-/**
- * @nullable
- */
-export type AnnouncementTranslationsEntityUpdatedAt = { [key: string]: unknown } | null;
-
-export interface AnnouncementTranslationsEntity {
-  /** Unique id */
-  id: number;
-  locale: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  /** @nullable */
-  updatedAt: AnnouncementTranslationsEntityUpdatedAt;
-}
-
-/**
- * Updated at
- * @nullable
- */
-export type AnnouncementEntityUpdatedAt = { [key: string]: unknown } | null;
-
-export interface AnnouncementEntity {
-  /** Unique id */
-  id: number;
-  /** Category of announcement */
-  category: AnnouncementCategoryEntity;
   /** Category id */
   categoryId: number;
-  /** Author of announcement */
-  author: AnnouncementAuthorEntity;
   /** Author id */
   authorId: number;
-  /** Announcement translations */
-  translations: AnnouncementTranslationsEntity[];
-  /** Created at */
   createdAt: string;
-  /**
-   * Updated at
-   * @nullable
-   */
-  updatedAt: AnnouncementEntityUpdatedAt;
+  /** @nullable */
+  updatedAt: UserAnnouncementEntityUpdatedAt;
 }
 
 export interface RoleEntity {
@@ -145,7 +80,7 @@ export interface UserEntity {
   /** Reason for ban */
   banReason?: string;
   /** Announcements list of user */
-  announcements: AnnouncementEntity[];
+  announcements: UserAnnouncementEntity[];
   /** Announcements list of user */
   roles: RoleEntity[];
   createdAt: string;
@@ -206,6 +141,96 @@ export interface CreateAnnouncementDto {
   categoryId: number;
   authorId: number;
   translations: CreateAnnouncementTranslationDto[];
+}
+
+/**
+ * @nullable
+ */
+export type AnnouncementCategoryTranslationEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementCategoryTranslationEntity {
+  id: number;
+  locale: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementCategoryTranslationEntityUpdatedAt;
+}
+
+/**
+ * @nullable
+ */
+export type AnnouncementCategoryEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementCategoryEntity {
+  id: number;
+  type: string;
+  translations: AnnouncementCategoryTranslationEntity[];
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementCategoryEntityUpdatedAt;
+}
+
+export interface AnnouncementAuthorEntity {
+  /** Unique id */
+  id: number;
+  /** Username (Not BIO) */
+  username: string;
+  /** Email of user */
+  email: string;
+  /** User is banned or not */
+  banned: boolean;
+  /** Reason for ban */
+  banReason?: string;
+  /** Announcements list of user */
+  roles: RoleEntity[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * @nullable
+ */
+export type AnnouncementTranslationsEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementTranslationsEntity {
+  /** Unique id */
+  id: number;
+  locale: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  /** @nullable */
+  updatedAt: AnnouncementTranslationsEntityUpdatedAt;
+}
+
+/**
+ * Updated at
+ * @nullable
+ */
+export type AnnouncementEntityUpdatedAt = { [key: string]: unknown } | null;
+
+export interface AnnouncementEntity {
+  /** Unique id */
+  id: number;
+  /** Category of announcement */
+  category: AnnouncementCategoryEntity;
+  /** Category id */
+  categoryId: number;
+  /** Author of announcement */
+  author: AnnouncementAuthorEntity;
+  /** Author id */
+  authorId: number;
+  /** Announcement translations */
+  translations: AnnouncementTranslationsEntity[];
+  /** Created at */
+  createdAt: string;
+  /**
+   * Updated at
+   * @nullable
+   */
+  updatedAt: AnnouncementEntityUpdatedAt;
 }
 
 export interface UpdateAnnouncementDto {
@@ -2600,7 +2625,7 @@ export const useAnnouncementCategoryControllerCreate = <TError = void,
  * @summary Get all announcement categories
  */
 export type announcementCategoryControllerFindAllResponse200 = {
-  data: void
+  data: AnnouncementCategoryEntity[]
   status: 200
 }
 
@@ -2711,7 +2736,7 @@ export function useAnnouncementCategoryControllerFindAll<TData = Awaited<ReturnT
  * @summary Get announcement category by id
  */
 export type announcementCategoryControllerFindOneResponse200 = {
-  data: void
+  data: AnnouncementCategoryEntity
   status: 200
 }
 
@@ -2829,7 +2854,7 @@ export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnT
  * @summary Update announcement category and translations
  */
 export type announcementCategoryControllerUpdateResponse200 = {
-  data: void
+  data: AnnouncementCategoryEntity
   status: 200
 }
 

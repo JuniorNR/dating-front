@@ -1,4 +1,5 @@
 export { Announcements } from './Announcements';
+export { ErrorComponent } from './Error';
 export { Footer } from './Footer';
 export { Header } from './Header';
 export { Input } from './Input';

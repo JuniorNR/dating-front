@@ -35,9 +35,10 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 		watch,
 	]);
 
-	const onSubmit: SubmitHandler<UpdateRoleFormType> = (data) => {
+	const onSubmit: SubmitHandler<UpdateRoleFormType> = async (data) => {
 		onLoading?.(true);
-		update(roleId, data);
+		await update(roleId, data);
+		onLoading?.(false);
 	};
 
 	return (

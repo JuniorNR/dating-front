@@ -277,6 +277,19 @@ export interface UpdateAnnouncementCategoryDto {
   translations?: CreateAnnouncementCategoryTranslationDto[];
 }
 
+/**
+ * @nullable
+ */
+export type DeleteAnnouncementCategoryResponseDtoUpdatedAt = { [key: string]: unknown } | null;
+
+export interface DeleteAnnouncementCategoryResponseDto {
+  id: number;
+  type: string;
+  createdAt: string;
+  /** @nullable */
+  updatedAt: DeleteAnnouncementCategoryResponseDtoUpdatedAt;
+}
+
 export type RoleControllerFindOneByTypeParams = {
 type: string;
 };
@@ -860,7 +873,7 @@ export type userControllerFindOneResponseSuccess = (userControllerFindOneRespons
 
 export type userControllerFindOneResponse = (userControllerFindOneResponseSuccess)
 
-export const getUserControllerFindOneUrl = (id: string,) => {
+export const getUserControllerFindOneUrl = (id: number,) => {
 
 
   
@@ -868,7 +881,7 @@ export const getUserControllerFindOneUrl = (id: string,) => {
   return `/api/user/${id}`
 }
 
-export const userControllerFindOne = async (id: string, options?: RequestInit): Promise<userControllerFindOneResponse> => {
+export const userControllerFindOne = async (id: number, options?: RequestInit): Promise<userControllerFindOneResponse> => {
   
   return customApiFetch<userControllerFindOneResponse>(getUserControllerFindOneUrl(id),
   {      
@@ -883,14 +896,14 @@ export const userControllerFindOne = async (id: string, options?: RequestInit): 
 
 
 
-export const getUserControllerFindOneQueryKey = (id: string,) => {
+export const getUserControllerFindOneQueryKey = (id: number,) => {
     return [
     `/api/user/${id}`
     ] as const;
     }
 
     
-export const getUserControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+export const getUserControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -913,7 +926,7 @@ export type UserControllerFindOneQueryError = unknown
 
 
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof userControllerFindOne>>,
           TError,
@@ -923,7 +936,7 @@ export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userC
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof userControllerFindOne>>,
           TError,
@@ -933,7 +946,7 @@ export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userC
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -941,7 +954,7 @@ export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userC
  */
 
 export function useUserControllerFindOne<TData = Awaited<ReturnType<typeof userControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -972,7 +985,7 @@ export type userControllerUpdateResponseSuccess = (userControllerUpdateResponse2
 
 export type userControllerUpdateResponse = (userControllerUpdateResponseSuccess)
 
-export const getUserControllerUpdateUrl = (id: string,) => {
+export const getUserControllerUpdateUrl = (id: number,) => {
 
 
   
@@ -980,7 +993,7 @@ export const getUserControllerUpdateUrl = (id: string,) => {
   return `/api/user/${id}`
 }
 
-export const userControllerUpdate = async (id: string,
+export const userControllerUpdate = async (id: number,
     updateUserDto: UpdateUserDto, options?: RequestInit): Promise<userControllerUpdateResponse> => {
   
   return customApiFetch<userControllerUpdateResponse>(getUserControllerUpdateUrl(id),
@@ -997,8 +1010,8 @@ export const userControllerUpdate = async (id: string,
 
 
 export const getUserControllerUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: number;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: number;data: UpdateUserDto}, TContext> => {
 
 const mutationKey = ['userControllerUpdate'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1010,7 +1023,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerUpdate>>, {id: string;data: UpdateUserDto}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerUpdate>>, {id: number;data: UpdateUserDto}> = (props) => {
           const {id,data} = props ?? {};
 
           return  userControllerUpdate(id,data,requestOptions)
@@ -1031,11 +1044,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update one user by id
  */
 export const useUserControllerUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: string;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerUpdate>>, TError,{id: number;data: UpdateUserDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof userControllerUpdate>>,
         TError,
-        {id: string;data: UpdateUserDto},
+        {id: number;data: UpdateUserDto},
         TContext
       > => {
       return useMutation(getUserControllerUpdateMutationOptions(options), queryClient);
@@ -1057,7 +1070,7 @@ export type userControllerRemoveResponseSuccess = (userControllerRemoveResponse2
 
 export type userControllerRemoveResponse = (userControllerRemoveResponseSuccess)
 
-export const getUserControllerRemoveUrl = (id: string,) => {
+export const getUserControllerRemoveUrl = (id: number,) => {
 
 
   
@@ -1065,7 +1078,7 @@ export const getUserControllerRemoveUrl = (id: string,) => {
   return `/api/user/${id}`
 }
 
-export const userControllerRemove = async (id: string, options?: RequestInit): Promise<userControllerRemoveResponse> => {
+export const userControllerRemove = async (id: number, options?: RequestInit): Promise<userControllerRemoveResponse> => {
   
   return customApiFetch<userControllerRemoveResponse>(getUserControllerRemoveUrl(id),
   {      
@@ -1080,8 +1093,8 @@ export const userControllerRemove = async (id: string, options?: RequestInit): P
 
 
 export const getUserControllerRemoveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: number}, TContext> => {
 
 const mutationKey = ['userControllerRemove'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1093,7 +1106,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemove>>, {id: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userControllerRemove>>, {id: number}> = (props) => {
           const {id} = props ?? {};
 
           return  userControllerRemove(id,requestOptions)
@@ -1114,11 +1127,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Delete one user by id
  */
 export const useUserControllerRemove = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof userControllerRemove>>,
         TError,
-        {id: string},
+        {id: number},
         TContext
       > => {
       return useMutation(getUserControllerRemoveMutationOptions(options), queryClient);
@@ -1791,7 +1804,7 @@ export type roleControllerFindOneResponseSuccess = (roleControllerFindOneRespons
 
 export type roleControllerFindOneResponse = (roleControllerFindOneResponseSuccess)
 
-export const getRoleControllerFindOneUrl = (id: string,) => {
+export const getRoleControllerFindOneUrl = (id: number,) => {
 
 
   
@@ -1799,7 +1812,7 @@ export const getRoleControllerFindOneUrl = (id: string,) => {
   return `/api/role/${id}`
 }
 
-export const roleControllerFindOne = async (id: string, options?: RequestInit): Promise<roleControllerFindOneResponse> => {
+export const roleControllerFindOne = async (id: number, options?: RequestInit): Promise<roleControllerFindOneResponse> => {
   
   return customApiFetch<roleControllerFindOneResponse>(getRoleControllerFindOneUrl(id),
   {      
@@ -1814,14 +1827,14 @@ export const roleControllerFindOne = async (id: string, options?: RequestInit): 
 
 
 
-export const getRoleControllerFindOneQueryKey = (id: string,) => {
+export const getRoleControllerFindOneQueryKey = (id: number,) => {
     return [
     `/api/role/${id}`
     ] as const;
     }
 
     
-export const getRoleControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+export const getRoleControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -1844,7 +1857,7 @@ export type RoleControllerFindOneQueryError = unknown
 
 
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof roleControllerFindOne>>,
           TError,
@@ -1854,7 +1867,7 @@ export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleC
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof roleControllerFindOne>>,
           TError,
@@ -1864,7 +1877,7 @@ export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleC
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -1872,7 +1885,7 @@ export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleC
  */
 
 export function useRoleControllerFindOne<TData = Awaited<ReturnType<typeof roleControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof roleControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -1903,7 +1916,7 @@ export type roleControllerUpdateResponseSuccess = (roleControllerUpdateResponse2
 
 export type roleControllerUpdateResponse = (roleControllerUpdateResponseSuccess)
 
-export const getRoleControllerUpdateUrl = (id: string,) => {
+export const getRoleControllerUpdateUrl = (id: number,) => {
 
 
   
@@ -1911,7 +1924,7 @@ export const getRoleControllerUpdateUrl = (id: string,) => {
   return `/api/role/${id}`
 }
 
-export const roleControllerUpdate = async (id: string,
+export const roleControllerUpdate = async (id: number,
     updateRoleDto: UpdateRoleDto, options?: RequestInit): Promise<roleControllerUpdateResponse> => {
   
   return customApiFetch<roleControllerUpdateResponse>(getRoleControllerUpdateUrl(id),
@@ -1928,8 +1941,8 @@ export const roleControllerUpdate = async (id: string,
 
 
 export const getRoleControllerUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: number;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: number;data: UpdateRoleDto}, TContext> => {
 
 const mutationKey = ['roleControllerUpdate'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1941,7 +1954,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerUpdate>>, {id: string;data: UpdateRoleDto}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerUpdate>>, {id: number;data: UpdateRoleDto}> = (props) => {
           const {id,data} = props ?? {};
 
           return  roleControllerUpdate(id,data,requestOptions)
@@ -1962,11 +1975,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update role by id
  */
 export const useRoleControllerUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: string;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerUpdate>>, TError,{id: number;data: UpdateRoleDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof roleControllerUpdate>>,
         TError,
-        {id: string;data: UpdateRoleDto},
+        {id: number;data: UpdateRoleDto},
         TContext
       > => {
       return useMutation(getRoleControllerUpdateMutationOptions(options), queryClient);
@@ -1988,7 +2001,7 @@ export type roleControllerRemoveResponseSuccess = (roleControllerRemoveResponse2
 
 export type roleControllerRemoveResponse = (roleControllerRemoveResponseSuccess)
 
-export const getRoleControllerRemoveUrl = (id: string,) => {
+export const getRoleControllerRemoveUrl = (id: number,) => {
 
 
   
@@ -1996,7 +2009,7 @@ export const getRoleControllerRemoveUrl = (id: string,) => {
   return `/api/role/${id}`
 }
 
-export const roleControllerRemove = async (id: string, options?: RequestInit): Promise<roleControllerRemoveResponse> => {
+export const roleControllerRemove = async (id: number, options?: RequestInit): Promise<roleControllerRemoveResponse> => {
   
   return customApiFetch<roleControllerRemoveResponse>(getRoleControllerRemoveUrl(id),
   {      
@@ -2011,8 +2024,8 @@ export const roleControllerRemove = async (id: string, options?: RequestInit): P
 
 
 export const getRoleControllerRemoveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: number}, TContext> => {
 
 const mutationKey = ['roleControllerRemove'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -2024,7 +2037,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerRemove>>, {id: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof roleControllerRemove>>, {id: number}> = (props) => {
           const {id} = props ?? {};
 
           return  roleControllerRemove(id,requestOptions)
@@ -2045,11 +2058,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Delete role by id
  */
 export const useRoleControllerRemove = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof roleControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof roleControllerRemove>>,
         TError,
-        {id: string},
+        {id: number},
         TContext
       > => {
       return useMutation(getRoleControllerRemoveMutationOptions(options), queryClient);
@@ -2267,7 +2280,7 @@ export type announcementControllerFindOneResponseSuccess = (announcementControll
 
 export type announcementControllerFindOneResponse = (announcementControllerFindOneResponseSuccess)
 
-export const getAnnouncementControllerFindOneUrl = (id: string,) => {
+export const getAnnouncementControllerFindOneUrl = (id: number,) => {
 
 
   
@@ -2275,7 +2288,7 @@ export const getAnnouncementControllerFindOneUrl = (id: string,) => {
   return `/api/announcement/${id}`
 }
 
-export const announcementControllerFindOne = async (id: string, options?: RequestInit): Promise<announcementControllerFindOneResponse> => {
+export const announcementControllerFindOne = async (id: number, options?: RequestInit): Promise<announcementControllerFindOneResponse> => {
   
   return customApiFetch<announcementControllerFindOneResponse>(getAnnouncementControllerFindOneUrl(id),
   {      
@@ -2290,14 +2303,14 @@ export const announcementControllerFindOne = async (id: string, options?: Reques
 
 
 
-export const getAnnouncementControllerFindOneQueryKey = (id: string,) => {
+export const getAnnouncementControllerFindOneQueryKey = (id: number,) => {
     return [
     `/api/announcement/${id}`
     ] as const;
     }
 
     
-export const getAnnouncementControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+export const getAnnouncementControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -2320,7 +2333,7 @@ export type AnnouncementControllerFindOneQueryError = unknown
 
 
 export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof announcementControllerFindOne>>,
           TError,
@@ -2330,7 +2343,7 @@ export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<type
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof announcementControllerFindOne>>,
           TError,
@@ -2340,7 +2353,7 @@ export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<type
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -2348,7 +2361,7 @@ export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<type
  */
 
 export function useAnnouncementControllerFindOne<TData = Awaited<ReturnType<typeof announcementControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -2379,7 +2392,7 @@ export type announcementControllerUpdateResponseSuccess = (announcementControlle
 
 export type announcementControllerUpdateResponse = (announcementControllerUpdateResponseSuccess)
 
-export const getAnnouncementControllerUpdateUrl = (id: string,) => {
+export const getAnnouncementControllerUpdateUrl = (id: number,) => {
 
 
   
@@ -2387,7 +2400,7 @@ export const getAnnouncementControllerUpdateUrl = (id: string,) => {
   return `/api/announcement/${id}`
 }
 
-export const announcementControllerUpdate = async (id: string,
+export const announcementControllerUpdate = async (id: number,
     updateAnnouncementDto: UpdateAnnouncementDto, options?: RequestInit): Promise<announcementControllerUpdateResponse> => {
   
   return customApiFetch<announcementControllerUpdateResponse>(getAnnouncementControllerUpdateUrl(id),
@@ -2404,8 +2417,8 @@ export const announcementControllerUpdate = async (id: string,
 
 
 export const getAnnouncementControllerUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementDto}, TContext> => {
 
 const mutationKey = ['announcementControllerUpdate'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -2417,7 +2430,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerUpdate>>, {id: string;data: UpdateAnnouncementDto}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerUpdate>>, {id: number;data: UpdateAnnouncementDto}> = (props) => {
           const {id,data} = props ?? {};
 
           return  announcementControllerUpdate(id,data,requestOptions)
@@ -2438,11 +2451,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Update announcement by id
  */
 export const useAnnouncementControllerUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: string;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof announcementControllerUpdate>>,
         TError,
-        {id: string;data: UpdateAnnouncementDto},
+        {id: number;data: UpdateAnnouncementDto},
         TContext
       > => {
       return useMutation(getAnnouncementControllerUpdateMutationOptions(options), queryClient);
@@ -2464,7 +2477,7 @@ export type announcementControllerRemoveResponseSuccess = (announcementControlle
 
 export type announcementControllerRemoveResponse = (announcementControllerRemoveResponseSuccess)
 
-export const getAnnouncementControllerRemoveUrl = (id: string,) => {
+export const getAnnouncementControllerRemoveUrl = (id: number,) => {
 
 
   
@@ -2472,7 +2485,7 @@ export const getAnnouncementControllerRemoveUrl = (id: string,) => {
   return `/api/announcement/${id}`
 }
 
-export const announcementControllerRemove = async (id: string, options?: RequestInit): Promise<announcementControllerRemoveResponse> => {
+export const announcementControllerRemove = async (id: number, options?: RequestInit): Promise<announcementControllerRemoveResponse> => {
   
   return customApiFetch<announcementControllerRemoveResponse>(getAnnouncementControllerRemoveUrl(id),
   {      
@@ -2487,8 +2500,8 @@ export const announcementControllerRemove = async (id: string, options?: Request
 
 
 export const getAnnouncementControllerRemoveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: number}, TContext> => {
 
 const mutationKey = ['announcementControllerRemove'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -2500,7 +2513,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerRemove>>, {id: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof announcementControllerRemove>>, {id: number}> = (props) => {
           const {id} = props ?? {};
 
           return  announcementControllerRemove(id,requestOptions)
@@ -2521,11 +2534,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  * @summary Delete announcement by id
  */
 export const useAnnouncementControllerRemove = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customApiFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof announcementControllerRemove>>,
         TError,
-        {id: string},
+        {id: number},
         TContext
       > => {
       return useMutation(getAnnouncementControllerRemoveMutationOptions(options), queryClient);
@@ -2535,23 +2548,16 @@ export const useAnnouncementControllerRemove = <TError = unknown,
  * @summary Create announcement category with translations
  */
 export type announcementCategoryControllerCreateResponse201 = {
-  data: void
+  data: AnnouncementCategoryEntity
   status: 201
-}
-
-export type announcementCategoryControllerCreateResponse400 = {
-  data: void
-  status: 400
 }
 
 export type announcementCategoryControllerCreateResponseSuccess = (announcementCategoryControllerCreateResponse201) & {
   headers: Headers;
 };
-export type announcementCategoryControllerCreateResponseError = (announcementCategoryControllerCreateResponse400) & {
-  headers: Headers;
-};
+;
 
-export type announcementCategoryControllerCreateResponse = (announcementCategoryControllerCreateResponseSuccess | announcementCategoryControllerCreateResponseError)
+export type announcementCategoryControllerCreateResponse = (announcementCategoryControllerCreateResponseSuccess)
 
 export const getAnnouncementCategoryControllerCreateUrl = () => {
 
@@ -2576,7 +2582,7 @@ export const announcementCategoryControllerCreate = async (createAnnouncementCat
 
 
 
-export const getAnnouncementCategoryControllerCreateMutationOptions = <TError = void,
+export const getAnnouncementCategoryControllerCreateMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext> => {
 
@@ -2605,12 +2611,12 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type AnnouncementCategoryControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>>
     export type AnnouncementCategoryControllerCreateMutationBody = CreateAnnouncementCategoryDto
-    export type AnnouncementCategoryControllerCreateMutationError = void
+    export type AnnouncementCategoryControllerCreateMutationError = unknown
 
     /**
  * @summary Create announcement category with translations
  */
-export const useAnnouncementCategoryControllerCreate = <TError = void,
+export const useAnnouncementCategoryControllerCreate = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerCreate>>, TError,{data: CreateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof announcementCategoryControllerCreate>>,
@@ -2740,19 +2746,12 @@ export type announcementCategoryControllerFindOneResponse200 = {
   status: 200
 }
 
-export type announcementCategoryControllerFindOneResponse404 = {
-  data: void
-  status: 404
-}
-
 export type announcementCategoryControllerFindOneResponseSuccess = (announcementCategoryControllerFindOneResponse200) & {
   headers: Headers;
 };
-export type announcementCategoryControllerFindOneResponseError = (announcementCategoryControllerFindOneResponse404) & {
-  headers: Headers;
-};
+;
 
-export type announcementCategoryControllerFindOneResponse = (announcementCategoryControllerFindOneResponseSuccess | announcementCategoryControllerFindOneResponseError)
+export type announcementCategoryControllerFindOneResponse = (announcementCategoryControllerFindOneResponseSuccess)
 
 export const getAnnouncementCategoryControllerFindOneUrl = (id: number,) => {
 
@@ -2784,7 +2783,7 @@ export const getAnnouncementCategoryControllerFindOneQueryKey = (id: number,) =>
     }
 
     
-export const getAnnouncementCategoryControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
+export const getAnnouncementCategoryControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -2803,10 +2802,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type AnnouncementCategoryControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>>
-export type AnnouncementCategoryControllerFindOneQueryError = void
+export type AnnouncementCategoryControllerFindOneQueryError = unknown
 
 
-export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = unknown>(
  id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>,
@@ -2816,7 +2815,7 @@ export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnT
       >, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = unknown>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>,
@@ -2826,7 +2825,7 @@ export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnT
       >, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = unknown>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
@@ -2834,7 +2833,7 @@ export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnT
  * @summary Get announcement category by id
  */
 
-export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = void>(
+export function useAnnouncementCategoryControllerFindOne<TData = Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError = unknown>(
  id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof announcementCategoryControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -2858,24 +2857,12 @@ export type announcementCategoryControllerUpdateResponse200 = {
   status: 200
 }
 
-export type announcementCategoryControllerUpdateResponse400 = {
-  data: void
-  status: 400
-}
-
-export type announcementCategoryControllerUpdateResponse404 = {
-  data: void
-  status: 404
-}
-
 export type announcementCategoryControllerUpdateResponseSuccess = (announcementCategoryControllerUpdateResponse200) & {
   headers: Headers;
 };
-export type announcementCategoryControllerUpdateResponseError = (announcementCategoryControllerUpdateResponse400 | announcementCategoryControllerUpdateResponse404) & {
-  headers: Headers;
-};
+;
 
-export type announcementCategoryControllerUpdateResponse = (announcementCategoryControllerUpdateResponseSuccess | announcementCategoryControllerUpdateResponseError)
+export type announcementCategoryControllerUpdateResponse = (announcementCategoryControllerUpdateResponseSuccess)
 
 export const getAnnouncementCategoryControllerUpdateUrl = (id: number,) => {
 
@@ -2901,7 +2888,7 @@ export const announcementCategoryControllerUpdate = async (id: number,
 
 
 
-export const getAnnouncementCategoryControllerUpdateMutationOptions = <TError = void,
+export const getAnnouncementCategoryControllerUpdateMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
 ): UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext> => {
 
@@ -2930,12 +2917,12 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type AnnouncementCategoryControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>>
     export type AnnouncementCategoryControllerUpdateMutationBody = UpdateAnnouncementCategoryDto
-    export type AnnouncementCategoryControllerUpdateMutationError = void
+    export type AnnouncementCategoryControllerUpdateMutationError = unknown
 
     /**
  * @summary Update announcement category and translations
  */
-export const useAnnouncementCategoryControllerUpdate = <TError = void,
+export const useAnnouncementCategoryControllerUpdate = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>, TError,{id: number;data: UpdateAnnouncementCategoryDto}, TContext>, request?: SecondParameter<typeof customApiFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof announcementCategoryControllerUpdate>>,
@@ -2950,7 +2937,7 @@ export const useAnnouncementCategoryControllerUpdate = <TError = void,
  * @summary Delete announcement category by id
  */
 export type announcementCategoryControllerRemoveResponse200 = {
-  data: void
+  data: DeleteAnnouncementCategoryResponseDto
   status: 200
 }
 

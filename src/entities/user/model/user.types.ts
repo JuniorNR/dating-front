@@ -1,12 +1,16 @@
-import { CreateUserDto, RoleEntity, UpdateUserDto, UserEntity } from '@/shared/api/ApiGenerated';
-import { BaseState } from '@/shared/types';
+import { RoleEntity, UserEntity } from '@/shared/api/ApiGenerated';
+import { ApiError } from '@/shared/api/apiFetch';
 
-export interface UserState
-	extends Omit<BaseState<UserEntity, CreateUserDto, UpdateUserDto>, 'items' | 'create' | 'update' | 'remove' | 'getAll' | 'getById' | 'getFromStoreById'> {
+export interface UserState {
 	user: UserEntity | null;
 	roles: RoleEntity['type'][];
 	isAuth: boolean;
+	isLoading: boolean;
+	isInitialized: boolean;
+	error: ApiError | null;
 	setUser: (user: UserEntity) => void;
 	logout: () => Promise<void>;
 	checkAuth: () => Promise<void>;
+	resetError: () => void;
+	reset: () => void;
 }

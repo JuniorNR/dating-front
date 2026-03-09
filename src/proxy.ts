@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PUBLIC_ROUTES } from './shared/constants';
 
-export function proxy(request: NextRequest) {
-	const token = request.cookies.get(String(process.env.NEXT_PUBLIC_JWT_COOKIE_NAME));
+const isUnauthorized = async (request: NextRequest): Promise<boolean> => {
+	const baseURL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+
+	try {
+		const response = await fetch(`${baseURL}/api/user/auth`, {
+			method: 'GET',
+			headers: {
+				cookie: request.headers.get('cookie') ?? '',
+			},
+			cache: 'no-store',
+		});
+
+		return response.status === 401;
+	} catch {
+		return true;
+	}
+};
+
+export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
 	if (PUBLIC_ROUTES.includes(pathname)) {
 		return NextResponse.next();
 	}
-	// TODO: Создать редирект при 401
-	if (!token) {
+
+	if (await isUnauthorized(request)) {
 		const referer = request.headers.get('referer');
 
 		if (referer) {

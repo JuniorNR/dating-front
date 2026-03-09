@@ -81,6 +81,13 @@ export const AnnouncementsItem: FC<AnnouncementsItemProps> = ({ announcement, ca
 								</Button>
 							}
 						/>
+						<Button
+							type="button"
+							variant="outline"
+							size="xs"
+						>
+							Contact with author
+						</Button>
 					</div>
 				</>
 			)}

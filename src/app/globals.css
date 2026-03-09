@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "react-split-pane/styles.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -167,4 +168,11 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.splitPane {
+	--split-pane-divider-size: 8px;
+	--split-pane-divider-color: oklch(0.72 0 0 / 55%);
+	--split-pane-divider-color-hover: oklch(0.62 0 0 / 72%);
+	--split-pane-focus-color: oklch(0.62 0 0 / 72%);
 }

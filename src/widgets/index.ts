@@ -1,4 +1,5 @@
 export { Announcements } from './Announcements';
+export { Chat } from './Chat';
 export { ErrorComponent } from './Error';
 export { Footer } from './Footer';
 export { Header } from './Header';

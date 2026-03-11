@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';
 import { useAuthControllerLogin } from '@/shared/api/ApiGenerated';
 import { ApiError } from '@/shared/api/apiFetch';
+import { reconnectSocket } from '@/shared/api/socket';
 import { PUBLIC_ROUTES } from '@/shared/constants';
 import { FieldFormError, FieldGroup } from '@/shared/ui/field';
 import { Input } from '@/widgets';
@@ -46,10 +47,11 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 				setFormErrorMessage(error.message);
 				onLoading?.(false);
 			},
-			onSuccess: () => {
+			onSuccess: async () => {
 				onSuccess?.();
 				onLoading(false);
-				checkAuth();
+				await checkAuth();
+				reconnectSocket('chat');
 				if (PUBLIC_ROUTES.includes(pathname)) {
 					router.push(pathname);
 				} else {

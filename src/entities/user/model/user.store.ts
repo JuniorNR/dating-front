@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { authControllerLogout, userControllerGetAuth } from '@/shared/api/ApiGenerated';
 import { apiError } from '@/shared/api/apiFetch';
+import { disconnectSocket } from '@/shared/api/socket';
 import { UserState } from './user.types';
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -53,6 +54,7 @@ export const useUserStore = create<UserState>()((set) => ({
 				error: apiError(error, 'Logout request failed'),
 			});
 		} finally {
+			disconnectSocket();
 			set({
 				user: null,
 				roles: [

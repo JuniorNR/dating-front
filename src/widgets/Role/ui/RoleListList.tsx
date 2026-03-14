@@ -1,10 +1,9 @@
 'use client';
 import { Plus } from 'lucide-react';
 import { Reorder } from 'motion/react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
-import { RoleEntity } from '@/shared/api/ApiGenerated';
 import { Button } from '@/shared/ui/button';
 import { Modal, SortBy } from '@/widgets';
 import { RoleListListItem } from '@/widgets/Role/ui/RoleListListItem';
@@ -13,15 +12,28 @@ import { RoleListListProps } from '../model/role.types';
 export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
 	const { t: tRole } = useTranslation('role');
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
-	const [sortedRoles, setSortedRoles] = useState<RoleEntity[]>(roles);
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
 	const [isOpenModalCreate, setIsOpenModalCreate] = useState<boolean>(false);
 
-	useEffect(() => {
-		setSortedRoles(roles);
-	}, [
-		roles,
-	]);
+	const sortOptions = [
+		{
+			label: tRole('RoleListList.sortBy.created'),
+			value: 'created' as const,
+			sorter: (a: (typeof roles)[number], b: (typeof roles)[number]) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+		},
+		{
+			label: tRole('RoleListList.sortBy.updated'),
+			value: 'updated' as const,
+			sorter: (a: (typeof roles)[number], b: (typeof roles)[number]) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+		},
+		{
+			label: tRole('RoleListList.sortBy.name'),
+			value: 'name' as const,
+			sorter: (a: (typeof roles)[number], b: (typeof roles)[number]) => a.name.localeCompare(b.name),
+		},
+	];
+	const activeSort = sortOptions.find((option) => option.value === sortType);
+	const sortedRoles = activeSort ? [...roles].sort(activeSort.sorter) : roles;
 
 	return (
 		<section className="rounded-2xl border border-border bg-card p-4 sm:p-5">
@@ -35,25 +47,7 @@ export const RoleListList: FC<RoleListListProps> = ({ title, roles }) => {
 						label={tRole('RoleListList.sortBy.label')}
 						value={sortType}
 						onChange={setSortType}
-						sortedValue={sortedRoles}
-						getSortedValue={(sortedValue) => setSortedRoles(sortedValue)}
-						options={[
-							{
-								label: tRole('RoleListList.sortBy.created'),
-								value: 'created',
-								sorter: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-							},
-							{
-								label: tRole('RoleListList.sortBy.updated'),
-								value: 'updated',
-								sorter: (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-							},
-							{
-								label: tRole('RoleListList.sortBy.name'),
-								value: 'name',
-								sorter: (a, b) => a.name.localeCompare(b.name),
-							},
-						]}
+						options={sortOptions}
 					/>
 					<Modal
 						formId="create-role-form"

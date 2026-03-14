@@ -1,0 +1,5 @@
+{
+	"ignore": {
+		"files": ["src/shared/api/**", "src/shared/ui/**", "*.config.ts", "*.config.json"]
+	}
+}

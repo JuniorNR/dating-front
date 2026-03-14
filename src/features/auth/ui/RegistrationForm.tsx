@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';
@@ -20,7 +20,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 	const { checkAuth } = useUserStore();
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
-	const { handleSubmit, control, watch } = useForm({
+	const { handleSubmit, control } = useForm({
 		defaultValues: {
 			username: '',
 			email: '',
@@ -28,16 +28,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 		},
 		resolver: zodResolver(getRegistrationSchema(tValidation)),
 	});
-
-	useEffect(() => {
-		const subscription = watch(() => {
-			setFormErrorMessage(null);
-		});
-
-		return () => subscription.unsubscribe();
-	}, [
-		watch,
-	]);
+	const clearFormError = () => setFormErrorMessage((prev) => (prev ? null : prev));
 
 	const { mutate } = useAuthControllerRegistration<ApiError, RegistrationFormType>({
 		mutation: {
@@ -76,6 +67,10 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('username.label')}
 							autoComplete="username"
 							placeholder={tForm('username.placeholder')}
@@ -90,6 +85,10 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('email.label')}
 							autoComplete="email"
 							placeholder={tForm('email.placeholder')}
@@ -104,6 +103,10 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('password.label')}
 							autoComplete="current-password"
 							placeholder={tForm('password.placeholder')}

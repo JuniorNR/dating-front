@@ -1,11 +1,11 @@
 'use client';
-import { format } from 'date-fns';
 import { Pencil, Shield, Trash2, Users } from 'lucide-react';
 import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
 import { UpdateRoleForm } from '@/features';
+import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
 import { RoleListTableItemProps } from '../model/role.types';
@@ -20,10 +20,6 @@ export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) =
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();
-
-	const formatDate = (date: string) => {
-		return format(new Date(date), 'dd.MM.yyyy hh:mm');
-	};
 
 	return (
 		<Reorder.Item

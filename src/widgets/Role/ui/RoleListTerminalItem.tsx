@@ -1,9 +1,9 @@
 'use client';
-import { format } from 'date-fns';
 import { FC, useState } from 'react';
 import { useRoleStore } from '@/entities/role';
 import { UpdateRoleForm } from '@/features';
 import { cn } from '@/shared/lib/cn';
+import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
 import { RoleListTerminalItemProps } from '../model/role.types';
@@ -17,10 +17,6 @@ export const RoleListTerminalItem: FC<RoleListTerminalItemProps> = ({ role }) =>
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();
-
-	const formatDate = (date: string) => {
-		return format(new Date(date), 'dd.MM.yyyy hh:mm');
-	};
 
 	return (
 		<li className={cn('bg-emerald-100/70 p-3 font-mono dark:bg-emerald-950/30')}>

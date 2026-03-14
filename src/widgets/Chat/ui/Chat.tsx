@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useReducer, useRef, useState } from 'react';
 import { Pane, SplitPane, usePersistence } from 'react-split-pane';
 import { ChatEntity, ChatMessageEntity } from '@/entities/chat';
 import { useUserStore } from '@/entities/user';
@@ -7,6 +7,7 @@ import { getSocket } from '@/shared/api/socket';
 import { ChatListUpdatePayload } from '../model/chat.types';
 import { ChatList } from './ChatList';
 import { ChatWindow } from './ChatWindow';
+import { chatReducer } from '../model/chat.utils';
 
 export const Chat: FC = () => {
 	const activeChatIdFromLocalStorage = typeof window === 'undefined' ? null : localStorage.getItem('activeChatId');
@@ -21,28 +22,39 @@ export const Chat: FC = () => {
 	const prevChatIdRef = useRef<number | null>(null);
 
 	const [messageText, setMessageText] = useState<string>('');
-	const [messages, setMessages] = useState<ChatMessageEntity[]>([]);
-	const [activeChatId, setActiveChatId] = useState<number | undefined>(() => {
-		if (!activeChatIdFromLocalStorage) return undefined;
-		const parsedChatId = Number(activeChatIdFromLocalStorage);
-		return Number.isNaN(parsedChatId) ? undefined : parsedChatId;
+	const [chatState, dispatch] = useReducer(chatReducer, {
+		chats: [],
+		messages: [],
+		activeChatId: (() => {
+			if (!activeChatIdFromLocalStorage) return undefined;
+			const parsedChatId = Number(activeChatIdFromLocalStorage);
+			return Number.isNaN(parsedChatId) ? undefined : parsedChatId;
+		})(),
 	});
-	const [chats, setChats] = useState<ChatEntity[]>([]);
+	const { chats, messages, activeChatId } = chatState;
 
 	// Список чатов + глобальные события
 	useEffect(() => {
 		socket.emit('chat:list', (data: ChatEntity[]) => {
-			setChats(data || []);
+			dispatch({
+				type: 'setChatList',
+				payload: data || [],
+			});
 		});
 
-		const onChatCreate = (chat: ChatEntity) => setChats((prev) => [chat, ...prev]);
+		const onChatCreate = (chat: ChatEntity) =>
+			dispatch({
+				type: 'addChat',
+				payload: chat,
+			});
 
 		const onChatDelete = (chatId: number) => {
-			setChats((prev) => prev.filter((chat) => chat.id !== chatId));
-			setMessages((prev) => prev.filter((message) => message.chatId !== chatId));
+			dispatch({
+				type: 'deleteChat',
+				payload: chatId,
+			});
 
 			if (activeChatId === chatId) {
-				setActiveChatId(undefined);
 				localStorage.removeItem('activeChatId');
 			}
 
@@ -52,23 +64,9 @@ export const Chat: FC = () => {
 		};
 
 		const onChatListUpdate = (payload: ChatListUpdatePayload) => {
-			setChats((prev) => {
-				const prevChats = prev.map((chat) =>
-					chat.id === payload.chatId
-						? {
-								...chat,
-								messages: [payload.lastMessage],
-							}
-						: chat,
-				);
-
-				const sortedChats = prevChats.toSorted((a, b) => {
-					const aTime = new Date(a.messages[0]?.createdAt).getTime() ?? 0;
-					const bTime = new Date(b.messages[0]?.createdAt).getTime() ?? 0;
-					return bTime - aTime;
-				});
-
-				return sortedChats;
+			dispatch({
+				type: 'updateChatListItem',
+				payload,
 			});
 		};
 
@@ -106,13 +104,19 @@ export const Chat: FC = () => {
 				limit: 100,
 			},
 			(items: ChatMessageEntity[]) => {
-				setMessages(items ?? []);
+				dispatch({
+					type: 'setChatMessages',
+					payload: items ?? [],
+				});
 			},
 		);
 
 		const onNewMessage = (message: ChatMessageEntity) => {
 			if (message.chatId !== activeChatId) return;
-			setMessages((prev) => [...prev, message]);
+			dispatch({
+				type: 'appendMessage',
+				payload: message,
+			});
 		};
 
 		socket.on('chat:message:new', onNewMessage);
@@ -159,7 +163,10 @@ export const Chat: FC = () => {
 	const activeChatName = activeChat ? configureChatName(activeChat) : '';
 
 	const onChangeActiveChat = (chatId: number) => {
-		setActiveChatId(chatId);
+		dispatch({
+			type: 'setActiveChatId',
+			payload: chatId,
+		});
 		localStorage.setItem('activeChatId', String(chatId));
 	};
 

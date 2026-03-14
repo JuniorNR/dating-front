@@ -2,13 +2,13 @@ import { TFunction } from 'i18next';
 import { Handshake, LogOut, Megaphone, MessageCircle, Settings, UserCog, UserKey, UserPen, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/entities/user';
-import { INFORMATION_ROUTES, ROLES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
+import { INFORMATION_ROUTES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
 
 export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
 	const userStore = useUserStore();
 	const router = useRouter();
 
-	if (roles.includes(ROLES.superUser)) {
+	if (roles.includes('superuser')) {
 		const profileNavItemsSuperUserData = {
 			title: tCommon('header.profileNavigation.title'),
 			links: [

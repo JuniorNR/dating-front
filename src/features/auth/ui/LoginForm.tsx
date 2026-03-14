@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/entities/user';
@@ -23,23 +23,14 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 	const { checkAuth } = useUserStore();
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
-	const { handleSubmit, control, watch } = useForm<LoginFormType>({
+	const { handleSubmit, control } = useForm<LoginFormType>({
 		resolver: zodResolver(getLoginSchema(tValidation)),
 		defaultValues: {
 			username: '',
 			password: '',
 		},
 	});
-
-	useEffect(() => {
-		const subscription = watch(() => {
-			setFormErrorMessage(null);
-		});
-
-		return () => subscription.unsubscribe();
-	}, [
-		watch,
-	]);
+	const clearFormError = () => setFormErrorMessage((prev) => (prev ? null : prev));
 
 	const { mutate } = useAuthControllerLogin<ApiError, LoginFormType>({
 		mutation: {
@@ -80,6 +71,10 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('username.label')}
 							autoComplete="username"
 							placeholder={tForm('username.placeholder')}
@@ -94,6 +89,10 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('password.label')}
 							autoComplete="current-password"
 							placeholder={tForm('password.placeholder')}

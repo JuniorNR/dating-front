@@ -1,9 +1,9 @@
 'use client';
 
-import { format } from 'date-fns';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UpdateAnnouncementForm } from '@/features/announcement';
+import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal } from '@/widgets/Modal';
 import { SimpleModal } from '@/widgets/SimpleModal';
@@ -17,7 +17,7 @@ export const AnnouncementsItem: FC<AnnouncementsItemProps> = ({ announcement, ca
 	const stripeClass = categoryStripeClass[categoryType] ?? categoryStripeClass.info;
 	const textClass = categoryTextClass[categoryType] ?? categoryTextClass.info;
 
-	const createdAtLabel = format(announcement.createdAt, 'dd.MM.yyyy HH:mm');
+	const createdAtLabel = formatDate(announcement.createdAt, 'dd.MM.yyyy HH:mm');
 	const { author } = announcement;
 
 	const currentAnnouncement = announcement.translations.find((translation) => translation.locale === i18n.language);

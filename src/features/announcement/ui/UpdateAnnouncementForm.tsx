@@ -27,12 +27,9 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 		if (!isAnnouncementCategoriesInitialized) {
 			getAllAnnouncementCategories();
 		}
-	}, [
-		getAllAnnouncementCategories,
-		isAnnouncementCategoriesInitialized,
-	]);
+	}, [getAllAnnouncementCategories, isAnnouncementCategoriesInitialized]);
 
-	const { handleSubmit, control, watch } = useForm<UpdateAnnouncementFormType>({
+	const { handleSubmit, control } = useForm<UpdateAnnouncementFormType>({
 		resolver: zodResolver(getCreateAnnouncementSchema(tValidation)),
 		defaultValues: {
 			authorId: announcement?.authorId,
@@ -51,20 +48,17 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 			],
 		},
 	});
-
-	useEffect(() => {
-		const subscription = watch(() => {
-			setFormErrorMessage(null);
-		});
-
-		return () => subscription.unsubscribe();
-	}, [
-		watch,
-	]);
+	const clearFormError = () => setFormErrorMessage((prev) => (prev ? null : prev));
 
 	const onSubmit: SubmitHandler<UpdateAnnouncementFormType> = async (data) => {
 		onLoading?.(true);
 		await update(announcement?.id ?? 0, data);
+		const apiError = useAnnouncementStore.getState().error;
+		if (apiError) {
+			setFormErrorMessage(apiError.message);
+			onLoading?.(false);
+			return;
+		}
 		onSuccess?.();
 		onLoading?.(false);
 	};
@@ -90,6 +84,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 					render={({ field, fieldState }) => (
 						<Select
 							{...field}
+							onChange={(value) => {
+								field.onChange(value);
+								clearFormError();
+							}}
 							label={tForm('announcement.category.label')}
 							placeholder={tForm('announcement.category.placeholder')}
 							description={tForm('announcement.category.example')}
@@ -108,6 +106,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 								label={tForm('announcement.title.label')}
 								placeholder={tForm('announcement.title.placeholder')}
 								description={tForm('announcement.title.example')}
@@ -121,6 +123,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 								label={tForm('announcement.content.label')}
 								placeholder={tForm('announcement.content.placeholder')}
 								description={tForm('announcement.content.example')}
@@ -137,6 +143,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 								label={tForm('announcement.title.label')}
 								placeholder={tForm('announcement.title.placeholder')}
 								description={tForm('announcement.title.example')}
@@ -150,6 +160,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 								label={tForm('announcement.content.label')}
 								placeholder={tForm('announcement.content.placeholder')}
 								description={tForm('announcement.content.example')}
@@ -158,8 +172,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						)}
 					/>
 				</FieldGroup>
-				<FieldFormError message={formErrorMessage} />
 			</FieldGroup>
+			<div className="mt-4">
+				<FieldFormError message={formErrorMessage} />
+			</div>
 		</form>
 	);
 };

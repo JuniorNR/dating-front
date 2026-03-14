@@ -1,5 +1,4 @@
 'use client';
-import { format } from 'date-fns';
 import { Pencil, Shield, Trash2, Users } from 'lucide-react';
 import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
 import { UpdateRoleForm } from '@/features';
 import { RoleEntity } from '@/shared/api/ApiGenerated';
+import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
 
@@ -21,9 +21,6 @@ export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
 		'admin',
 		'super-user',
 	].includes(role.type.toLowerCase());
-	const formatDate = (date: string) => {
-		return format(new Date(date), 'dd.MM.yyyy hh:mm');
-	};
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();

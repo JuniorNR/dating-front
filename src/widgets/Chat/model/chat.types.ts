@@ -22,3 +22,38 @@ export interface ChatListUpdatePayload {
 	lastMessage: ChatMessageEntity;
 }
 
+export interface ChatState {
+	chats: ChatEntity[];
+	messages: ChatMessageEntity[];
+	activeChatId: number | undefined;
+}
+
+export type ChatAction =
+	| {
+			type: 'setChatList';
+			payload: ChatEntity[];
+	  }
+	| {
+			type: 'addChat';
+			payload: ChatEntity;
+	  }
+	| {
+			type: 'deleteChat';
+			payload: number;
+	  }
+	| {
+			type: 'updateChatListItem';
+			payload: ChatListUpdatePayload;
+	  }
+	| {
+			type: 'setChatMessages';
+			payload: ChatMessageEntity[];
+	  }
+	| {
+			type: 'appendMessage';
+			payload: ChatMessageEntity;
+	  }
+	| {
+			type: 'setActiveChatId';
+			payload: number | undefined;
+	  };

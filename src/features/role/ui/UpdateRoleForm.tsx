@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
@@ -16,7 +16,7 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 
 	const currentRole = getFromStoreById(roleId);
 
-	const { handleSubmit, control, watch } = useForm<UpdateRoleFormType>({
+	const { handleSubmit, control } = useForm<UpdateRoleFormType>({
 		resolver: zodResolver(getUpdateRoleSchema(tValidation)),
 		defaultValues: {
 			name: currentRole?.name,
@@ -24,16 +24,7 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 			description: currentRole?.description,
 		},
 	});
-
-	useEffect(() => {
-		const subscription = watch(() => {
-			setFormErrorMessage(null);
-		});
-
-		return () => subscription.unsubscribe();
-	}, [
-		watch,
-	]);
+	const clearFormError = () => setFormErrorMessage((prev) => (prev ? null : prev));
 
 	const onSubmit: SubmitHandler<UpdateRoleFormType> = async (data) => {
 		onLoading?.(true);
@@ -53,6 +44,10 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('role.name.label')}
 							autoComplete="name"
 							placeholder={tForm('role.name.placeholder')}
@@ -67,6 +62,10 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('role.type.label')}
 							autoComplete="current-password"
 							placeholder={tForm('role.type.placeholder')}
@@ -81,6 +80,10 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 					render={({ field, fieldState }) => (
 						<Input
 							{...field}
+							onChange={(event) => {
+								field.onChange(event);
+								clearFormError();
+							}}
 							label={tForm('role.description.label')}
 							autoComplete="current-password"
 							placeholder={tForm('role.description.placeholder')}

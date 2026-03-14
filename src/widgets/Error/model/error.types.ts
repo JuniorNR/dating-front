@@ -1,4 +1,4 @@
-export type ErrorPayload = {
+type ErrorPayload = {
 	error?: string;
 	message?: string;
 	statusCode?: number;

@@ -12,9 +12,7 @@ const createSocket = (namespace: string) => {
 	}
 
 	return io(`${baseWsUrl}/${namespace}`, {
-		transports: [
-			'websocket',
-		],
+		transports: ['websocket'],
 		withCredentials: true,
 		reconnection: true,
 	});

@@ -31,15 +31,25 @@ export const Chat: FC = () => {
 
 	// Список чатов + глобальные события
 	useEffect(() => {
-		socket.emit('getChats', (data: ChatEntity[]) => {
+		socket.emit('chat:list', (data: ChatEntity[]) => {
 			setChats(data || []);
 		});
 
-		const onChatCreate = (chat: ChatEntity) =>
-			setChats((prev) => [
-				chat,
-				...prev,
-			]);
+		const onChatCreate = (chat: ChatEntity) => setChats((prev) => [chat, ...prev]);
+
+		const onChatDelete = (chatId: number) => {
+			setChats((prev) => prev.filter((chat) => chat.id !== chatId));
+			setMessages((prev) => prev.filter((message) => message.chatId !== chatId));
+
+			if (activeChatId === chatId) {
+				setActiveChatId(undefined);
+				localStorage.removeItem('activeChatId');
+			}
+
+			if (prevChatIdRef.current === chatId) {
+				prevChatIdRef.current = null;
+			}
+		};
 
 		const onChatListUpdate = (payload: ChatListUpdatePayload) => {
 			setChats((prev) => {
@@ -47,9 +57,7 @@ export const Chat: FC = () => {
 					chat.id === payload.chatId
 						? {
 								...chat,
-								messages: [
-									payload.lastMessage,
-								],
+								messages: [payload.lastMessage],
 							}
 						: chat,
 				);
@@ -64,40 +72,34 @@ export const Chat: FC = () => {
 			});
 		};
 
-		socket.on('chatCreated', onChatCreate);
-		socket.on('chatListUpdate', onChatListUpdate);
+		socket.on('chat:created', onChatCreate);
+		socket.on('chat:list:update', onChatListUpdate);
+		socket.on('chat:deleted', onChatDelete);
 
 		return () => {
-			socket.off('chatCreated', onChatCreate);
-			socket.off('chatListUpdate', onChatListUpdate);
+			socket.off('chat:created', onChatCreate);
+			socket.off('chat:list:update', onChatListUpdate);
+			socket.off('chat:deleted', onChatDelete);
 		};
-	}, [
-		socket,
-	]);
+	}, [socket, activeChatId]);
 
-	// Вход/выход из комнаты и загрузка сообщений
+	// Вход/выход из комнаты + события чата
 	useEffect(() => {
 		if (!activeChatId) return;
 
 		const prevChatId = prevChatIdRef.current;
 		if (prevChatId && prevChatId !== activeChatId) {
-			socket.emit('leaveChat', {
+			socket.emit('chat:leave', {
 				chatId: prevChatId,
 			});
 		}
 
-		socket.emit(
-			'joinChat',
-			{
-				chatId: activeChatId,
-			},
-			(joined: number) => {
-				console.debug('joined', joined);
-			},
-		);
+		socket.emit('chat:join', {
+			chatId: activeChatId,
+		});
 
 		socket.emit(
-			'getMessages',
+			'chat:messages',
 			{
 				chatId: activeChatId,
 				cursor: null,
@@ -110,32 +112,37 @@ export const Chat: FC = () => {
 
 		const onNewMessage = (message: ChatMessageEntity) => {
 			if (message.chatId !== activeChatId) return;
-			setMessages((prev) => [
-				...prev,
-				message,
-			]);
+			setMessages((prev) => [...prev, message]);
 		};
 
-		socket.on('newMessage', onNewMessage);
+		socket.on('chat:message:new', onNewMessage);
 		prevChatIdRef.current = activeChatId;
 
 		return () => {
-			socket.off('newMessage', onNewMessage);
+			socket.off('chat:message:new', onNewMessage);
 		};
-	}, [
-		socket,
-		activeChatId,
-	]);
+	}, [socket, activeChatId]);
 
-	const sendMessage = () => {
+	const handleSendMessage = () => {
 		if (messageText.length > 0) {
 			const value = messageText.trim();
 			if (!value || !activeChatId) return;
-			socket.emit('sendMessage', {
+			socket.emit('chat:message:send', {
 				chatId: activeChatId,
 				text: value,
 			});
 			setMessageText('');
+		}
+	};
+
+	const handleDeleteChat = (chatId: number) => {
+		socket.emit('chat:delete', {
+			chatId,
+		});
+		if (activeChatId === chatId) {
+			socket.emit('chat:leave', {
+				chatId,
+			});
 		}
 	};
 
@@ -174,6 +181,7 @@ export const Chat: FC = () => {
 						chats={chats}
 						activeChatId={activeChatId}
 						onChangeActiveChat={onChangeActiveChat}
+						onDeleteChat={handleDeleteChat}
 						resolveChatName={configureChatName}
 					/>
 				</Pane>
@@ -188,7 +196,7 @@ export const Chat: FC = () => {
 						currentUserId={user?.id}
 						messageText={messageText}
 						onMessageTextChange={setMessageText}
-						onSendMessage={sendMessage}
+						onSendMessage={handleSendMessage}
 					/>
 				</Pane>
 			</SplitPane>

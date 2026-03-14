@@ -7,15 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": [
-			"**",
-			"!node_modules",
-			"!.next",
-			"!dist",
-			"!build",
-			"!src/shared/api/ApiGenerated.ts",
-			"!src/shared/ui/*"
-		]
+		"includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!src/shared/api/ApiGenerated.ts", "!src/shared/ui/*"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -24,7 +16,7 @@
 		"lineWidth": 160,
 		"lineEnding": "crlf",
 		"formatWithErrors": true,
-		"expand": "always"
+		"expand": "auto"
 	},
 	"javascript": {
 		"formatter": {

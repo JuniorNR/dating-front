@@ -4,6 +4,7 @@ export interface ChatListProps {
 	chats: ChatEntity[];
 	activeChatId?: number;
 	onChangeActiveChat: (chatId: number) => void;
+	onDeleteChat: (chatId: number) => void;
 	resolveChatName: (chat: ChatEntity) => string;
 }
 

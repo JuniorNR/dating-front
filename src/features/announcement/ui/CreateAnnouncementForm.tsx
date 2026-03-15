@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAnnouncementStore } from '@/entities/announcement';
 import { useAnnouncementCategoryStore } from '@/entities/announcementCategory';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { FieldFormError, FieldGroup, FieldLegend } from '@/shared/ui/field';
 import { Input } from '@/widgets';
 import { Select } from '@/widgets/Select';
@@ -17,7 +17,7 @@ export const CreateAnnouncementForm: FC<CreateAnnouncementFormProps> = ({ formId
 	const { t: tAnnouncement } = useTranslation('announcement');
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
-	const { user } = useUserStore();
+	const { authUser } = useAuthUserStore();
 	const { create } = useAnnouncementStore();
 	const {
 		items: announcementCategories,
@@ -34,7 +34,7 @@ export const CreateAnnouncementForm: FC<CreateAnnouncementFormProps> = ({ formId
 	const { handleSubmit, control } = useForm<CreateAnnouncementFormType>({
 		resolver: zodResolver(getCreateAnnouncementSchema(tValidation)),
 		defaultValues: {
-			authorId: user?.id,
+			authorId: authUser?.id,
 			categoryId: undefined,
 			translations: [
 				{

@@ -7,12 +7,6 @@ export interface RolesListHeaderProps {
 	setVariant: (variant: RolesListVariant) => void;
 }
 
-export interface RolesListProps {
-	title: string;
-	roles: RoleEntity[];
-	variant: RolesListVariant;
-}
-
 export interface RolesListTableProps {
 	title: string;
 	roles: RoleEntity[];

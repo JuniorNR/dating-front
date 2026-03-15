@@ -1,14 +1,14 @@
 'use client';
 
 import { type FC, type ReactNode, useEffect } from 'react';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { AuthLoadingFallback } from './ui/AuthLoadingFallback';
 
 export const AuthProvider: FC<{
 	children: ReactNode;
 }> = ({ children }) => {
-	const checkAuth = useUserStore((store) => store.checkAuth);
-	const checking = useUserStore((store) => store.isLoading);
+	const checkAuth = useAuthUserStore((store) => store.checkAuth);
+	const checking = useAuthUserStore((store) => store.isLoading);
 
 	useEffect(() => {
 		checkAuth();

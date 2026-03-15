@@ -1,15 +1,14 @@
 'use client';
 import { Plus } from 'lucide-react';
-import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
 import { Button } from '@/shared/ui/button';
 import { Modal, SortBy } from '@/widgets';
-import { RolesListListItem } from '@/widgets/Roles/ui/RolesListListItem';
+import { RolesListViewItem } from '@/widgets/Roles/ui/RolesListViewItem';
 import { RolesListListProps } from '../model/roles.types';
 
-export const RolesListList: FC<RolesListListProps> = ({ title, roles }) => {
+export const RolesListView: FC<RolesListListProps> = ({ title, roles }) => {
 	const { t: tRole } = useTranslation('role');
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
@@ -77,20 +76,14 @@ export const RolesListList: FC<RolesListListProps> = ({ title, roles }) => {
 				</div>
 			</div>
 
-			<Reorder.Group
-				as="ul"
-				axis="y"
-				values={sortedRoles.map((role) => role.id)}
-				onReorder={() => {}}
-				className="relative ml-2 space-y-4 border-l border-border pl-6"
-			>
+			<ul className="relative ml-2 space-y-4 border-l border-border pl-6">
 				{sortedRoles.map((role) => (
-					<RolesListListItem
+					<RolesListViewItem
 						key={role.id}
 						role={role}
 					/>
 				))}
-			</Reorder.Group>
+			</ul>
 		</section>
 	);
 };

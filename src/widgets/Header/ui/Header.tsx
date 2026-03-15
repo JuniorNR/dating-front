@@ -3,7 +3,7 @@
 import { LogIn } from 'lucide-react';
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { LoginForm, RegistrationForm } from '@/features';
 import { Button } from '@/shared/ui/button';
 import {
@@ -27,7 +27,7 @@ export const Header: FC = () => {
 	const [isOpenModalRegistration, setIsOpenModalRegistration] = useState<boolean>(false);
 	const [isLoadingRegistration, setIsLoadingRegistration] = useState<boolean>(false);
 
-	const { user, isAuth, roles } = useUserStore();
+	const { authUser, isAuth, roles } = useAuthUserStore();
 
 	const profileNavItems = useProfileNavItems(tCommon, roles);
 	const informationNavItems = useInformationNavItems(tCommon, roles);
@@ -64,9 +64,9 @@ export const Header: FC = () => {
 								<NavigationMenuItem>
 									<NavigationMenuTrigger
 										className="cursor-copy text-xl"
-										onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}
+										onClick={() => navigator.clipboard.writeText(`@${authUser?.username}`)}
 									>
-										@{user?.username}
+										@{authUser?.username}
 									</NavigationMenuTrigger>
 									<NavigationMenuContent>
 										{profileNavItems.links.map((profileItemLink) => (

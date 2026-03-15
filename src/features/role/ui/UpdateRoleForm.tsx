@@ -8,7 +8,7 @@ import { Input } from '@/widgets';
 import { getUpdateRoleSchema, UpdateRoleFormType } from '../model/role.schema';
 import { UpdateRoleFormProps } from '../model/role.types';
 
-export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoading }) => {
+export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoading, onSuccess }) => {
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
@@ -30,6 +30,7 @@ export const UpdateRoleForm: FC<UpdateRoleFormProps> = ({ formId, roleId, onLoad
 		onLoading?.(true);
 		await update(roleId, data);
 		onLoading?.(false);
+		onSuccess?.();
 	};
 
 	return (

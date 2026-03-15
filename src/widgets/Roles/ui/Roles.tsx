@@ -5,8 +5,9 @@ import { useRoleStore } from '@/entities/role';
 import { ErrorComponent } from '@/widgets';
 import { RolesListVariant } from '../model/roles.types';
 import { RolesSkeleton } from './Roles.skeleton';
-import { RolesList } from './RolesList';
 import { RolesListHeader } from './RolesListHeader';
+import { RolesTable } from './RolesListTable';
+import { RolesListView } from './RolesListView';
 
 export const Roles: FC = () => {
 	const { t: tRole } = useTranslation('role');
@@ -49,17 +50,15 @@ export const Roles: FC = () => {
 					setVariant={setListVariant}
 				/>
 				<div className="col-span-full mt-2 hidden peer-checked/by-table:block">
-					<RolesList
+					<RolesTable
 						title={tRole('Role.listTitles.byTable')}
 						roles={roles || []}
-						variant="byTable"
 					/>
 				</div>
 				<div className="col-span-full mt-2 hidden peer-checked/by-list:block">
-					<RolesList
+					<RolesListView
 						title={tRole('Role.listTitles.byList')}
 						roles={roles || []}
-						variant="byList"
 					/>
 				</div>
 			</div>

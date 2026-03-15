@@ -19,6 +19,7 @@ export const RolesListTableItem: FC<RolesListTableItemProps> = ({ role, order })
 	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
+	const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();
 
 	return (
@@ -52,6 +53,8 @@ export const RolesListTableItem: FC<RolesListTableItemProps> = ({ role, order })
 						openText={tRole('RoleListTable.actions.editRoleData')}
 						title={tRole('RoleListTable.modals.editRoleTitle')}
 						isLoading={isLoadingModalEdit}
+						isOpen={isOpenModalEdit}
+						setIsOpen={setIsOpenModalEdit}
 						renderTrigger={
 							<Button
 								variant="ghost"
@@ -70,6 +73,7 @@ export const RolesListTableItem: FC<RolesListTableItemProps> = ({ role, order })
 							formId={`edit-role-table-${role.id}`}
 							roleId={role.id}
 							onLoading={(isLoading) => setIsLoadingModalEdit(isLoading)}
+							onSuccess={() => setIsOpenModalEdit(false)}
 						/>
 					</Modal>
 					<Button

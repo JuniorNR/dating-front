@@ -9,7 +9,7 @@ import { Modal, SortBy } from '@/widgets';
 import { RolesListTableProps } from '../model/roles.types';
 import { RolesListTableItem } from './RolesListTableItem';
 
-export const RolesListTable: FC<RolesListTableProps> = ({ title, roles }) => {
+export const RolesTable: FC<RolesListTableProps> = ({ title, roles }) => {
 	const { t: tRole } = useTranslation('role');
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);

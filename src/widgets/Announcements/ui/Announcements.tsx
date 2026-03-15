@@ -2,7 +2,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAnnouncementStore } from '@/entities/announcement';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { CreateAnnouncementForm } from '@/features';
 import { Button } from '@/shared/ui/button';
 import { Modal } from '@/widgets/Modal';
@@ -15,7 +15,7 @@ export const Announcements: FC = () => {
 	];
 	const { t: tAnnouncement } = useTranslation('announcement');
 	const { items: announcements, getAll, isLoading, isInitialized, remove } = useAnnouncementStore();
-	const { user, roles } = useUserStore();
+	const { authUser, roles } = useAuthUserStore();
 
 	const [isOpenCreateForm, setIsOpenCreateForm] = useState<boolean>(false);
 	const [isLoadingCreateForm, setIsLoadingCreateForm] = useState<boolean>(false);
@@ -70,7 +70,7 @@ export const Announcements: FC = () => {
 					{!isLoading && announcements.length === 0 && <p className="text-sm text-muted-foreground">{tAnnouncement('Announcements.empty')}</p>}
 					{announcements.map((announcement) => (
 						<AnnouncementsItem
-							canEdit={canEditAnnouncementPermission() || announcement.authorId === user?.id}
+							canEdit={canEditAnnouncementPermission() || announcement.authorId === authUser?.id}
 							key={announcement.id}
 							announcement={announcement}
 							onDelete={remove}

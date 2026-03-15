@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { type FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { useAuthControllerLogin } from '@/shared/api/ApiGenerated';
 import { ApiError } from '@/shared/api/apiFetch';
 import { reconnectSocket } from '@/shared/api/socket';
@@ -20,7 +20,7 @@ export const LoginForm: FC<LoginFormProps> = ({ formId, onSuccess, onLoading }) 
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const router = useRouter();
-	const { checkAuth } = useUserStore();
+	const { checkAuth } = useAuthUserStore();
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
 	const { handleSubmit, control } = useForm<LoginFormType>({

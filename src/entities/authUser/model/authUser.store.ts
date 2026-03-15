@@ -2,10 +2,10 @@ import { create } from 'zustand';
 import { authControllerLogout, userControllerGetAuth } from '@/shared/api/ApiGenerated';
 import { apiError } from '@/shared/api/apiFetch';
 import { disconnectSocket } from '@/shared/api/socket';
-import { UserState } from './user.types';
+import { AuthUserState } from './authUser.types';
 
-export const useUserStore = create<UserState>()((set) => ({
-	user: null,
+export const useAuthUserStore = create<AuthUserState>()((set) => ({
+	authUser: null,
 	roles: [
 		'user',
 	],
@@ -13,9 +13,9 @@ export const useUserStore = create<UserState>()((set) => ({
 	isLoading: true,
 	isInitialized: true,
 	error: null,
-	setUser: (user) =>
+	setAuthUser: (authUser) =>
 		set({
-			user,
+			authUser,
 			isAuth: true,
 			isLoading: false,
 		}),
@@ -26,14 +26,14 @@ export const useUserStore = create<UserState>()((set) => ({
 			const userRoles = response.data.roles.map((role) => role.type);
 
 			set({
-				user: authUser,
+				authUser,
 				roles: userRoles,
 				isAuth: true,
 				isLoading: false,
 			});
 		} catch {
 			set({
-				user: null,
+				authUser: null,
 				roles: [
 					'user',
 				],
@@ -56,7 +56,7 @@ export const useUserStore = create<UserState>()((set) => ({
 		} finally {
 			disconnectSocket();
 			set({
-				user: null,
+				authUser: null,
 				roles: [
 					'user',
 				],
@@ -68,7 +68,7 @@ export const useUserStore = create<UserState>()((set) => ({
 	},
 	reset: () =>
 		set({
-			user: null,
+			authUser: null,
 			roles: [
 				'user',
 			],

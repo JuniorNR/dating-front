@@ -1,6 +1,5 @@
 'use client';
 import { Pencil, Shield, Trash2, Users } from 'lucide-react';
-import { Reorder } from 'motion/react';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
@@ -10,11 +9,11 @@ import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
 
-interface RolesListListItemProps {
+interface RolesListViewItemProps {
 	role: RoleEntity;
 }
 
-export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
+export const RolesListViewItem: FC<RolesListViewItemProps> = ({ role }) => {
 	const { t: tRole } = useTranslation('role');
 	const isProtectedRole = [
 		'user',
@@ -23,20 +22,13 @@ export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
 	].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
+	const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();
 
 	return (
-		<Reorder.Item
-			as="li"
-			value={role.id}
-			className="relative"
-			transition={{
-				duration: 0.28,
-				ease: 'easeInOut',
-			}}
-		>
+		<li className="relative">
 			<span className="bg-primary absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full" />
-			<div className="rounded-xl border border-border bg-accent/40 p-3 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:bg-accent/80">
+			<div className="rounded-xl border border-border bg-accent/40 p-3 hover:border-primary/50 hover:bg-accent/80">
 				<div className="mb-2 flex items-start justify-between gap-3">
 					<div className="flex flex-wrap items-center gap-2">
 						<span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{formatDate(role.createdAt)}</span>
@@ -48,6 +40,8 @@ export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
 							openText={tRole('RoleListListItem.actions.editRole')}
 							title={tRole('RoleListListItem.actions.editRole')}
 							isLoading={isLoadingModalEdit}
+							isOpen={isOpenModalEdit}
+							setIsOpen={setIsOpenModalEdit}
 							renderTrigger={
 								<Button
 									variant="ghost"
@@ -66,6 +60,7 @@ export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
 								formId={`edit-role-${role.id}`}
 								roleId={role.id}
 								onLoading={(isLoading) => setIsLoadingModalEdit(isLoading)}
+								onSuccess={() => setIsOpenModalEdit(false)}
 							/>
 						</Modal>
 
@@ -138,6 +133,6 @@ export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
 					</div>
 				</div>
 			</div>
-		</Reorder.Item>
+		</li>
 	);
 };

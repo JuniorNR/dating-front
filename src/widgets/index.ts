@@ -12,3 +12,4 @@ export { Roles } from './Roles';
 export { SimpleModal } from './SimpleModal';
 export { SortBy } from './SortBy';
 export { ThemeSwitcher } from './ThemeSwitcher';
+export { Users } from './Users';

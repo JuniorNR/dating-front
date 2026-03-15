@@ -1,11 +1,11 @@
 import { TFunction } from 'i18next';
 import { Handshake, LogOut, Megaphone, MessageCircle, Settings, UserCog, UserKey, UserPen, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { INFORMATION_ROUTES, SUPERUSER_ROUTES, USER_ROUTES } from '@/shared/constants';
 
 export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
-	const userStore = useUserStore();
+	const authUserStore = useAuthUserStore();
 	const router = useRouter();
 
 	if (roles.includes('super-user')) {
@@ -49,7 +49,7 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]
 					icon: LogOut,
 					description: tCommon('header.profileNavigation.logout.description'),
 					onClick: async () => {
-						await userStore.logout();
+						await authUserStore.logout();
 						router.push('/');
 					},
 				},
@@ -99,7 +99,7 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]
 				icon: LogOut,
 				description: tCommon('header.profileNavigation.logout.description'),
 				onClick: async () => {
-					await userStore.logout();
+					await authUserStore.logout();
 					router.push('/');
 				},
 			},

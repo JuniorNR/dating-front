@@ -3,7 +3,7 @@ import { FC, useEffect, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pane, SplitPane, usePersistence } from 'react-split-pane';
 import { ChatEntity, ChatMessageEntity } from '@/entities/chat';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { getSocket } from '@/shared/api/socket';
 import { ChatListUpdatePayload } from '../model/chat.types';
 import { ChatList } from './ChatList';
@@ -19,7 +19,7 @@ export const Chat: FC = () => {
 		debounce: 500,
 	});
 
-	const { user } = useUserStore();
+	const { authUser } = useAuthUserStore();
 
 	const prevChatIdRef = useRef<number | null>(null);
 
@@ -155,7 +155,7 @@ export const Chat: FC = () => {
 	const configureChatName = (chat: ChatEntity) => {
 		let chatName: string = '';
 		if (chat.members.length === 2) {
-			chatName = chat.members.find((member) => member.id !== user?.id)?.username ?? tCommon('chat.defaultName');
+			chatName = chat.members.find((member) => member.id !== authUser?.id)?.username ?? tCommon('chat.defaultName');
 		}
 
 		return chatName;
@@ -202,7 +202,7 @@ export const Chat: FC = () => {
 					<ChatWindow
 						activeChatName={activeChatName}
 						messages={messages}
-						currentUserId={user?.id}
+						currentUserId={authUser?.id}
 						messageText={messageText}
 						onMessageTextChange={setMessageText}
 						onSendMessage={handleSendMessage}

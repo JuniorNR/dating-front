@@ -3,6 +3,7 @@ import announcementEn from '../i18n/en/announcement.json';
 import commonEn from '../i18n/en/common.json';
 import formEn from '../i18n/en/form.json';
 import roleEn from '../i18n/en/role.json';
+import usersEn from '../i18n/en/users.json';
 import validationEn from '../i18n/en/validation.json';
 
 declare module 'i18next' {
@@ -12,6 +13,7 @@ declare module 'i18next' {
 			common: typeof commonEn;
 			form: typeof formEn;
 			role: typeof roleEn;
+			users: typeof usersEn;
 			validation: typeof validationEn;
 		};
 	}

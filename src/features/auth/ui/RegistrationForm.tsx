@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useUserStore } from '@/entities/user';
+import { useAuthUserStore } from '@/entities/authUser';
 import { useAuthControllerRegistration } from '@/shared/api/ApiGenerated';
 import { ApiError } from '@/shared/api/apiFetch';
 import { PUBLIC_ROUTES } from '@/shared/constants';
@@ -17,7 +17,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ formId, onSuccess,
 	const { t: tValidation } = useTranslation('validation');
 	const { t: tForm } = useTranslation('form');
 	const router = useRouter();
-	const { checkAuth } = useUserStore();
+	const { checkAuth } = useAuthUserStore();
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
 	const { handleSubmit, control } = useForm({

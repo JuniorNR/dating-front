@@ -1,0 +1,76 @@
+{
+	"Users": {
+		"title": "Галерея пользователей",
+		"description": "Выберите удобный формат просмотра пользователей платформы.",
+		"listTitles": {
+			"byTable": "по таблице",
+			"byList": "по списку"
+		}
+	},
+	"UsersListHeader": {
+		"variants": {
+			"byTable": "по таблице",
+			"byList": "по списку"
+		}
+	},
+	"UsersListList": {
+		"subtitle": "Список пользователей",
+		"sortBy": {
+			"label": "Сортировать по",
+			"created": "Созданию",
+			"updated": "Обновлению",
+			"name": "Имени"
+		}
+	},
+	"UsersListListItem": {
+		"status": {
+			"banned": "заблокирован",
+			"active": "активен"
+		},
+		"meta": {
+			"rolesCount": "ролей: {{count}}",
+			"reason": "причина: {{value}}",
+			"created": "создан {{value}}",
+			"updated": "обновлен {{value}}"
+		},
+		"actions": {
+			"editUser": "Редактировать пользователя",
+			"viewRoles": "Посмотреть роли",
+			"deleteUser": "Удалить пользователя",
+			"deleteUserDescription": "Вы уверены, что хотите удалить этого пользователя?",
+			"deleteUserConfirm": "Удалить",
+			"deleteUserOpen": "Удалить пользователя",
+			"deleteUserClose": "Отмена"
+		}
+	},
+	"UsersListTable": {
+		"sortBy": {
+			"label": "Сортировать по",
+			"created": "Созданию",
+			"updated": "Обновлению",
+			"name": "Имени"
+		},
+		"columns": {
+			"order": "Порядок",
+			"id": "Id",
+			"username": "Имя пользователя",
+			"email": "Почта",
+			"roles": "Роли",
+			"status": "Статус",
+			"created": "Создан",
+			"updated": "Обновлен",
+			"actions": "Действия"
+		}
+	},
+	"UsersListTableItem": {
+		"status": {
+			"banned": "заблокирован",
+			"active": "активен"
+		},
+		"actions": {
+			"editUser": "Редактировать пользователя",
+			"viewRoles": "Посмотреть роли",
+			"deleteUser": "Удалить пользователя"
+		}
+	}
+}

@@ -5,11 +5,13 @@ import announcementEn from './en/announcement.json';
 import commonEn from './en/common.json';
 import formEn from './en/form.json';
 import roleEn from './en/role.json';
+import usersEn from './en/users.json';
 import validationEn from './en/validation.json';
 import announcementRu from './ru/announcement.json';
 import commonRu from './ru/common.json';
 import formRu from './ru/form.json';
 import roleRu from './ru/role.json';
+import usersRu from './ru/users.json';
 import validationRu from './ru/validation.json';
 
 const resources: Record<
@@ -19,6 +21,7 @@ const resources: Record<
 		common: typeof commonEn;
 		form: typeof formEn;
 		role: typeof roleEn;
+		users: typeof usersEn;
 		validation: typeof validationEn;
 	}
 > = {
@@ -27,6 +30,7 @@ const resources: Record<
 		common: commonEn,
 		form: formEn,
 		role: roleEn,
+		users: usersEn,
 		validation: validationEn,
 	},
 	ru: {
@@ -34,6 +38,7 @@ const resources: Record<
 		common: commonRu,
 		form: formRu,
 		role: roleRu,
+		users: usersRu,
 		validation: validationRu,
 	},
 };

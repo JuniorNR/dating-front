@@ -10,11 +10,11 @@ import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
 
-interface RoleListListItemProps {
+interface RolesListListItemProps {
 	role: RoleEntity;
 }
 
-export const RoleListListItem: FC<RoleListListItemProps> = ({ role }) => {
+export const RolesListListItem: FC<RolesListListItemProps> = ({ role }) => {
 	const { t: tRole } = useTranslation('role');
 	const isProtectedRole = [
 		'user',

@@ -3,14 +3,12 @@
 		"title": "Role Gallery",
 		"description": "Choose the most convenient role view for admin tasks, quick checks and detailed review.",
 		"listTitles": {
-			"byConsole": "by console",
 			"byTable": "by table",
 			"byList": "by list"
 		}
 	},
 	"RoleListHeader": {
 		"variants": {
-			"byConsole": "by console",
 			"byTable": "by table",
 			"byList": "by list"
 		}

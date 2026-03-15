@@ -8,7 +8,7 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]
 	const userStore = useUserStore();
 	const router = useRouter();
 
-	if (roles.includes('superuser')) {
+	if (roles.includes('super-user')) {
 		const profileNavItemsSuperUserData = {
 			title: tCommon('header.profileNavigation.title'),
 			links: [
@@ -109,15 +109,15 @@ export const useProfileNavItems = (tCommon: TFunction<'common'>, roles: string[]
 	return profileNavItemsUserData;
 };
 
-export const useInformationNavItems = (tCommon: TFunction<'common'>, roles: string[]) => {
+export const useInformationNavItems = (tCommon: TFunction<'common'>, _roles: string[]) => {
 	const informationNavItemsData = {
-		title: 'Information',
+		title: tCommon('header.informationNavigation.title'),
 		links: [
 			{
-				title: 'Announcements',
+				title: tCommon('header.informationNavigation.announcements.title'),
 				href: INFORMATION_ROUTES.ANNOUNCEMENTS,
 				icon: Megaphone,
-				description: 'Announcements description',
+				description: tCommon('header.informationNavigation.announcements.description'),
 			},
 		],
 		buttons: [],

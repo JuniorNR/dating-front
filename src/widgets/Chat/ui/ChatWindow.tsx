@@ -1,6 +1,7 @@
 'use client';
 
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/widgets';
 import { ChatWindowProps } from '../model/chat.types';
@@ -13,14 +14,15 @@ export const ChatWindow: FC<ChatWindowProps> = ({
 	onMessageTextChange,
 	onSendMessage,
 }) => {
+	const { t: tCommon } = useTranslation('common');
 	const isChatSelected = Boolean(activeChatName);
 
 	return (
 		<section className="flex min-h-0 h-full flex-col bg-secondary/50">
 			<header className="flex h-[50px] items-center justify-between border-b border-border bg-secondary/70 px-4">
 				<div>
-					<p className="text-sm font-semibold text-primary">{activeChatName || 'Выберите чат'}</p>
-					<p className="text-xs text-muted-foreground">{isChatSelected ? 'online' : 'Нет активного чата'}</p>
+					<p className="text-sm font-semibold text-primary">{activeChatName || tCommon('chat.window.selectChat')}</p>
+					<p className="text-xs text-muted-foreground">{isChatSelected ? tCommon('chat.window.online') : tCommon('chat.window.noActiveChat')}</p>
 				</div>
 				<Button
 					type="button"
@@ -29,7 +31,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
 					className="rounded-sm"
 					disabled={!isChatSelected}
 				>
-					Подробнее
+					{tCommon('chat.window.details')}
 				</Button>
 			</header>
 
@@ -49,7 +51,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
 					<Input
 						value={messageText}
 						onChange={(event) => onMessageTextChange(event.target.value)}
-						placeholder="Напишите сообщение..."
+						placeholder={tCommon('chat.window.messagePlaceholder')}
 						className="rounded-sm"
 						disabled={!isChatSelected}
 					/>
@@ -60,7 +62,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
 						onClick={onSendMessage}
 						disabled={!isChatSelected}
 					>
-						Отправить
+						{tCommon('chat.window.send')}
 					</Button>
 				</div>
 			</footer>

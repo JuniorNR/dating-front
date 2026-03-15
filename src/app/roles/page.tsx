@@ -1,11 +1,11 @@
-import { Role } from '@/widgets';
+import { Roles } from '@/widgets';
 
-const RolePage = () => {
+const RolesPage = () => {
 	return (
 		<div>
-			<Role />
+			<Roles />
 		</div>
 	);
 };
 
-export default RolePage;
+export default RolesPage;

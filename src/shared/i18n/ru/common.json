@@ -1,5 +1,12 @@
 {
 	"header": {
+		"informationNavigation": {
+			"title": "Информация",
+			"announcements": {
+				"title": "Объявления",
+				"description": "Просмотреть объявления платформы"
+			}
+		},
 		"profileNavigation": {
 			"title": "Профиль",
 			"profile": {
@@ -54,6 +61,40 @@
 		"cancel": "Отменить",
 		"save": "Сохранить",
 		"close": "Закрыть"
+	},
+	"dialog": {
+		"closeAria": "Закрыть"
+	},
+	"chat": {
+		"defaultName": "Новый чат",
+		"list": {
+			"title": "Чаты",
+			"startDialog": "Начните диалог",
+			"deleteButtonAria": "Удалить чат",
+			"deleteModal": {
+				"title": "Удалить чат",
+				"description": "Вы уверены, что хотите удалить этот чат?",
+				"confirm": "Удалить",
+				"close": "Отмена"
+			}
+		},
+		"window": {
+			"selectChat": "Выберите чат",
+			"online": "Онлайн",
+			"noActiveChat": "Нет активного чата",
+			"details": "Подробнее",
+			"messagePlaceholder": "Напишите сообщение...",
+			"send": "Отправить"
+		}
+	},
+	"profile": {
+		"comingSoon": {
+			"title": "СКОРО",
+			"subtitle": "(WIP)"
+		}
+	},
+	"home": {
+		"title": "Главная страница"
 	},
 	"languageSwitcher": {
 		"title": "Сменить язык",

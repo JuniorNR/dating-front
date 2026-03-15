@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { CreateRoleForm } from '@/features';
 import { Button } from '@/shared/ui/button';
 import { Modal, SortBy } from '@/widgets';
-import { RoleListTableProps } from '../model/role.types';
-import { RoleListTableItem } from './RoleListTableItem';
+import { RolesListTableProps } from '../model/roles.types';
+import { RolesListTableItem } from './RolesListTableItem';
 
-export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
+export const RolesListTable: FC<RolesListTableProps> = ({ title, roles }) => {
 	const { t: tRole } = useTranslation('role');
 	const [sortType, setSortType] = useState<'created' | 'updated' | 'name'>('created');
 	const [isLoadingModalCreate, setIsLoadingModalCreate] = useState<boolean>(false);
@@ -112,7 +112,7 @@ export const RoleListTable: FC<RoleListTableProps> = ({ title, roles }) => {
 						onReorder={() => {}}
 					>
 						{sortedRoles.map((role, index) => (
-							<RoleListTableItem
+							<RolesListTableItem
 								key={role.id}
 								role={role}
 								order={index + 1}

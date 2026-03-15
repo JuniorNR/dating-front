@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import { Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { SimpleModal } from '@/widgets/SimpleModal';
 import { ChatListProps } from '../model/chat.types';
@@ -13,10 +14,12 @@ export const ChatList: FC<ChatListProps> = ({
 	onDeleteChat,
 	resolveChatName,
 }) => {
+	const { t: tCommon } = useTranslation('common');
+
 	return (
 		<aside className="min-h-0 h-full overflow-y-auto border-r border-border bg-muted/25">
 			<header className="flex h-[50px] items-center border-b border-r border-border bg-secondary/70 px-4">
-				<h2 className="text-sm font-semibold text-primary">Чаты</h2>
+				<h2 className="text-sm font-semibold text-primary">{tCommon('chat.list.title')}</h2>
 			</header>
 			<div className="space-y-2 p-2">
 				{chats.map((chat) => (
@@ -32,23 +35,23 @@ export const ChatList: FC<ChatListProps> = ({
 						>
 							<div className="w-full">
 								<p className="truncate text-sm font-semibold text-primary">{resolveChatName(chat)}</p>
-								<p className="mt-0.5 truncate text-xs text-muted-foreground">{chat.messages[0]?.text || 'Начните диалог'}</p>
+								<p className="mt-0.5 truncate text-xs text-muted-foreground">{chat.messages[0]?.text || tCommon('chat.list.startDialog')}</p>
 							</div>
 						</Button>
 						<div className="absolute right-2 top-2">
 							<SimpleModal
-								title="Удалить чат"
-								description="Вы уверены, что хотите удалить этот чат?"
+								title={tCommon('chat.list.deleteModal.title')}
+								description={tCommon('chat.list.deleteModal.description')}
 								isLoading={false}
 								onSuccess={() => onDeleteChat(chat.id)}
-								confirmText="Удалить"
-								closeText="Отмена"
+								confirmText={tCommon('chat.list.deleteModal.confirm')}
+								closeText={tCommon('chat.list.deleteModal.close')}
 								renderTrigger={
 									<Button
 										type="button"
 										variant="ghost"
 										className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
-										aria-label="Удалить чат"
+										aria-label={tCommon('chat.list.deleteButtonAria')}
 									>
 										<Trash2 className="size-4" />
 									</Button>

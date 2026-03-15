@@ -8,9 +8,9 @@ import { UpdateRoleForm } from '@/features';
 import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
 import { Modal, SimpleModal } from '@/widgets';
-import { RoleListTableItemProps } from '../model/role.types';
+import { RolesListTableItemProps } from '../model/roles.types';
 
-export const RoleListTableItem: FC<RoleListTableItemProps> = ({ role, order }) => {
+export const RolesListTableItem: FC<RolesListTableItemProps> = ({ role, order }) => {
 	const { t: tRole } = useTranslation('role');
 	const isProtectedRole = [
 		'user',

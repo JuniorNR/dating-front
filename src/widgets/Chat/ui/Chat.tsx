@@ -1,5 +1,6 @@
 'use client';
 import { FC, useEffect, useReducer, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pane, SplitPane, usePersistence } from 'react-split-pane';
 import { ChatEntity, ChatMessageEntity } from '@/entities/chat';
 import { useUserStore } from '@/entities/user';
@@ -10,6 +11,7 @@ import { ChatWindow } from './ChatWindow';
 import { chatReducer } from '../model/chat.utils';
 
 export const Chat: FC = () => {
+	const { t: tCommon } = useTranslation('common');
 	const activeChatIdFromLocalStorage = typeof window === 'undefined' ? null : localStorage.getItem('activeChatId');
 	const socket = getSocket('chat');
 	const [sizes, setSizes] = usePersistence({
@@ -153,7 +155,7 @@ export const Chat: FC = () => {
 	const configureChatName = (chat: ChatEntity) => {
 		let chatName: string = '';
 		if (chat.members.length === 2) {
-			chatName = chat.members.find((member) => member.id !== user?.id)?.username ?? 'Новый чат';
+			chatName = chat.members.find((member) => member.id !== user?.id)?.username ?? tCommon('chat.defaultName');
 		}
 
 		return chatName;

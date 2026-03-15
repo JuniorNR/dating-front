@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
 
-export const RoleSkeleton: FC = () => {
+export const RolesSkeleton: FC = () => {
 	return (
 		<section className="overflow-hidden rounded-3xl border bg-card p-4 sm:p-6">
 			<div className="mb-5 space-y-2">

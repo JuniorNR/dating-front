@@ -3,15 +3,16 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
 import { ErrorComponent } from '@/widgets';
-import { RoleListVariant } from '../model/role.types';
-import { RoleSkeleton } from './Role.skeleton';
-import { RoleList } from './RoleList';
-import { RoleListHeader } from './RoleListHeader';
+import { RolesListVariant } from '../model/roles.types';
+import { RolesSkeleton } from './Roles.skeleton';
+import { RolesList } from './RolesList';
+import { RolesListHeader } from './RolesListHeader';
 
-export const Role: FC = () => {
+export const Roles: FC = () => {
 	const { t: tRole } = useTranslation('role');
-	const localStorageActiveTab = localStorage.getItem('rolesActiveTab') as RoleListVariant;
-	const [listVariant, setListVariant] = useState<RoleListVariant>(localStorageActiveTab || 'byList');
+	const localStorageActiveTab = localStorage.getItem('rolesActiveTab') as RolesListVariant;
+	const initialVariant: RolesListVariant = localStorageActiveTab === 'byTable' || localStorageActiveTab === 'byList' ? localStorageActiveTab : 'byList';
+	const [listVariant, setListVariant] = useState<RolesListVariant>(initialVariant);
 	const { items: roles, isInitialized, getAll, error } = useRoleStore();
 
 	useEffect(() => {
@@ -24,7 +25,7 @@ export const Role: FC = () => {
 	]);
 
 	if (!isInitialized) {
-		return <RoleSkeleton />;
+		return <RolesSkeleton />;
 	}
 
 	if (error) {
@@ -43,26 +44,19 @@ export const Role: FC = () => {
 				<p className="mt-1 text-sm text-muted-foreground">{tRole('Role.description')}</p>
 			</div>
 			<div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-				<RoleListHeader
+				<RolesListHeader
 					variant={listVariant}
 					setVariant={setListVariant}
 				/>
-				<div className="col-span-full mt-2 hidden peer-checked/by-console:block">
-					<RoleList
-						title="by console"
-						roles={roles || []}
-						variant="byConsole"
-					/>
-				</div>
 				<div className="col-span-full mt-2 hidden peer-checked/by-table:block">
-					<RoleList
+					<RolesList
 						title={tRole('Role.listTitles.byTable')}
 						roles={roles || []}
 						variant="byTable"
 					/>
 				</div>
 				<div className="col-span-full mt-2 hidden peer-checked/by-list:block">
-					<RoleList
+					<RolesList
 						title={tRole('Role.listTitles.byList')}
 						roles={roles || []}
 						variant="byList"

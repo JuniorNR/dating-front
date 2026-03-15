@@ -1,30 +1,15 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RoleListHeaderProps, RoleListVariant } from '../model/role.types';
+import { RolesListHeaderProps, RolesListVariant } from '../model/roles.types';
 
-export const RoleListHeader: FC<RoleListHeaderProps> = ({ variant, setVariant }) => {
+export const RolesListHeader: FC<RolesListHeaderProps> = ({ variant, setVariant }) => {
 	const { t: tRole } = useTranslation('role');
-	const handleChangeVariant = (variant: RoleListVariant) => {
+	const handleChangeVariant = (variant: RolesListVariant) => {
 		localStorage.setItem('rolesActiveTab', variant);
 		setVariant(variant);
 	};
 	return (
 		<>
-			<input
-				type="radio"
-				id="tab-by-console"
-				name="role-variant"
-				className="peer/by-console sr-only"
-				defaultChecked={variant === 'byConsole'}
-				onChange={(isChecked) => isChecked && handleChangeVariant('byConsole')}
-			/>
-			<label
-				htmlFor="tab-by-console"
-				className="cursor-pointer rounded-xl border border-border bg-accent px-3 py-2 text-center text-xs font-medium text-muted-foreground shadow-xs transition-all hover:border-primary/50 hover:bg-muted hover:text-foreground peer-checked/by-console:border-primary peer-checked/by-console:bg-primary/15 peer-checked/by-console:text-primary peer-checked/by-console:shadow-sm sm:text-sm"
-			>
-				by console
-			</label>
-
 			<input
 				type="radio"
 				id="tab-by-table"

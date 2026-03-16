@@ -49,16 +49,7 @@ export function createCrudStore<TItem, TCreateDto, TUpdateDto>(
 			try {
 				const result = await createOne(dto);
 				set((state) => ({
-					items:
-						insertMode === 'prepend'
-							? [
-									result.data,
-									...state.items,
-								]
-							: [
-									...state.items,
-									result.data,
-								],
+					items: insertMode === 'prepend' ? [result.data, ...state.items] : [...state.items, result.data],
 					isInitialized: true,
 				}));
 			} catch (error) {

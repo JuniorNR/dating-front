@@ -41,6 +41,7 @@ function Button({
 	className,
 	variant = 'default',
 	size = 'default',
+	color,
 	asChild = false,
 	isLoading = false,
 	...props
@@ -48,13 +49,20 @@ function Button({
 	VariantProps<typeof buttonVariants> & {
 		asChild?: boolean;
 		isLoading?: boolean;
+		color?: 'destructive';
 	}) {
 	const Comp = asChild ? Slot.Root : 'button';
 
 	const disabled = isLoading || props.disabled;
 
 	return (
-		<Comp data-slot="button" data-variant={variant} data-size={size} className={cn(buttonVariants({ variant, size, className }))} disabled={disabled} {...props}
+		<Comp
+			data-slot="button"
+			data-variant={variant}
+			data-size={size}
+			className={cn(buttonVariants({ variant, size, className }), color === 'destructive' && 'text-destructive hover:text-destructive')}
+			disabled={disabled}
+			{...props}
 		>
 				{isLoading ? (
 					<motion.div

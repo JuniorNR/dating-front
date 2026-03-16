@@ -1,11 +1,13 @@
 'use client';
 import { Pencil, Shield, Trash2 } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuthUserStore } from '@/entities/authUser';
 import { useUsersStore } from '@/entities/users';
+import { UpdateUserForm } from '@/features';
 import { formatDate } from '@/shared/lib/formatDate';
 import { Button } from '@/shared/ui/button';
+import { Modal } from '@/widgets/Modal';
 import { SimpleModal } from '@/widgets/SimpleModal';
 import { UsersListViewItemProps } from '../model/users.types';
 
@@ -14,6 +16,10 @@ export const UsersListViewItem: FC<UsersListViewItemProps> = ({ user }) => {
 	const { authUser } = useAuthUserStore();
 	const { remove } = useUsersStore();
 	const isDeleteDisabled = ['user', 'admin'].includes(user.username.toLowerCase()) || user.id === authUser?.id;
+
+	const [isOpenUpdateUserForm, setIsOpenUpdateUserForm] = useState<boolean>(false);
+	const [isLoadingUpdateUserForm, setIsLoadingUpdateUserForm] = useState<boolean>(false);
+	const [isLoadingDeleteUser, setIsLoadingDeleteUser] = useState<boolean>(false);
 
 	return (
 		<li className="relative">
@@ -25,34 +31,54 @@ export const UsersListViewItem: FC<UsersListViewItemProps> = ({ user }) => {
 						<p className="truncate text-sm text-muted-foreground">{user.email}</p>
 					</div>
 					<div className="flex shrink-0 items-center gap-1">
-						<Button
-							variant="ghost"
-							size="icon-lg"
-							type="button"
-							className="text-muted-foreground hover:text-foreground"
-							aria-label={tUsers('UsersListListItem.actions.editUser')}
-							title={tUsers('UsersListListItem.actions.editUser')}
+						<Modal
+							openText={tUsers('UsersListViewItem.actions.updateUser')}
+							title={tUsers('UsersListViewItem.actions.updateUser')}
+							isLoading={isLoadingUpdateUserForm}
+							isOpen={isOpenUpdateUserForm}
+							setIsOpen={setIsOpenUpdateUserForm}
+							formId={`update-user-form${user.id}`}
+							renderTrigger={
+								<Button
+									variant="ghost"
+									size="icon-lg"
+									type="button"
+									className="text-muted-foreground hover:text-foreground"
+									aria-label={tUsers('UsersListViewItem.actions.updateUser')}
+									title={tUsers('UsersListViewItem.actions.updateUser')}
+								>
+									<Pencil />
+								</Button>
+							}
 						>
-							<Pencil />
-						</Button>
+							<UpdateUserForm
+								user={user}
+								formId={`update-user-form${user.id}`}
+								onLoading={setIsLoadingUpdateUserForm}
+								onSuccess={() => setIsOpenUpdateUserForm(false)}
+							/>
+						</Modal>
 						<Button
 							variant="ghost"
 							size="icon-lg"
 							type="button"
 							className="text-muted-foreground hover:text-foreground"
-							aria-label={tUsers('UsersListListItem.actions.viewRoles')}
-							title={tUsers('UsersListListItem.actions.viewRoles')}
+							aria-label={tUsers('UsersListViewItem.actions.viewRoles')}
+							title={tUsers('UsersListViewItem.actions.viewRoles')}
 						>
 							<Shield />
 						</Button>
 						<SimpleModal
-							title={tUsers('UsersListListItem.actions.deleteUser')}
-							description={tUsers('UsersListListItem.actions.deleteUserDescription')}
-							confirmText={tUsers('UsersListListItem.actions.deleteUserConfirm')}
-							openText={tUsers('UsersListListItem.actions.deleteUserOpen')}
-							closeText={tUsers('UsersListListItem.actions.deleteUserClose')}
-							isLoading={false}
-							onSuccess={() => remove(user.id)}
+							title={tUsers('UsersListViewItem.actions.deleteUser')}
+							description={tUsers('UsersListViewItem.actions.deleteUserDescription')}
+							confirmText={tUsers('UsersListViewItem.actions.deleteUserConfirm')}
+							openText={tUsers('UsersListViewItem.actions.deleteUserOpen')}
+							closeText={tUsers('UsersListViewItem.actions.deleteUserClose')}
+							isLoading={isLoadingDeleteUser}
+							onSuccess={() => {
+								setIsLoadingDeleteUser(false);
+								remove(user.id);
+							}}
 							renderTrigger={
 								<Button
 									variant="ghost"
@@ -76,16 +102,16 @@ export const UsersListViewItem: FC<UsersListViewItemProps> = ({ user }) => {
 								user.banned ? 'border-destructive/50 bg-destructive/10 text-destructive' : 'border-border bg-accent text-muted-foreground'
 							}`}
 						>
-							{user.banned ? tUsers('UsersListListItem.status.banned') : tUsers('UsersListListItem.status.active')}
+							{user.banned ? tUsers('UsersListViewItem.status.banned') : tUsers('UsersListViewItem.status.active')}
 						</span>
 						<span className="inline-flex items-center rounded-md border border-border bg-accent px-2 py-0.5 text-[10px] font-medium tracking-normal text-muted-foreground">
-							{tUsers('UsersListListItem.meta.rolesCount', { count: user.roles.length })}
+							{tUsers('UsersListViewItem.meta.rolesCount', { count: user.roles.length })}
 						</span>
-						{Boolean(user.banReason) && <span className="truncate">{tUsers('UsersListListItem.meta.reason', { value: user.banReason })}</span>}
+						{Boolean(user.banReason) && <span className="truncate">{tUsers('UsersListViewItem.meta.reason', { value: user.banReason })}</span>}
 					</div>
 					<div className="flex flex-col items-end gap-0.5">
-						<span>{tUsers('UsersListListItem.meta.created', { value: formatDate(user.createdAt) })}</span>
-						<span>{tUsers('UsersListListItem.meta.updated', { value: formatDate(user.updatedAt) })}</span>
+						<span>{tUsers('UsersListViewItem.meta.created', { value: formatDate(user.createdAt) })}</span>
+						<span>{tUsers('UsersListViewItem.meta.updated', { value: formatDate(user.updatedAt) })}</span>
 					</div>
 				</div>
 			</div>

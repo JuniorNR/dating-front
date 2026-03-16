@@ -17,6 +17,7 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
 	const { update } = useAnnouncementStore();
+
 	const {
 		items: announcementCategories,
 		getAll: getAllAnnouncementCategories,
@@ -106,10 +107,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
 								label={tForm('announcement.title.label')}
 								placeholder={tForm('announcement.title.placeholder')}
 								description={tForm('announcement.title.example')}
@@ -123,10 +124,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
 								label={tForm('announcement.content.label')}
 								placeholder={tForm('announcement.content.placeholder')}
 								description={tForm('announcement.content.example')}
@@ -143,10 +144,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
 								label={tForm('announcement.title.label')}
 								placeholder={tForm('announcement.title.placeholder')}
 								description={tForm('announcement.title.example')}
@@ -160,10 +161,10 @@ export const UpdateAnnouncementForm: FC<UpdateAnnouncementFormProps> = ({ announ
 						render={({ field, fieldState }) => (
 							<Input
 								{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
 								label={tForm('announcement.content.label')}
 								placeholder={tForm('announcement.content.placeholder')}
 								description={tForm('announcement.content.example')}

@@ -22,7 +22,7 @@
 			"name": "Name"
 		}
 	},
-	"UsersListListItem": {
+	"UsersListViewItem": {
 		"status": {
 			"banned": "banned",
 			"active": "active"
@@ -34,7 +34,7 @@
 			"updated": "updated {{value}}"
 		},
 		"actions": {
-			"editUser": "Edit user",
+			"updateUser": "Update user",
 			"viewRoles": "View roles",
 			"deleteUser": "Delete user",
 			"deleteUserDescription": "Are you sure you want to delete this user?",
@@ -68,9 +68,13 @@
 			"active": "active"
 		},
 		"actions": {
-			"editUser": "Edit user",
+			"updateUser": "Update user",
 			"viewRoles": "View roles",
-			"deleteUser": "Delete user"
+			"deleteUser": "Delete user",
+			"deleteUserDescription": "Are you sure you want to delete this user?",
+			"deleteUserConfirm": "Delete",
+			"deleteUserOpen": "Delete user",
+			"deleteUserClose": "Cancel"
 		}
 	}
 }

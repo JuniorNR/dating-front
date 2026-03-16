@@ -22,7 +22,7 @@
 			"name": "Имени"
 		}
 	},
-	"UsersListListItem": {
+	"UsersListViewItem": {
 		"status": {
 			"banned": "заблокирован",
 			"active": "активен"
@@ -34,7 +34,7 @@
 			"updated": "обновлен {{value}}"
 		},
 		"actions": {
-			"editUser": "Редактировать пользователя",
+			"updateUser": "Обновить пользователя",
 			"viewRoles": "Посмотреть роли",
 			"deleteUser": "Удалить пользователя",
 			"deleteUserDescription": "Вы уверены, что хотите удалить этого пользователя?",
@@ -68,9 +68,13 @@
 			"active": "активен"
 		},
 		"actions": {
-			"editUser": "Редактировать пользователя",
+			"updateUser": "Обновить пользователя",
 			"viewRoles": "Посмотреть роли",
-			"deleteUser": "Удалить пользователя"
+			"deleteUser": "Удалить пользователя",
+			"deleteUserDescription": "Вы уверены, что хотите удалить этого пользователя?",
+			"deleteUserConfirm": "Удалить",
+			"deleteUserOpen": "Удалить пользователя",
+			"deleteUserClose": "Отмена"
 		}
 	}
 }

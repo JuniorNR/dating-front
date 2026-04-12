@@ -8,6 +8,7 @@ export { LanguageSwitcher } from './LanguageSwitcher';
 export { Main } from './Main';
 export { Modal } from './Modal';
 export { Profile } from './Profile';
+export { Resume } from './Resume';
 export { Roles } from './Roles';
 export { SimpleModal } from './SimpleModal';
 export { SortBy } from './SortBy';

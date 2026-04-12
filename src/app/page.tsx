@@ -1,10 +1,8 @@
 'use client';
-import { useTranslation } from 'react-i18next';
+import { Resume } from '@/widgets';
 
 const HomePage = () => {
-	const { t: tCommon } = useTranslation('common');
-
-	return <div>{tCommon('home.title')}</div>;
+	return <Resume />;
 };
 
 export default HomePage;

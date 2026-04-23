@@ -14,16 +14,17 @@ interface RolesListViewItemProps {
 }
 
 export const RolesListViewItem: FC<RolesListViewItemProps> = ({ role }) => {
-	const { t: tRole } = useTranslation('role');
-	const isProtectedRole = [
-		'user',
-		'admin',
-		'super-user',
-	].includes(role.type.toLowerCase());
+	const {
+		t: tRole,
+		i18n: { language },
+	} = useTranslation('role');
+	const isProtectedRole = ['user', 'admin', 'super-user'].includes(role.type.toLowerCase());
 	const [isLoadingModalDelete, setIsLoadingModalDelete] = useState<boolean>(false);
 	const [isLoadingModalEdit, setIsLoadingModalEdit] = useState<boolean>(false);
 	const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 	const { remove } = useRoleStore();
+
+	const translation = role.translations.find((translation) => translation.locale === language);
 
 	return (
 		<li className="relative">
@@ -112,8 +113,8 @@ export const RolesListViewItem: FC<RolesListViewItemProps> = ({ role }) => {
 				</div>
 
 				<div className="flex min-h-24 flex-col">
-					<h3 className="text-base font-semibold text-card-foreground">{role.name}</h3>
-					<p className="mt-1 text-sm text-muted-foreground">{role.description}</p>
+					<h3 className="text-base font-semibold text-card-foreground">{translation?.name}</h3>
+					<p className="mt-1 text-sm text-muted-foreground">{translation?.description}</p>
 					<div className="mt-auto flex items-end justify-between pt-3 text-xs text-muted-foreground">
 						<span className="inline-flex items-center rounded-md border border-border bg-accent px-2 py-0.5 text-[10px] font-medium tracking-normal text-muted-foreground">
 							{role.type}

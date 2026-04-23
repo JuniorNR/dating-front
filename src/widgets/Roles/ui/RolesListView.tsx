@@ -25,11 +25,6 @@ export const RolesListView: FC<RolesListListProps> = ({ title, roles }) => {
 			value: 'updated' as const,
 			sorter: (a: (typeof roles)[number], b: (typeof roles)[number]) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
 		},
-		{
-			label: tRole('RoleListList.sortBy.name'),
-			value: 'name' as const,
-			sorter: (a: (typeof roles)[number], b: (typeof roles)[number]) => a.name.localeCompare(b.name),
-		},
 	];
 	const activeSort = sortOptions.find((option) => option.value === sortType);
 	const sortedRoles = activeSort ? [...roles].sort(activeSort.sorter) : roles;

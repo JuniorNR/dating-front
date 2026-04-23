@@ -53,17 +53,27 @@ export interface UserAnnouncementEntity {
   updatedAt: UserAnnouncementEntityUpdatedAt;
 }
 
+export interface RoleTranslationsEntity {
+  /** Unique id */
+  id: number;
+  /** Unique id of role */
+  roleId: number;
+  locale: string;
+  /** Unique name of role */
+  name: string;
+  /** Description about role */
+  description: string;
+}
+
 export interface RoleEntity {
   /** Unique id */
   id: number;
-  /** Unique name of role */
-  name: string;
   /** Unique type of role like a name */
   type: string;
-  /** Description about role */
-  description: string;
   /** All users, who have this role */
   users: UserEntity[];
+  /** Role translations */
+  translations: RoleTranslationsEntity[];
   createdAt: string;
   updatedAt: string;
 }
@@ -189,20 +199,12 @@ export interface AnnouncementAuthorEntity {
   updatedAt: string;
 }
 
-/**
- * @nullable
- */
-export type AnnouncementTranslationsEntityUpdatedAt = { [key: string]: unknown } | null;
-
 export interface AnnouncementTranslationsEntity {
   /** Unique id */
   id: number;
   locale: string;
   title: string;
   content: string;
-  createdAt: string;
-  /** @nullable */
-  updatedAt: AnnouncementTranslationsEntityUpdatedAt;
 }
 
 /**

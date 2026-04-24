@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRoleStore } from '@/entities/role';
-import { FieldFormError, FieldGroup } from '@/shared/ui/field';
+import { FieldFormError, FieldGroup, FieldLegend } from '@/shared/ui/field';
 import { Input } from '@/widgets';
 import { CreateRoleFormType, getCreateRoleSchema } from '../model/role.schema';
 import { CreateRoleFormProps } from '../model/role.types';
@@ -17,9 +17,19 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onS
 	const { handleSubmit, control } = useForm<CreateRoleFormType>({
 		resolver: zodResolver(getCreateRoleSchema(tValidation)),
 		defaultValues: {
-			name: '',
 			type: '',
-			description: '',
+			translations: [
+				{
+					locale: 'ru',
+					name: '',
+					description: '',
+				},
+				{
+					locale: 'en',
+					name: '',
+					description: '',
+				},
+			],
 		},
 	});
 	const clearFormError = () => setFormErrorMessage((prev) => (prev ? null : prev));
@@ -38,24 +48,6 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onS
 		>
 			<FieldGroup>
 				<Controller
-					name="name"
-					control={control}
-					render={({ field, fieldState }) => (
-						<Input
-							{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
-							label={tForm('role.name.label')}
-							autoComplete="name"
-							placeholder={tForm('role.name.placeholder')}
-							description={tForm('role.name.example')}
-							error={fieldState.error?.message}
-						/>
-					)}
-				/>
-				<Controller
 					name="type"
 					control={control}
 					render={({ field, fieldState }) => (
@@ -66,33 +58,92 @@ export const CreateRoleForm: FC<CreateRoleFormProps> = ({ formId, onLoading, onS
 								clearFormError();
 							}}
 							label={tForm('role.type.label')}
-							autoComplete="current-password"
 							placeholder={tForm('role.type.placeholder')}
 							description={tForm('role.type.example')}
 							error={fieldState.error?.message}
 						/>
 					)}
 				/>
-				<Controller
-					name="description"
-					control={control}
-					render={({ field, fieldState }) => (
-						<Input
-							{...field}
-							onChange={(event) => {
-								field.onChange(event);
-								clearFormError();
-							}}
-							label={tForm('role.description.label')}
-							autoComplete="current-password"
-							placeholder={tForm('role.description.placeholder')}
-							description={tForm('role.description.example')}
-							error={fieldState.error?.message}
-						/>
-					)}
-				/>
-				<FieldFormError message={formErrorMessage} />
 			</FieldGroup>
+			<FieldGroup className="flex flex-row gap-5 pt-5">
+				<FieldGroup className="w-1/2">
+					<FieldLegend>{tForm('legendRu')}</FieldLegend>
+					<Controller
+						name="translations.0.name"
+						control={control}
+						render={({ field, fieldState }) => (
+							<Input
+								{...field}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
+								label={tForm('role.name.label')}
+								placeholder={tForm('role.name.placeholder')}
+								description={tForm('role.name.example')}
+								error={fieldState.error?.message}
+							/>
+						)}
+					/>
+					<Controller
+						name="translations.0.description"
+						control={control}
+						render={({ field, fieldState }) => (
+							<Input
+								{...field}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
+								label={tForm('role.description.label')}
+								placeholder={tForm('role.description.placeholder')}
+								description={tForm('role.description.example')}
+								error={fieldState.error?.message}
+							/>
+						)}
+					/>
+				</FieldGroup>
+				<FieldGroup className="w-1/2">
+					<FieldLegend>{tForm('legendEn')}</FieldLegend>
+					<Controller
+						name="translations.1.name"
+						control={control}
+						render={({ field, fieldState }) => (
+							<Input
+								{...field}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
+								label={tForm('role.name.label')}
+								placeholder={tForm('role.name.placeholder')}
+								description={tForm('role.name.example')}
+								error={fieldState.error?.message}
+							/>
+						)}
+					/>
+					<Controller
+						name="translations.1.description"
+						control={control}
+						render={({ field, fieldState }) => (
+							<Input
+								{...field}
+								onChange={(event) => {
+									field.onChange(event);
+									clearFormError();
+								}}
+								label={tForm('role.description.label')}
+								placeholder={tForm('role.description.placeholder')}
+								description={tForm('role.description.example')}
+								error={fieldState.error?.message}
+							/>
+						)}
+					/>
+				</FieldGroup>
+			</FieldGroup>
+			<div className="mt-4">
+				<FieldFormError message={formErrorMessage} />
+			</div>
 		</form>
 	);
 };

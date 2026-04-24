@@ -1,4 +1,6 @@
 {
+	"legendRu": "Russian translate",
+	"legendEn": "English translate",
 	"username": {
 		"label": "Username",
 		"placeholder": "Enter your username...",

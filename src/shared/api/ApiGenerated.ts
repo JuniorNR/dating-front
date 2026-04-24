@@ -58,6 +58,7 @@ export interface RoleTranslationsEntity {
   id: number;
   /** Unique id of role */
   roleId: number;
+  /** Unique locale */
   locale: string;
   /** Unique name of role */
   name: string;
@@ -129,16 +130,26 @@ export interface RemoveUserBanDto {
   userId: number;
 }
 
-export interface CreateRoleDto {
+export interface CreateRoleTranslationsDto {
+  locale: string;
   name: string;
-  type: string;
   description: string;
 }
 
+export interface CreateRoleDto {
+  /** Unique role type identifier */
+  type: string;
+  /** Translations for the role */
+  translations?: CreateRoleTranslationsDto[];
+}
+
 export interface UpdateRoleDto {
-  name?: string;
+  /** Unique role type identifier */
   type?: string;
-  description?: string;
+  /** Translations for the role */
+  translations?: CreateRoleTranslationsDto[];
+  name: string;
+  description: string;
 }
 
 export interface CreateAnnouncementTranslationDto {

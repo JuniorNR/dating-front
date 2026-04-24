@@ -62,10 +62,7 @@ export const getCreateAnnouncementSchema = (tValidation: TFunction<'validation'>
 					if (locales.indexOf(locale) !== index) {
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
-							path: [
-								index,
-								'locale',
-							],
+							path: [index, 'locale'],
 							message: tValidation('duplicateLocale'),
 						});
 					}
@@ -135,10 +132,7 @@ export const getUpdateAnnouncementSchema = (tValidation: TFunction<'validation'>
 					if (locales.indexOf(locale) !== index) {
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
-							path: [
-								index,
-								'locale',
-							],
+							path: [index, 'locale'],
 							message: tValidation('duplicateLocale'),
 						});
 					}
